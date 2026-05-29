@@ -2,39 +2,33 @@
 
 import { useEffect, useRef } from "react";
 
-interface Particle {
-  x: number; y: number; vx: number; vy: number;
-  life: number; col: string; size: number;
-}
-interface DustP {
-  x: number; y: number; s: number; sp: number;
-  ph: number; hue: number; dr: number;
-}
+// ── Rainbow wave lines + 4-pointed sparkle stars ─────────────
+// Matches the aurora/glitter aesthetic from the abadá design
 
-const FW_COLORS  = ["#ff3399","#ffd700","#00ffcc","#7b61ff","#39ff14","#ff6b35","#ff1744"];
-const WAVE_COLORS = [
-  "rgba(255,51,153,A)","rgba(255,215,0,A)","rgba(0,212,255,A)",
-  "rgba(123,97,255,A)","rgba(57,255,20,A)","rgba(255,107,53,A)",
-];
-const LAUNCH_INTERVAL = 900; // ms
+const WAVE_HUES = [300, 330, 0, 30, 60, 120, 180, 220, 270]; // pink→red→orange→yellow→green→cyan→blue→purple
+
+interface Star {
+  x: number; y: number;
+  size: number; hue: number;
+  opacity: number; phase: number; speed: number;
+  twinkleSpeed: number;
+}
 
 export default function GlitterBg() {
-  const wavesRef = useRef<HTMLCanvasElement>(null);
-  const fwRef    = useRef<HTMLCanvasElement>(null);
-  const dustRef  = useRef<HTMLCanvasElement>(null);
+  const waveRef  = useRef<HTMLCanvasElement>(null);
+  const starRef  = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const wc = wavesRef.current;
-    const fc = fwRef.current;
-    const dc = dustRef.current;
-    if (!wc || !fc || !dc) return;
+    const wc = waveRef.current;
+    const sc = starRef.current;
+    if (!wc || !sc) return;
 
     const wx = wc.getContext("2d")!;
-    const fx = fc.getContext("2d")!;
-    const dx = dc.getContext("2d")!;
+    const sx = sc.getContext("2d")!;
 
+    // ── resize ────────────────────────────────────────────────
     function resize() {
-      [wc, fc, dc].forEach((c) => {
+      [wc, sc].forEach((c) => {
         if (!c) return;
         c.width  = window.innerWidth;
         c.height = window.innerHeight;
@@ -43,158 +37,163 @@ export default function GlitterBg() {
     resize();
     window.addEventListener("resize", resize);
 
-    // ── WAVES ────────────────────────────────────────────────
-    let t = 0;
-    let wRaf = 0;
-    function drawWaves() {
-      wx.clearRect(0, 0, wc!.width, wc!.height);
-      WAVE_COLORS.forEach((ct, i) => {
-        const off  = (i / WAVE_COLORS.length) * Math.PI * 2;
-        const amp  = 42 + i * 14;
-        const freq = 0.003 + i * 0.0007;
-        const yb   = wc!.height * (0.3 + i * 0.09);
-        const a    = (0.28 + Math.sin(t * 0.5 + off) * 0.15).toFixed(2);
+    // ── 4-pointed star ───────────────────────────────────────
+    function drawStar(
+      ctx: CanvasRenderingContext2D,
+      x: number, y: number,
+      outer: number, inner: number,
+      hue: number, alpha: number,
+    ) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle   = `hsl(${hue}, 100%, 70%)`;
+      ctx.shadowBlur  = outer * 5;
+      ctx.shadowColor = `hsl(${hue}, 100%, 70%)`;
+      ctx.beginPath();
+      for (let i = 0; i < 8; i++) {
+        const angle = (Math.PI / 4) * i - Math.PI / 4;
+        const r     = i % 2 === 0 ? outer : inner;
+        const px    = x + Math.cos(angle) * r;
+        const py    = y + Math.sin(angle) * r;
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // ── Stars ────────────────────────────────────────────────
+    const NUM_STARS = 90;
+    const stars: Star[] = Array.from({ length: NUM_STARS }, () => ({
+      x:            Math.random() * (wc?.width  ?? 1920),
+      y:            Math.random() * (wc?.height ?? 1080),
+      size:         0.6 + Math.random() * 5,
+      hue:          Math.random() * 360,
+      opacity:      0.2 + Math.random() * 0.8,
+      phase:        Math.random() * Math.PI * 2,
+      speed:        0.12 + Math.random() * 0.25,   // drift speed
+      twinkleSpeed: 0.8  + Math.random() * 1.6,
+    }));
+
+    // ── Waves ────────────────────────────────────────────────
+    let t      = 0;
+    let wRaf   = 0;
+    let sRaf   = 0;
+    let lastTs = 0;
+
+    // Each wave: a sweeping bezier arc from left to right.
+    // Amplitude cycles to create the flowing-aurora look.
+    function drawWaves(ts: number) {
+      const dt = ts - lastTs;
+      lastTs   = ts;
+      t       += dt * 0.00032; // slow drift
+
+      const W = wc!.width;
+      const H = wc!.height;
+
+      // Fade previous frame (trail effect)
+      wx.globalCompositeOperation = "source-over";
+      wx.fillStyle = "rgba(0,0,0,0.18)";
+      wx.fillRect(0, 0, W, H);
+      wx.globalCompositeOperation = "lighter"; // additive blend = glow
+
+      const numWaves = WAVE_HUES.length;
+
+      for (let wi = 0; wi < numWaves; wi++) {
+        const hue   = WAVE_HUES[wi];
+        const norm  = wi / (numWaves - 1);           // 0 → 1
+        const phase = norm * Math.PI * 2 + t;
+
+        // Vertical offset: waves spread across lower ~70% of screen
+        const yBase  = H * (0.45 + norm * 0.50);
+        const amp    = H * (0.08 + Math.sin(t * 1.1 + norm * 3) * 0.06);
+        const freq   = 0.0018 + norm * 0.0008;
+        const speed  = 1.4 + norm * 0.6;
+
+        const alpha  = 0.45 + Math.sin(t * 0.9 + phase) * 0.2;
+
         wx.beginPath();
-        wx.strokeStyle = ct.replace("A", a);
-        wx.lineWidth   = Math.max(1, 2.2 - i * 0.25);
-        wx.shadowBlur  = 20;
-        wx.shadowColor = ct.replace("A", "0.9");
-        for (let x = 0; x <= wc!.width; x += 4) {
+        wx.strokeStyle = `hsla(${hue},100%,65%,${alpha.toFixed(2)})`;
+        wx.lineWidth   = 1.2 + Math.sin(t + norm * 2) * 0.4;
+        wx.shadowBlur  = 18;
+        wx.shadowColor = `hsl(${hue},100%,65%)`;
+
+        const step = 3;
+        for (let x = 0; x <= W; x += step) {
           const y =
-            yb +
-            Math.sin(x * freq + t + off) * amp +
-            Math.sin(x * freq * 1.8 + t * 0.75 + off) * (amp * 0.38);
+            yBase
+            + Math.sin(x * freq + t * speed + phase)        * amp
+            + Math.sin(x * freq * 2.1 + t * speed * 0.7)    * (amp * 0.35)
+            + Math.sin(x * freq * 0.45 + t * speed * 1.3)   * (amp * 0.5);
           x === 0 ? wx.moveTo(x, y) : wx.lineTo(x, y);
         }
         wx.stroke();
         wx.shadowBlur = 0;
-      });
-      t += 0.018;
+      }
+
+      wx.globalCompositeOperation = "source-over";
       wRaf = requestAnimationFrame(drawWaves);
     }
-    wRaf = requestAnimationFrame(drawWaves);
 
-    // ── FIREWORKS ────────────────────────────────────────────
-    // ⚠️  Usar rAF-based timing em vez de setInterval.
-    // setInterval acumula disparos enquanto aba oculta → burst ao voltar.
-    let parts: Particle[] = [];
-    let lastLaunch = 0;
+    // ── Stars draw loop ───────────────────────────────────────
+    function drawStars(ts: number) {
+      const W = sc!.width;
+      const H = sc!.height;
 
-    function launch(ts: number) {
-      lastLaunch = ts;
-      const cx  = Math.random() * fc!.width;
-      const cy  = Math.random() * fc!.height * 0.5;
-      const col = FW_COLORS[Math.floor(Math.random() * FW_COLORS.length)];
-      for (let i = 0; i < 45; i++) {
-        const ang = (Math.PI * 2 * i) / 45;
-        const sp  = 1 + Math.random() * 4.5;
-        parts.push({
-          x: cx, y: cy,
-          vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
-          life: 1, col, size: 1.5 + Math.random() * 2,
-        });
-      }
-    }
+      sx.clearRect(0, 0, W, H);
 
-    let fRaf = 0;
-    function drawFw(ts: number) {
-      // Lançar fogos pelo timestamp do rAF — pausa natural quando aba oculta
-      if (ts - lastLaunch >= LAUNCH_INTERVAL) {
-        launch(ts);
-      }
-
-      fx.clearRect(0, 0, fc!.width, fc!.height);
-      parts.forEach((p) => {
-        p.x += p.vx; p.y += p.vy; p.vy += 0.028; p.life -= 0.011;
-        if (p.life > 0) {
-          fx.globalAlpha = p.life;
-          fx.fillStyle   = p.col;
-          fx.shadowBlur  = 10;
-          fx.shadowColor = p.col;
-          fx.beginPath();
-          fx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          fx.fill();
+      stars.forEach((s) => {
+        // Drift upward slowly
+        s.y -= s.speed * 0.35;
+        if (s.y < -20) {
+          s.y = H + 10;
+          s.x = Math.random() * W;
         }
+
+        // Twinkle
+        const alpha =
+          Math.max(0.05, s.opacity * (0.5 + 0.5 * Math.sin(ts * 0.001 * s.twinkleSpeed + s.phase)));
+
+        drawStar(sx, s.x, s.y, s.size, s.size * 0.22, s.hue, alpha);
       });
-      fx.globalAlpha = 1;
-      fx.shadowBlur  = 0;
-      parts = parts.filter((p) => p.life > 0);
-      fRaf  = requestAnimationFrame(drawFw);
+
+      sRaf = requestAnimationFrame(drawStars);
     }
-    // Lançar 2 iniciais com ts=0 → lastLaunch=0, próximo em 900ms
-    launch(0); launch(0);
-    fRaf = requestAnimationFrame(drawFw);
 
-    // ── DUST ─────────────────────────────────────────────────
-    const dustP: DustP[] = Array.from({ length: 130 }, () => ({
-      x:   Math.random() * dc!.width,
-      y:   Math.random() * dc!.height,
-      s:   Math.random() * 2.2 + 0.4,
-      sp:  Math.random() * 0.55 + 0.1,
-      ph:  Math.random() * Math.PI * 2,
-      hue: Math.random() * 360,
-      dr:  (Math.random() - 0.5) * 0.3,
-    }));
-    let dRaf = 0;
-    // Offset do timestamp para evitar salto visual ao voltar da aba oculta
-    let dustOffset = 0;
-    let dustLastTs  = 0;
+    // ── Kickoff ───────────────────────────────────────────────
+    wRaf = requestAnimationFrame(drawWaves);
+    sRaf = requestAnimationFrame(drawStars);
 
-    function drawDust(ts: number) {
-      const adjusted = dustOffset + (ts - dustLastTs);
-      dustLastTs = ts;
-
-      dx.clearRect(0, 0, dc!.width, dc!.height);
-      dustP.forEach((d) => {
-        d.y -= d.sp;
-        d.x += d.dr;
-        if (d.y < -5) { d.y = dc!.height + 5; d.x = Math.random() * dc!.width; }
-        const a = (Math.sin(adjusted * 0.003 + d.ph) * 0.5 + 0.5) * 0.75;
-        dx.globalAlpha = a;
-        dx.fillStyle   = `hsl(${d.hue},95%,72%)`;
-        dx.shadowBlur  = 8;
-        dx.shadowColor = `hsl(${d.hue},95%,72%)`;
-        dx.beginPath();
-        dx.arc(d.x, d.y, d.s, 0, Math.PI * 2);
-        dx.fill();
-      });
-      dx.globalAlpha = 1;
-      dx.shadowBlur  = 0;
-      dRaf = requestAnimationFrame(drawDust);
-    }
-    dRaf = requestAnimationFrame((ts) => { dustLastTs = ts; drawDust(ts); });
-
-    // ── VISIBILITY: limpa estado ao voltar da aba oculta ─────
-    function onVisibilityChange() {
+    // ── Visibility: avoid burst on tab return ─────────────────
+    function onVisible() {
       if (!document.hidden) {
-        // Limpar partículas acumuladas (não deveria ter nenhuma, mas por garantia)
-        parts = [];
-        // Resetar timer: próximo fogo em 900ms a partir de agora
-        lastLaunch = performance.now();
-        // Resetar offset do dust para evitar salto de seno
-        dustOffset += dustLastTs;
+        lastTs = performance.now();
       }
     }
-    document.addEventListener("visibilitychange", onVisibilityChange);
+    document.addEventListener("visibilitychange", onVisible);
 
     return () => {
       window.removeEventListener("resize", resize);
-      document.removeEventListener("visibilitychange", onVisibilityChange);
+      document.removeEventListener("visibilitychange", onVisible);
       cancelAnimationFrame(wRaf);
-      cancelAnimationFrame(fRaf);
-      cancelAnimationFrame(dRaf);
+      cancelAnimationFrame(sRaf);
     };
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      <div className="bg-wash" />
-      <canvas ref={wavesRef} className="absolute inset-0 opacity-90" />
-      <canvas ref={fwRef}    className="absolute inset-0" />
-      <canvas ref={dustRef}  className="absolute inset-0" />
-      <div className="prism prism-1" />
-      <div className="prism prism-2" />
-      <div className="prism prism-3" />
+    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none" style={{ background: "#000" }}>
+      {/* Radial ambient glows */}
+      <div className="absolute inset-0" style={{
+        background: [
+          "radial-gradient(ellipse at 20% 80%, rgba(255,0,128,0.12) 0%, transparent 45%)",
+          "radial-gradient(ellipse at 80% 85%, rgba(0,200,255,0.10) 0%, transparent 45%)",
+          "radial-gradient(ellipse at 50% 95%, rgba(255,200,0,0.08) 0%, transparent 35%)",
+        ].join(","),
+      }} />
+      {/* Wave canvas */}
+      <canvas ref={waveRef} className="absolute inset-0" />
+      {/* Sparkle star canvas */}
+      <canvas ref={starRef} className="absolute inset-0" />
     </div>
   );
 }
