@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Font Compare</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Titan+One&family=Lilita+One&family=Boogaloo&family=Righteous&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#000;color:#fff;font-family:sans-serif;padding:24px;overflow-x:hidden;}
+
+canvas#bg{position:fixed;inset:0;z-index:0;opacity:0.7;}
+.content{position:relative;z-index:1;}
+
+h2{color:#ffd700;font-size:16px;text-align:center;margin-bottom:6px;letter-spacing:0.2em;text-transform:uppercase;text-shadow:0 0 10px #ffd700;}
+.sub{color:rgba(255,255,255,0.5);font-size:11px;text-align:center;margin-bottom:24px;}
+
+.card{background:rgba(10,10,10,0.85);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px 24px;margin-bottom:16px;cursor:pointer;transition:all 0.3s;}
+.card:hover{border-color:rgba(255,215,0,0.5);box-shadow:0 0 20px rgba(255,215,0,0.15);}
+.card.selected{border-color:#ffd700;box-shadow:0 0 25px rgba(255,215,0,0.3);}
+.font-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.font-label .badge{background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:20px;font-size:9px;}
+.check{color:#ffd700;font-size:14px;margin-left:auto;opacity:0;}
+.card.selected .check{opacity:1;}
+
+/* OPÇÃO A - Fredoka One: roliço, amigável */
+.fA .glitter{font-family:'Fredoka One',cursive;}
+/* OPÇÃO B - Titan One: impacto máximo, blocão */
+.fB .glitter{font-family:'Titan One',cursive;}
+/* OPÇÃO C - SVG com partículas de glitter DENTRO das letras */
+.fC .glitter{font-family:'Lilita One',cursive;}
+
+/* Letras com neon + "glitter" via gradiente multi-stop */
+.glitter{font-size:72px;line-height:0.95;letter-spacing:0.04em;}
+.l1{display:inline-block;color:#ff1744;text-shadow:0 0 15px #ff1744,0 0 30px rgba(255,23,68,0.5),2px 2px 0 rgba(0,0,0,0.5);}
+.l2{display:inline-block;color:#ff6b35;text-shadow:0 0 15px #ff6b35,0 0 30px rgba(255,107,53,0.5),2px 2px 0 rgba(0,0,0,0.5);}
+.l3{display:inline-block;color:#ffd700;text-shadow:0 0 15px #ffd700,0 0 30px rgba(255,215,0,0.5),2px 2px 0 rgba(0,0,0,0.5);}
+.l4{display:inline-block;color:#39ff14;text-shadow:0 0 15px #39ff14,0 0 30px rgba(57,255,20,0.5),2px 2px 0 rgba(0,0,0,0.5);}
+.l5{display:inline-block;color:#00d4ff;text-shadow:0 0 15px #00d4ff,0 0 30px rgba(0,212,255,0.5),2px 2px 0 rgba(0,0,0,0.5);}
+.l6{display:inline-block;color:#7b61ff;text-shadow:0 0 15px #7b61ff,0 0 30px rgba(123,97,255,0.5),2px 2px 0 rgba(0,0,0,0.5);}
+.l7{display:inline-block;color:#ff3399;text-shadow:0 0 15px #ff3399,0 0 30px rgba(255,51,153,0.5),2px 2px 0 rgba(0,0,0,0.5);}
+
+/* BÔNUS: Opção D — canvas glitter letters */
+#glitterCanvas{display:block;margin:0 auto;}
+.canvas-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;margin-bottom:10px;color:rgba(255,255,255,0.5);}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="content">
+  <h2>Qual fonte para 40 TONS DE GLITTER?</h2>
+  <p class="sub">Clique para selecionar. Todos com neon glow + sombra 3D nas letras.</p>
+
+  <!-- A: Fredoka One -->
+  <div class="card fA" onclick="sel(this,'a')">
+    <div class="font-label">A — Fredoka One <span class="badge">Roliço · Carnival</span><span class="check">✓</span></div>
+    <div class="glitter">
+      <span class="l5">G</span><span class="l6">L</span><span class="l7">I</span><span class="l1">T</span><span class="l2">T</span><span class="l3">E</span><span class="l4">R</span>
+    </div>
+    <div class="glitter" style="font-size:54px;margin-top:4px;">
+      <span class="l1">T</span><span class="l2">O</span><span class="l3">N</span><span class="l4">S</span>
+    </div>
+  </div>
+
+  <!-- B: Titan One -->
+  <div class="card fB" onclick="sel(this,'b')">
+    <div class="font-label">B — Titan One <span class="badge">★ Recomendado · Impacto máximo</span><span class="check">✓</span></div>
+    <div class="glitter">
+      <span class="l5">G</span><span class="l6">L</span><span class="l7">I</span><span class="l1">T</span><span class="l2">T</span><span class="l3">E</span><span class="l4">R</span>
+    </div>
+    <div class="glitter" style="font-size:54px;margin-top:4px;">
+      <span class="l1">T</span><span class="l2">O</span><span class="l3">N</span><span class="l4">S</span>
+    </div>
+  </div>
+
+  <!-- C: Lilita One -->
+  <div class="card fC" onclick="sel(this,'c')">
+    <div class="font-label">C — Lilita One <span class="badge">Sólido · Bold latino</span><span class="check">✓</span></div>
+    <div class="glitter">
+      <span class="l5">G</span><span class="l6">L</span><span class="l7">I</span><span class="l1">T</span><span class="l2">T</span><span class="l3">E</span><span class="l4">R</span>
+    </div>
+    <div class="glitter" style="font-size:54px;margin-top:4px;">
+      <span class="l1">T</span><span class="l2">O</span><span class="l3">N</span><span class="l4">S</span>
+    </div>
+  </div>
+
+  <!-- D: Canvas glitter texture inside letters -->
+  <div class="card" onclick="sel(this,'d')" id="cardD">
+    <div class="font-label">D — Canvas Glitter Texture <span class="badge">Partículas dentro das letras</span><span class="check">✓</span></div>
+    <canvas id="glitterCanvas" width="460" height="130"></canvas>
+  </div>
+</div>
+
+<script>
+// BG waves
+const bg=document.getElementById('bg');
+const bgx=bg.getContext('2d');
+let t=0;
+function resize(){bg.width=innerWidth;bg.height=innerHeight;}
+resize();addEventListener('resize',resize);
+const wcols=['rgba(255,51,153,A)','rgba(255,215,0,A)','rgba(0,212,255,A)','rgba(123,97,255,A)'];
+function waves(){bgx.clearRect(0,0,bg.width,bg.height);
+  wcols.forEach((ct,i)=>{const off=(i/wcols.length)*Math.PI*2,amp=35+i*12,freq=0.0025+i*0.0006,yb=bg.height*(0.3+i*0.14);
+    const a=(0.2+Math.sin(t*0.4+off)*0.12).toFixed(2);bgx.beginPath();bgx.strokeStyle=ct.replace('A',a);bgx.lineWidth=1.5;
+    bgx.shadowBlur=15;bgx.shadowColor=ct.replace('A','0.8');
+    for(let x=0;x<=bg.width;x+=4){const y=yb+Math.sin(x*freq+t+off)*amp;x===0?bgx.moveTo(x,y):bgx.lineTo(x,y);}
+    bgx.stroke();bgx.shadowBlur=0;});
+  t+=0.015;requestAnimationFrame(waves);}
+waves();
+
+// Canvas glitter letters (option D)
+const gc=document.getElementById('glitterCanvas');
+const gx=gc.getContext('2d');
+const w=gc.width,h=gc.height;
+const word='GLITTER';
+const letterColors=['#00d4ff','#7b61ff','#ff3399','#ff1744','#ff6b35','#ffd700','#39ff14'];
+
+function drawGlitterText(){
+  gx.clearRect(0,0,w,h);
+  gx.font=`bold 90px 'Titan One', Impact, sans-serif`;
+  gx.textBaseline='middle';
+  gx.textAlign='center';
+
+  // Measure total width
+  const totalW=gx.measureText(word).width;
+  let x=(w-totalW)/2;
+
+  for(let i=0;i<word.length;i++){
+    const ch=word[i];
+    const cw=gx.measureText(ch).width;
+    const cx=x+cw/2;
+    const col=letterColors[i%letterColors.length];
+
+    // Shadow / 3D
+    gx.shadowBlur=0;
+    gx.fillStyle='rgba(0,0,0,0.6)';
+    gx.fillText(ch,cx+3,h/2+3);
+
+    // Base color fill
+    gx.shadowBlur=20;gx.shadowColor=col;
+    gx.fillStyle=col;
+    gx.fillText(ch,cx,h/2);
+
+    // Clip to letter shape, fill with sparkles
+    gx.save();
+    gx.beginPath();
+    gx.rect(x-2,4,cw+4,h-8);
+    gx.clip();
+    // Draw sparkle dots inside
+    for(let j=0;j<60;j++){
+      const sx=x+Math.random()*cw;
+      const sy=4+Math.random()*(h-8);
+      const sz=Math.random()*2+0.5;
+      const alpha=Math.random()*0.9+0.1;
+      const sc=Math.random()<0.5?'#fff':col;
+      gx.beginPath();gx.arc(sx,sy,sz,0,Math.PI*2);
+      gx.fillStyle=sc;gx.globalAlpha=alpha;gx.shadowBlur=6;gx.shadowColor=sc;
+      gx.fill();
+    }
+    gx.globalAlpha=1;gx.shadowBlur=0;
+    gx.restore();
+
+    x+=cw;
+  }
+}
+
+// Animate sparkles
+let sparkles=[];
+function buildSparkles(){
+  sparkles=[];
+  gx.font=`bold 90px 'Titan One', Impact, sans-serif`;
+  const totalW=gx.measureText(word).width;
+  let x=(w-totalW)/2;
+  for(let i=0;i<word.length;i++){
+    const ch=word[i];const cw=gx.measureText(ch).width;
+    for(let j=0;j<30;j++){sparkles.push({x:x+Math.random()*cw,y:4+Math.random()*(h-8),size:Math.random()*2+0.5,phase:Math.random()*Math.PI*2,speed:Math.random()*0.05+0.02,col:letterColors[i%letterColors.length]});}
+    x+=cw;
+  }
+}
+buildSparkles();
+
+function animGlitter(ts){
+  gx.clearRect(0,0,w,h);
+  gx.font=`bold 90px 'Titan One', Impact, sans-serif`;
+  gx.textBaseline='middle';gx.textAlign='center';
+  const totalW=gx.measureText(word).width;
+  let x=(w-totalW)/2;
+
+  for(let i=0;i<word.length;i++){
+    const ch=word[i];const cw=gx.measureText(ch).width;const cx=x+cw/2;const col=letterColors[i%letterColors.length];
+    gx.shadowBlur=0;gx.fillStyle='rgba(0,0,0,0.5)';gx.fillText(ch,cx+2,h/2+2);
+    gx.shadowBlur=18;gx.shadowColor=col;gx.fillStyle=col;gx.fillText(ch,cx,h/2);gx.shadowBlur=0;
+    x+=cw;
+  }
+
+  // animated sparkles on top
+  sparkles.forEach(s=>{
+    const alpha=(Math.sin(ts*0.003*s.speed*60+s.phase)*0.5+0.5)*0.95;
+    gx.globalAlpha=alpha;gx.fillStyle='#fff';gx.shadowBlur=8;gx.shadowColor=s.col;
+    gx.beginPath();gx.arc(s.x,s.y,s.size,0,Math.PI*2);gx.fill();
+  });
+  gx.globalAlpha=1;gx.shadowBlur=0;
+  requestAnimationFrame(animGlitter);
+}
+requestAnimationFrame(animGlitter);
+
+// Selection
+function sel(el,choice){
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  if(window.__companion_select)window.__companion_select(choice,el.querySelector('.font-label').textContent.trim());
+}
+</script>
+</body>
+</html>

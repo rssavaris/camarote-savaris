@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero Intenso — Camarote Savaris</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Dancing+Script:wght@700&family=Inter:wght@300;400;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* ===== CANVAS NEON WAVES ===== */
+canvas#waves {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.8;
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 24px 40px;
+  z-index: 10;
+}
+
+/* Confetti */
+.confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+.ribbon { position: absolute; width: 6px; height: 40px; border-radius: 3px; opacity: 0.75; animation: fall linear infinite; }
+
+@keyframes fall {
+  0% { transform: translateY(-60px) rotate(0deg); opacity: 0.8; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ===== TOP INVITE ===== */
+.top-invite {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.top-invite p {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+}
+
+/* ===== GLITTER TITLE "40 TONS DE GLITTER" ===== */
+.glitter-title-wrap {
+  position: relative;
+  text-align: center;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.gt-row1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 52px;
+  letter-spacing: 0.02em;
+  display: flex;
+  justify-content: center;
+  gap: 0px;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+.gt-row1 .c4 { color: #ffd700; text-shadow: 0 0 20px #ffd700, 0 0 40px rgba(255,215,0,0.5); }
+.gt-row1 .c0 { color: #ff6ec4; text-shadow: 0 0 20px #ff6ec4; }
+
+.gt-de {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin: 2px 0;
+}
+
+.gt-glitter {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 68px;
+  letter-spacing: 0.04em;
+  line-height: 0.9;
+  display: flex;
+  justify-content: center;
+}
+.gt-glitter span { display: inline-block; }
+.gl1 { color: #ff3366; text-shadow: 0 0 25px #ff3366, 0 0 50px rgba(255,51,102,0.5); }
+.gl2 { color: #ff6b35; text-shadow: 0 0 25px #ff6b35; }
+.gl3 { color: #ffd700; text-shadow: 0 0 25px #ffd700; }
+.gl4 { color: #39ff14; text-shadow: 0 0 25px #39ff14; }
+.gl5 { color: #00d4ff; text-shadow: 0 0 25px #00d4ff; }
+.gl6 { color: #7b61ff; text-shadow: 0 0 25px #7b61ff; }
+.gl7 { color: #ff6ec4; text-shadow: 0 0 25px #ff6ec4; }
+
+/* Glitter texture overlay on text */
+.glitter-overlay {
+  position: relative;
+  display: inline-block;
+}
+.glitter-overlay::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.8) 0.5px, transparent 0.5px);
+  background-size: 8px 8px, 12px 12px, 5px 5px;
+  background-position: 0 0, 4px 4px, 2px 6px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.4;
+}
+
+/* ===== APRESENTA ===== */
+.apresenta {
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin: 14px 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.apresenta::before, .apresenta::after {
+  content: '✦';
+  color: #ffd700;
+  font-size: 8px;
+}
+
+/* ===== CAMAROTE SAVARIS ===== */
+.brand-camarote {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 0.65em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #836D30, #C9A84C, #FFE699, #C9A84C, #836D30);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0px;
+}
+
+.crown-icon {
+  font-size: 36px;
+  filter: drop-shadow(0 0 15px rgba(255,215,0,1)) drop-shadow(0 0 30px rgba(255,215,0,0.6));
+  margin: 4px 0;
+  animation: crownPulse 2.5s ease-in-out infinite;
+}
+@keyframes crownPulse {
+  0%, 100% { filter: drop-shadow(0 0 15px rgba(255,215,0,1)) drop-shadow(0 0 30px rgba(255,215,0,0.6)); }
+  50% { filter: drop-shadow(0 0 25px rgba(255,215,0,1)) drop-shadow(0 0 60px rgba(255,215,0,0.8)) drop-shadow(0 0 80px rgba(255,165,0,0.4)); }
+}
+
+.brand-savaris {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 72px;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  background: linear-gradient(135deg,
+    #5a3e0a 0%,
+    #836D30 15%,
+    #C9A84C 30%,
+    #FFE699 45%,
+    #fff5cc 50%,
+    #FFE699 55%,
+    #C9A84C 70%,
+    #836D30 85%,
+    #5a3e0a 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8)) drop-shadow(0 0 30px rgba(201,168,76,0.6));
+  text-shadow: none;
+}
+
+/* Decorative line under SAVARIS */
+.savaris-deco {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 10px;
+  width: 100%;
+  justify-content: center;
+}
+.savaris-deco .line {
+  flex: 1;
+  max-width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #C9A84C);
+}
+.savaris-deco .line.r { background: linear-gradient(90deg, #C9A84C, transparent); }
+.savaris-deco .star { color: #ffd700; font-size: 10px; }
+
+/* ===== BRILHE SEM MODERAÇÃO ===== */
+.brilhe {
+  font-family: 'Dancing Script', cursive;
+  font-size: 30px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ff6ec4, #ffd700, #00ffcc, #7b61ff, #ff6ec4);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: rainbowShift 4s ease infinite;
+  filter: drop-shadow(0 0 8px rgba(255,110,196,0.5));
+  margin-bottom: 16px;
+}
+@keyframes rainbowShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== CARNIVAL MASK ===== */
+.mask-section {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 0;
+}
+.mask-emoji {
+  font-size: 100px;
+  filter:
+    drop-shadow(0 0 20px rgba(255,215,0,0.8))
+    drop-shadow(0 0 40px rgba(255,110,196,0.5))
+    drop-shadow(0 0 60px rgba(123,97,255,0.3));
+  animation: maskFloat 3s ease-in-out infinite;
+}
+@keyframes maskFloat {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+.mask-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 60%, rgba(255,215,0,0.2) 0%, rgba(255,110,196,0.1) 30%, transparent 65%);
+  pointer-events: none;
+}
+
+/* ===== NEON QUOTE ===== */
+.neon-quote {
+  border: 2px solid rgba(255,110,196,0.5);
+  border-radius: 12px;
+  padding: 16px 24px;
+  text-align: center;
+  margin: 12px 0;
+  position: relative;
+  box-shadow: 0 0 20px rgba(255,110,196,0.2), inset 0 0 20px rgba(255,110,196,0.05);
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+}
+.neon-quote p {
+  font-size: 18px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.9);
+  font-weight: 300;
+}
+.neon-quote .highlight {
+  font-family: 'Dancing Script', cursive;
+  font-size: 26px;
+  font-weight: 700;
+}
+.neon-quote .h1 { color: #ffd700; text-shadow: 0 0 15px rgba(255,215,0,0.8); }
+.neon-quote .h2 { color: #ff6ec4; text-shadow: 0 0 15px rgba(255,110,196,0.8); }
+
+/* ===== DATE SECTION ===== */
+.date-section {
+  text-align: center;
+  margin: 12px 0;
+}
+.date-cal { font-size: 28px; margin-bottom: 4px; }
+.date-neon {
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #ff6ec4;
+  text-shadow: 0 0 20px rgba(255,110,196,1), 0 0 40px rgba(255,110,196,0.6), 0 0 80px rgba(255,110,196,0.3);
+  animation: neonFlicker 4s ease-in-out infinite;
+}
+@keyframes neonFlicker {
+  0%, 92%, 100% { opacity: 1; }
+  94% { opacity: 0.85; }
+  96% { opacity: 1; }
+  98% { opacity: 0.9; }
+}
+.date-sub {
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+}
+
+/* ===== BOTTOM STARS ===== */
+.bottom-bar {
+  margin-top: 20px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,215,0,0.6);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bottom-bar .dot { width: 3px; height: 3px; background: #ffd700; border-radius: 50%; }
+
+/* ===== FLOATING STARS ===== */
+.stars-fixed { position: fixed; inset: 0; pointer-events: none; z-index: 2; }
+.fstar {
+  position: absolute;
+  border-radius: 50%;
+  animation: starPulse ease-in-out infinite;
+}
+@keyframes starPulse {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  20% { opacity: 1; transform: scale(1); }
+  80% { opacity: 0.5; transform: scale(0.5); }
+}
+
+/* ===== FIREWORKS ===== */
+.fw { position: fixed; pointer-events: none; z-index: 3; }
+.fw-burst {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  animation: burst 1.5s ease-out infinite;
+}
+@keyframes burst {
+  0% { transform: translate(0,0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+}
+
+/* ===== CTA ===== */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #000;
+  background: linear-gradient(90deg, #ff6ec4, #ff9f43, #ffd700, #00ffcc, #7b61ff, #ff6ec4);
+  background-size: 300% 300%;
+  animation: rainbowShift 4s ease infinite;
+  box-shadow: 0 0 30px rgba(255,110,196,0.5), 0 0 60px rgba(255,215,0,0.3);
+  border: none;
+  cursor: pointer;
+  margin-top: 16px;
+  text-decoration: none;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Canvas for neon waves -->
+<canvas id="waves"></canvas>
+
+<!-- Confetti -->
+<div class="confetti-wrap" id="confetti"></div>
+
+<!-- Floating stars -->
+<div class="stars-fixed" id="stars"></div>
+
+<!-- HERO -->
+<div class="hero">
+
+  <!-- Top invite text -->
+  <div class="top-invite">
+    <p>VOCÊ ESTÁ CONVIDADO PARA O<br>EVENTO MAIS BRILHANTE DO CARNAVAL!</p>
+  </div>
+
+  <!-- 40 TONS DE GLITTER -->
+  <div class="glitter-title-wrap">
+    <div class="gt-row1">
+      <span class="c4" style="font-family:'Playfair Display',serif;font-weight:900;font-size:56px;">4</span>
+      <span class="c0" style="font-family:'Playfair Display',serif;font-weight:900;font-size:56px;">0</span>
+    </div>
+    <div style="display:flex;align-items:baseline;justify-content:center;gap:6px;margin:0;">
+      <div class="gt-glitter">
+        <span class="gl1">T</span><span class="gl2">O</span><span class="gl3">N</span><span class="gl4">S</span>
+      </div>
+    </div>
+    <div class="gt-de">de</div>
+    <div class="gt-glitter glitter-overlay" style="font-size:76px;">
+      <span class="gl5">G</span><span class="gl6">L</span><span class="gl7">I</span><span class="gl1">T</span><span class="gl2">T</span><span class="gl3">E</span><span class="gl4">R</span>
+    </div>
+  </div>
+
+  <!-- Apresenta -->
+  <div class="apresenta">Apresenta</div>
+
+  <!-- Camarote Savaris -->
+  <div class="brand-camarote">Camarote</div>
+  <div class="crown-icon">👑</div>
+  <div class="brand-savaris">SAVARIS</div>
+
+  <div class="savaris-deco">
+    <div class="line"></div>
+    <span class="star">★</span>
+    <div class="line r"></div>
+  </div>
+
+  <!-- Brilhe sem moderação -->
+  <div class="brilhe">Brilhe sem moderação.</div>
+
+  <!-- Carnival Mask -->
+  <div class="mask-section">
+    <div class="mask-glow"></div>
+    <div class="mask-emoji">🎭</div>
+  </div>
+
+  <!-- Neon quote -->
+  <div class="neon-quote">
+    <p>Porque a vida sem <span class="highlight h1">brilho</span>,<br>é sem <span class="highlight h2">graça.</span> ♥</p>
+  </div>
+
+  <!-- Date -->
+  <div class="date-section">
+    <div class="date-cal">📅</div>
+    <div class="date-neon">08.02.2027</div>
+    <div class="date-sub">— Segunda-feira —</div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="bottom-bar">
+    <span>★</span>
+    <span>Exclusivo</span><div class="dot"></div>
+    <span>Inesquecível</span><div class="dot"></div>
+    <span>Premium</span>
+    <span>★</span>
+  </div>
+
+  <a class="cta-btn" href="#">✨ Quero meu abadá</a>
+
+</div>
+
+<script>
+// ===== NEON WAVES CANVAS =====
+const canvas = document.getElementById('waves');
+const ctx = canvas.getContext('2d');
+let t = 0;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const waveColors = [
+  'rgba(255,110,196,VAL)',
+  'rgba(255,215,0,VAL)',
+  'rgba(0,212,255,VAL)',
+  'rgba(123,97,255,VAL)',
+  'rgba(57,255,20,VAL)',
+  'rgba(255,107,53,VAL)',
+];
+
+function drawWaves() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const h = canvas.height;
+  const w = canvas.width;
+
+  waveColors.forEach((colorTemplate, i) => {
+    const offset = (i / waveColors.length) * Math.PI * 2;
+    const amp = 40 + i * 15;
+    const freq = 0.003 + i * 0.0008;
+    const yBase = h * (0.35 + i * 0.08);
+    const thickness = 2 - i * 0.2;
+    const alpha = 0.3 + Math.sin(t * 0.5 + offset) * 0.15;
+    const color = colorTemplate.replace('VAL', alpha.toFixed(2));
+
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = Math.max(1, thickness);
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = colorTemplate.replace('VAL', '0.8');
+
+    for (let x = 0; x <= w; x += 3) {
+      const y = yBase + Math.sin(x * freq + t + offset) * amp
+                      + Math.sin(x * freq * 1.7 + t * 0.8 + offset) * (amp * 0.4);
+      if (x === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  });
+
+  t += 0.018;
+  requestAnimationFrame(drawWaves);
+}
+drawWaves();
+
+// ===== CONFETTI =====
+const confettiColors = ['#ff6ec4','#ffd700','#00ffcc','#7b61ff','#ff3366','#39ff14','#ff6b35'];
+const confettiWrap = document.getElementById('confetti');
+for (let i = 0; i < 30; i++) {
+  const r = document.createElement('div');
+  r.className = 'ribbon';
+  r.style.cssText = `
+    left: ${Math.random() * 100}%;
+    top: ${Math.random() * -200}px;
+    background: ${confettiColors[i % confettiColors.length]};
+    animation-duration: ${4 + Math.random() * 8}s;
+    animation-delay: ${Math.random() * 8}s;
+    transform: rotate(${Math.random() * 360}deg);
+    width: ${3 + Math.random() * 5}px;
+    height: ${20 + Math.random() * 30}px;
+    border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+  `;
+  confettiWrap.appendChild(r);
+}
+
+// ===== FLOATING STARS =====
+const starsWrap = document.getElementById('stars');
+const starColors = ['#ff6ec4','#ffd700','#00ffcc','#7b61ff','#fff'];
+for (let i = 0; i < 40; i++) {
+  const s = document.createElement('div');
+  s.className = 'fstar';
+  const size = 2 + Math.random() * 4;
+  const color = starColors[Math.floor(Math.random() * starColors.length)];
+  s.style.cssText = `
+    left: ${Math.random() * 100}%;
+    top: ${Math.random() * 100}%;
+    width: ${size}px;
+    height: ${size}px;
+    background: ${color};
+    box-shadow: 0 0 ${size * 3}px ${color};
+    animation-duration: ${2 + Math.random() * 4}s;
+    animation-delay: ${Math.random() * 5}s;
+  `;
+  starsWrap.appendChild(s);
+}
+</script>
+</body>
+</html>

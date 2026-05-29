@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estilo do Hero — Camarote Savaris</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0a0a; color: #fff; font-family: 'Inter', sans-serif; padding: 24px; }
+  h2 { color: #FFE699; font-size: 20px; margin-bottom: 8px; text-align: center; }
+  .subtitle { color: rgba(255,230,153,0.6); font-size: 13px; text-align: center; margin-bottom: 28px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 800px) { .cards { grid-template-columns: 1fr; } }
+  .card { border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.3s; }
+  .card:hover { border-color: rgba(255,215,0,0.5); transform: translateY(-2px); }
+  .card.selected { border-color: #ffd700; box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+  .card-preview { height: 240px; position: relative; overflow: hidden; }
+  .card-body { background: #111; padding: 14px 16px; }
+  .card-body h3 { color: #FFE699; font-size: 14px; margin-bottom: 6px; }
+  .card-body p { color: rgba(255,255,255,0.5); font-size: 12px; line-height: 1.5; }
+  .badge { display: inline-block; font-size: 10px; padding: 3px 8px; border-radius: 20px; margin-top: 8px; font-weight: 600; letter-spacing: 0.05em; }
+  .badge-rec { background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid rgba(255,215,0,0.4); }
+  .badge-bold { background: rgba(255,110,196,0.15); color: #ff6ec4; border: 1px solid rgba(255,110,196,0.4); }
+  .badge-clean { background: rgba(200,200,200,0.1); color: #aaa; border: 1px solid rgba(200,200,200,0.2); }
+
+  /* OPÇÃO A - Ondas neon + trilhas arco-íris (como ref 1) */
+  .preview-a {
+    background: #000;
+  }
+  .preview-a .bg-waves {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 120%, rgba(255,110,196,0.4) 0%, transparent 55%),
+                radial-gradient(ellipse at 0% 80%, rgba(123,97,255,0.3) 0%, transparent 40%),
+                radial-gradient(ellipse at 100% 80%, rgba(0,255,200,0.2) 0%, transparent 40%);
+  }
+  .preview-a .wave-line {
+    position: absolute; width: 200%; height: 2px; border-radius: 1px;
+    filter: blur(1px);
+    opacity: 0.7;
+  }
+  .preview-a .w1 { background: linear-gradient(90deg, transparent, #ff6ec4, #ffd700, transparent); top: 35%; left: -50%; transform: rotate(-15deg); }
+  .preview-a .w2 { background: linear-gradient(90deg, transparent, #00ffcc, #7b61ff, transparent); top: 55%; left: -50%; transform: rotate(-10deg); }
+  .preview-a .w3 { background: linear-gradient(90deg, transparent, #ffd700, #ff6ec4, transparent); top: 70%; left: -20%; transform: rotate(-5deg); height: 1.5px; }
+  .preview-a .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+  .preview-a .label-top { font-size: 8px; letter-spacing: 0.4em; color: rgba(255,110,196,0.8); text-transform: uppercase; }
+  .preview-a .title { font-family: serif; font-size: 28px; font-weight: 900; letter-spacing: 0.15em; background: linear-gradient(135deg, #ff6ec4, #ffd700, #00ffcc, #7b61ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .preview-a .subtitle-text { font-family: serif; font-size: 13px; letter-spacing: 0.3em; color: rgba(255,215,0,0.8); }
+  .preview-a .date { font-size: 18px; font-weight: 900; letter-spacing: 0.1em; color: #ff6ec4; text-shadow: 0 0 15px rgba(255,110,196,0.8); }
+  .preview-a .sparkles { position: absolute; inset: 0; }
+  .spark { position: absolute; width: 3px; height: 3px; border-radius: 50%; }
+  .s1 { top: 15%; left: 10%; background: #ff6ec4; box-shadow: 0 0 6px #ff6ec4; }
+  .s2 { top: 20%; right: 15%; background: #ffd700; box-shadow: 0 0 6px #ffd700; }
+  .s3 { top: 70%; left: 20%; background: #00ffcc; box-shadow: 0 0 6px #00ffcc; }
+  .s4 { top: 80%; right: 10%; background: #7b61ff; box-shadow: 0 0 6px #7b61ff; }
+  .s5 { top: 45%; left: 5%; background: #ffd700; box-shadow: 0 0 4px #ffd700; width: 2px; height: 2px; }
+  .s6 { top: 30%; right: 5%; background: #ff6ec4; box-shadow: 0 0 4px #ff6ec4; width: 2px; height: 2px; }
+  .crown { font-size: 22px; }
+
+  /* OPÇÃO B - Dourado metálico 3D (como a coroa da ref 1) */
+  .preview-b { background: #050505; }
+  .preview-b .bg-radial {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.25) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 80%, rgba(201,168,76,0.1) 0%, transparent 50%);
+  }
+  .preview-b .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+  .preview-b .eyebrow { font-size: 8px; letter-spacing: 0.5em; color: rgba(255,230,153,0.5); text-transform: uppercase; }
+  .preview-b .crown-icon { font-size: 28px; filter: drop-shadow(0 0 12px rgba(255,215,0,0.8)); }
+  .preview-b .brand-top { font-family: serif; font-size: 11px; letter-spacing: 0.6em; color: rgba(255,230,153,0.7); text-transform: uppercase; }
+  .preview-b .brand-main { font-family: serif; font-size: 34px; font-weight: 900; letter-spacing: 0.1em; background: linear-gradient(135deg, #836D30 0%, #C9A84C 30%, #FFE699 50%, #C9A84C 70%, #836D30 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); }
+  .preview-b .tagline { font-size: 9px; letter-spacing: 0.25em; color: rgba(255,230,153,0.5); text-transform: uppercase; margin-top: 4px; }
+  .preview-b .divider { width: 80px; height: 1px; background: linear-gradient(90deg, transparent, #C9A84C, transparent); margin: 8px auto; }
+  .preview-b .date-row { font-size: 11px; letter-spacing: 0.2em; color: rgba(255,215,0,0.7); }
+  .preview-b .star-left, .preview-b .star-right { position: absolute; top: 50%; font-size: 10px; opacity: 0.4; }
+  .preview-b .star-left { left: 12px; }
+  .preview-b .star-right { right: 12px; }
+
+  /* OPÇÃO C - Mix máscara carnaval + neon (como ref 2) */
+  .preview-c { background: #030303; }
+  .preview-c .bg-fx {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, rgba(255,100,200,0.25) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 50%, rgba(123,97,255,0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 50%, rgba(0,255,204,0.1) 0%, transparent 40%);
+  }
+  .preview-c .mask-area { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 80px; opacity: 0.15; }
+  .preview-c .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 24px; gap: 5px; }
+  .preview-c .vem-ai { font-family: cursive; font-size: 22px; color: #ff6ec4; text-shadow: 0 0 20px rgba(255,110,196,0.9), 0 0 40px rgba(255,110,196,0.5); transform: rotate(-3deg); }
+  .preview-c .brand-row { display: flex; flex-direction: column; align-items: center; }
+  .preview-c .brand-small { font-size: 9px; letter-spacing: 0.5em; color: rgba(255,230,153,0.6); text-transform: uppercase; }
+  .preview-c .brand-big { font-family: serif; font-size: 32px; font-weight: 900; letter-spacing: 0.1em; background: linear-gradient(135deg, #ff9500 0%, #ffd700 30%, #ffe699 50%, #ffd700 70%, #ff9500 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: none; filter: drop-shadow(0 0 8px rgba(255,215,0,0.5)); }
+  .preview-c .brilhe { font-family: cursive; font-size: 14px; background: linear-gradient(90deg, #ff6ec4, #ffd700, #00ffcc, #7b61ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .preview-c .date-neon { font-size: 20px; font-weight: 900; letter-spacing: 0.08em; color: #ff6ec4; text-shadow: 0 0 20px rgba(255,110,196,0.8), 0 0 40px rgba(255,110,196,0.4); }
+  .preview-c .date-sub { font-size: 8px; letter-spacing: 0.4em; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+  .preview-c .sparks { position: absolute; inset: 0; pointer-events: none; }
+  .preview-c .sp { position: absolute; border-radius: 50%; }
+  .sp1 { width: 4px; height: 4px; background: #ff6ec4; top: 25%; left: 8%; box-shadow: 0 0 8px #ff6ec4; }
+  .sp2 { width: 3px; height: 3px; background: #ffd700; top: 15%; right: 12%; box-shadow: 0 0 8px #ffd700; }
+  .sp3 { width: 2px; height: 2px; background: #00ffcc; top: 60%; left: 6%; box-shadow: 0 0 6px #00ffcc; }
+  .sp4 { width: 3px; height: 3px; background: #7b61ff; top: 40%; right: 8%; box-shadow: 0 0 6px #7b61ff; }
+
+  .selected-indicator { display: none; text-align: center; margin-top: 16px; color: #ffd700; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<h2>Qual direção visual para o hero?</h2>
+<p class="subtitle">Baseado nas imagens de referência — clique para selecionar</p>
+
+<div class="cards">
+  <!-- OPÇÃO A -->
+  <div class="card" onclick="select(this, 'a')">
+    <div class="card-preview preview-a">
+      <div class="bg-waves"></div>
+      <div class="wave-line w1"></div>
+      <div class="wave-line w2"></div>
+      <div class="wave-line w3"></div>
+      <div class="sparkles">
+        <div class="spark s1"></div><div class="spark s2"></div>
+        <div class="spark s3"></div><div class="spark s4"></div>
+        <div class="spark s5"></div><div class="spark s6"></div>
+      </div>
+      <div class="content">
+        <div class="label-top">✦ apresenta ✦</div>
+        <div class="crown">👑</div>
+        <div class="title">CAMAROTE<br>SAVARIS</div>
+        <div class="subtitle-text">40 TONS DE GLITTER</div>
+        <div class="date">08.02.2027</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Trilhas Neon Arco-Íris</h3>
+      <p>Ondas de luz coloridas em diagonal, como nas fotos de referência. Fundo preto puro com trilhas neon pink/gold/cyan. Máximo impacto carnival.</p>
+      <span class="badge badge-rec">★ Recomendado</span>
+    </div>
+  </div>
+
+  <!-- OPÇÃO B -->
+  <div class="card" onclick="select(this, 'b')">
+    <div class="card-preview preview-b">
+      <div class="bg-radial"></div>
+      <span class="star-left">✦</span>
+      <span class="star-right">✦</span>
+      <div class="content">
+        <div class="eyebrow">40 tons de glitter apresenta</div>
+        <div class="crown-icon">👑</div>
+        <div class="brand-top">Camarote</div>
+        <div class="brand-main">SAVARIS</div>
+        <div class="divider"></div>
+        <div class="tagline">✦ Brilhe Sem Moderação ✦</div>
+        <div class="date-row">08 · 02 · 2027</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Ouro Metálico Luxo</h3>
+      <p>Foco no texto dourado 3D com gradiente metálico. Coroa em destaque. Estilo mais clássico e elegante, menos colorido, mais premium.</p>
+      <span class="badge badge-clean">Clássico</span>
+    </div>
+  </div>
+
+  <!-- OPÇÃO C -->
+  <div class="card" onclick="select(this, 'c')">
+    <div class="card-preview preview-c">
+      <div class="bg-fx"></div>
+      <div class="mask-area">🎭</div>
+      <div class="sparks">
+        <div class="sp sp1"></div><div class="sp sp2"></div>
+        <div class="sp sp3"></div><div class="sp sp4"></div>
+      </div>
+      <div class="content">
+        <div class="vem-ai">Vem aí...</div>
+        <div style="height:8px"></div>
+        <div class="brand-row">
+          <div class="brand-small">Camarote</div>
+          <div class="brand-big">SAVARIS</div>
+        </div>
+        <div class="brilhe">Brilhe sem moderação.</div>
+        <div style="height:10px"></div>
+        <div class="date-neon">08.02.2027</div>
+        <div class="date-sub">Segunda-feira</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Neon Cursivo + Máscara</h3>
+      <p>Script cursivo neon "Vem aí..." como na imagem de teaser. Máscara carnaval ao fundo. Data em neon pink brilhante. Mistura o estilo dos dois flyers.</p>
+      <span class="badge badge-bold">Carnival Max</span>
+    </div>
+  </div>
+</div>
+
+<p style="text-align:center;color:rgba(255,255,255,0.3);font-size:11px;margin-top:20px">
+  Clique num card para selecionar. Pode combinar elementos das opções no chat.
+</p>
+
+<script>
+function select(el, choice) {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  if (window.__companion_select) window.__companion_select(choice, el.querySelector('h3').textContent);
+}
+</script>
+</body>
+</html>
