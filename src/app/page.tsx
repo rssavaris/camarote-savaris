@@ -8,8 +8,10 @@ import Hero from "@/components/Hero";
 const EVENT_DATE = new Date("2027-02-08T15:00:00");
 
 function useCountdown(target: Date) {
-  const [diff, setDiff] = useState(() => Math.max(0, target.getTime() - Date.now()));
+  // Initialize to 0 — client-only calc via useEffect avoids SSR/client mismatch
+  const [diff, setDiff] = useState(0);
   useEffect(() => {
+    setDiff(Math.max(0, target.getTime() - Date.now()));
     const id = setInterval(() => setDiff(Math.max(0, target.getTime() - Date.now())), 1000);
     return () => clearInterval(id);
   }, [target]);
