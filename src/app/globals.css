@@ -76,24 +76,35 @@ body {
 /* Wrap text in a relative element with class .glitter-sparkle to
    layer a twinkling sequin overlay on top of the gradient text. */
 
+/* Sequin dots clipped INSIDE letters + base gradient */
 .glitter-pink {
-  background: linear-gradient(160deg, #ff2d8e 0%, #ff5fa8 22%, #ff1493 48%, #ff7a3d 76%, #ff5fa8 100%);
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.95) 0.6px, transparent 1.3px),
+    radial-gradient(circle, rgba(255,255,255,0.6)  0.5px, transparent 1.1px),
+    linear-gradient(160deg, #ff2d8e 0%, #ff5fa8 22%, #ff1493 48%, #ff7a3d 76%, #ff5fa8 100%);
+  background-size: 9px 9px, 15px 15px, 100% 100%;
+  background-position: 0 0, 5px 7px, 0 0;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 18px rgba(255,45,142,0.55)) drop-shadow(0 0 42px rgba(255,45,142,0.22));
+  filter: drop-shadow(0 0 20px rgba(255,45,142,0.6)) drop-shadow(0 0 46px rgba(255,45,142,0.25));
+  animation: glitterPink 3s ease-in-out infinite;
 }
 
 .glitter-rainbow {
-  background: linear-gradient(95deg,
-    #ff2d8e 0%, #ff5fa8 13%, #ff7a3d 26%, #ffd700 40%,
-    #39ff14 56%, #00d4ff 71%, #7b61ff 86%, #ff2d8e 100%);
-  background-size: 220% auto;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.95) 0.6px, transparent 1.3px),
+    radial-gradient(circle, rgba(255,255,255,0.6)  0.5px, transparent 1.1px),
+    linear-gradient(95deg,
+      #ff2d8e 0%, #ff5fa8 13%, #ff7a3d 26%, #ffd700 40%,
+      #39ff14 56%, #00d4ff 71%, #7b61ff 86%, #ff2d8e 100%);
+  background-size: 9px 9px, 15px 15px, 240% 100%;
+  background-position: 0 0, 5px 7px, 0% 50%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 16px rgba(255,255,255,0.32)) drop-shadow(0 0 38px rgba(123,97,255,0.28));
-  animation: rainbowShift 6s ease infinite;
+  filter: drop-shadow(0 0 18px rgba(255,255,255,0.35)) drop-shadow(0 0 40px rgba(123,97,255,0.3));
+  animation: glitterRainbow 6s linear infinite;
 }
 
 /* White marker / handwritten layer */
@@ -321,6 +332,15 @@ body {
 @keyframes starTwinkle {
   0%, 100% { opacity: 0.4; transform: scale(0.85); }
   50%       { opacity: 1;   transform: scale(1.15); }
+}
+@keyframes glitterPink {
+  0%, 100% { background-position: 0 0,   5px 7px, 0 0; }
+  50%       { background-position: 3px 4px, 8px 3px, 0 0; }
+}
+@keyframes glitterRainbow {
+  0%   { background-position: 0 0,   5px 7px, 0%   50%; }
+  50%  { background-position: 3px 4px, 8px 3px, 100% 50%; }
+  100% { background-position: 0 0,   5px 7px, 0%   50%; }
 }
 
 /* ── Animation utilities ────────────────────────────────────── */
