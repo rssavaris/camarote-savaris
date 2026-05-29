@@ -11,11 +11,12 @@ interface DustP {
   ph: number; hue: number; dr: number;
 }
 
-const FW_COLORS = ["#ff3399","#ffd700","#00ffcc","#7b61ff","#39ff14","#ff6b35","#ff1744"];
+const FW_COLORS  = ["#ff3399","#ffd700","#00ffcc","#7b61ff","#39ff14","#ff6b35","#ff1744"];
 const WAVE_COLORS = [
   "rgba(255,51,153,A)","rgba(255,215,0,A)","rgba(0,212,255,A)",
   "rgba(123,97,255,A)","rgba(57,255,20,A)","rgba(255,107,53,A)",
 ];
+const LAUNCH_INTERVAL = 900; // ms
 
 export default function GlitterBg() {
   const wavesRef = useRef<HTMLCanvasElement>(null);
@@ -42,9 +43,9 @@ export default function GlitterBg() {
     resize();
     window.addEventListener("resize", resize);
 
-    // ── WAVES ────────────────────────────────────────────
+    // ── WAVES ────────────────────────────────────────────────
     let t = 0;
-    let wRaf: number = 0;
+    let wRaf = 0;
     function drawWaves() {
       wx.clearRect(0, 0, wc!.width, wc!.height);
       WAVE_COLORS.forEach((ct, i) => {
@@ -73,9 +74,14 @@ export default function GlitterBg() {
     }
     wRaf = requestAnimationFrame(drawWaves);
 
-    // ── FIREWORKS ────────────────────────────────────────
+    // ── FIREWORKS ────────────────────────────────────────────
+    // ⚠️  Usar rAF-based timing em vez de setInterval.
+    // setInterval acumula disparos enquanto aba oculta → burst ao voltar.
     let parts: Particle[] = [];
-    function launch() {
+    let lastLaunch = 0;
+
+    function launch(ts: number) {
+      lastLaunch = ts;
       const cx  = Math.random() * fc!.width;
       const cy  = Math.random() * fc!.height * 0.5;
       const col = FW_COLORS[Math.floor(Math.random() * FW_COLORS.length)];
@@ -89,8 +95,14 @@ export default function GlitterBg() {
         });
       }
     }
-    let fRaf: number = 0;
-    function drawFw() {
+
+    let fRaf = 0;
+    function drawFw(ts: number) {
+      // Lançar fogos pelo timestamp do rAF — pausa natural quando aba oculta
+      if (ts - lastLaunch >= LAUNCH_INTERVAL) {
+        launch(ts);
+      }
+
       fx.clearRect(0, 0, fc!.width, fc!.height);
       parts.forEach((p) => {
         p.x += p.vx; p.y += p.vy; p.vy += 0.028; p.life -= 0.011;
@@ -109,11 +121,11 @@ export default function GlitterBg() {
       parts = parts.filter((p) => p.life > 0);
       fRaf  = requestAnimationFrame(drawFw);
     }
+    // Lançar 2 iniciais com ts=0 → lastLaunch=0, próximo em 900ms
+    launch(0); launch(0);
     fRaf = requestAnimationFrame(drawFw);
-    launch(); launch();
-    const launchTimer = setInterval(launch, 900);
 
-    // ── DUST ─────────────────────────────────────────────
+    // ── DUST ─────────────────────────────────────────────────
     const dustP: DustP[] = Array.from({ length: 130 }, () => ({
       x:   Math.random() * dc!.width,
       y:   Math.random() * dc!.height,
@@ -123,14 +135,21 @@ export default function GlitterBg() {
       hue: Math.random() * 360,
       dr:  (Math.random() - 0.5) * 0.3,
     }));
-    let dRaf: number = 0;
+    let dRaf = 0;
+    // Offset do timestamp para evitar salto visual ao voltar da aba oculta
+    let dustOffset = 0;
+    let dustLastTs  = 0;
+
     function drawDust(ts: number) {
+      const adjusted = dustOffset + (ts - dustLastTs);
+      dustLastTs = ts;
+
       dx.clearRect(0, 0, dc!.width, dc!.height);
       dustP.forEach((d) => {
         d.y -= d.sp;
         d.x += d.dr;
         if (d.y < -5) { d.y = dc!.height + 5; d.x = Math.random() * dc!.width; }
-        const a = (Math.sin(ts * 0.003 + d.ph) * 0.5 + 0.5) * 0.75;
+        const a = (Math.sin(adjusted * 0.003 + d.ph) * 0.5 + 0.5) * 0.75;
         dx.globalAlpha = a;
         dx.fillStyle   = `hsl(${d.hue},95%,72%)`;
         dx.shadowBlur  = 8;
@@ -143,14 +162,27 @@ export default function GlitterBg() {
       dx.shadowBlur  = 0;
       dRaf = requestAnimationFrame(drawDust);
     }
-    dRaf = requestAnimationFrame(drawDust);
+    dRaf = requestAnimationFrame((ts) => { dustLastTs = ts; drawDust(ts); });
+
+    // ── VISIBILITY: limpa estado ao voltar da aba oculta ─────
+    function onVisibilityChange() {
+      if (!document.hidden) {
+        // Limpar partículas acumuladas (não deveria ter nenhuma, mas por garantia)
+        parts = [];
+        // Resetar timer: próximo fogo em 900ms a partir de agora
+        lastLaunch = performance.now();
+        // Resetar offset do dust para evitar salto de seno
+        dustOffset += dustLastTs;
+      }
+    }
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       cancelAnimationFrame(wRaf);
       cancelAnimationFrame(fRaf);
       cancelAnimationFrame(dRaf);
-      clearInterval(launchTimer);
     };
   }, []);
 
