@@ -79,11 +79,11 @@ body {
 /* Sequin dots clipped INSIDE letters + base gradient */
 .glitter-pink {
   background-image:
-    radial-gradient(circle, rgba(255,255,255,0.95) 0.6px, transparent 1.3px),
-    radial-gradient(circle, rgba(255,255,255,0.6)  0.5px, transparent 1.1px),
+    radial-gradient(circle, rgba(255,255,255,0.9) 0.4px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.5) 0.4px, transparent 0.9px),
     linear-gradient(160deg, #ff2d8e 0%, #ff5fa8 22%, #ff1493 48%, #ff7a3d 76%, #ff5fa8 100%);
-  background-size: 9px 9px, 15px 15px, 100% 100%;
-  background-position: 0 0, 5px 7px, 0 0;
+  background-size: 6px 6px, 10px 10px, 100% 100%;
+  background-position: 0 0, 3px 4px, 0 0;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -93,13 +93,13 @@ body {
 
 .glitter-rainbow {
   background-image:
-    radial-gradient(circle, rgba(255,255,255,0.95) 0.6px, transparent 1.3px),
-    radial-gradient(circle, rgba(255,255,255,0.6)  0.5px, transparent 1.1px),
+    radial-gradient(circle, rgba(255,255,255,0.9) 0.4px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.5) 0.4px, transparent 0.9px),
     linear-gradient(95deg,
       #ff2d8e 0%, #ff5fa8 13%, #ff7a3d 26%, #ffd700 40%,
       #39ff14 56%, #00d4ff 71%, #7b61ff 86%, #ff2d8e 100%);
-  background-size: 9px 9px, 15px 15px, 240% 100%;
-  background-position: 0 0, 5px 7px, 0% 50%;
+  background-size: 6px 6px, 10px 10px, 240% 100%;
+  background-position: 0 0, 3px 4px, 0% 50%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -114,22 +114,8 @@ body {
   text-shadow: 0 0 12px rgba(255,255,255,0.5), 0 0 24px rgba(255,255,255,0.25);
 }
 
-/* Sequin sparkle overlay — put on a wrapper around glitter text */
+/* Wrapper — sequin is now clipped INSIDE the letters, no block overlay */
 .glitter-sparkle { position: relative; display: inline-block; }
-.glitter-sparkle::before {
-  content: "";
-  position: absolute;
-  inset: -12%;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.95) 0.9px, transparent 1.7px),
-    radial-gradient(circle, rgba(255,255,255,0.55) 0.7px, transparent 1.5px);
-  background-size: 13px 13px, 21px 21px;
-  background-position: 0 0, 7px 10px;
-  mix-blend-mode: screen;
-  opacity: 0.45;
-  pointer-events: none;
-  animation: sparkleTwinkle 2.6s ease-in-out infinite;
-}
 
 /* ── Glass card ─────────────────────────────────────────────── */
 .glass-card {
@@ -334,13 +320,13 @@ body {
   50%       { opacity: 1;   transform: scale(1.15); }
 }
 @keyframes glitterPink {
-  0%, 100% { background-position: 0 0,   5px 7px, 0 0; }
-  50%       { background-position: 3px 4px, 8px 3px, 0 0; }
+  0%, 100% { background-position: 0 0,   3px 4px, 0 0; }
+  50%       { background-position: 2px 2px, 5px 2px, 0 0; }
 }
 @keyframes glitterRainbow {
-  0%   { background-position: 0 0,   5px 7px, 0%   50%; }
-  50%  { background-position: 3px 4px, 8px 3px, 100% 50%; }
-  100% { background-position: 0 0,   5px 7px, 0%   50%; }
+  0%   { background-position: 0 0,   3px 4px, 0%   50%; }
+  50%  { background-position: 2px 2px, 5px 2px, 100% 50%; }
+  100% { background-position: 0 0,   3px 4px, 0%   50%; }
 }
 
 /* ── Animation utilities ────────────────────────────────────── */
