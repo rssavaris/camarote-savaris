@@ -5,6 +5,19 @@ import { Sparkles, ChevronDown, Heart, Calendar } from "lucide-react";
 import CrownSVG from "@/components/CrownSVG";
 import MaskSVG from "@/components/MaskSVG";
 
+// Scattered glitter sparkles around the 40/GLITTER lockup (hand-placed, organic)
+const SPARKLES = [
+  { char: "✦", left: "8%",  top: "6%",  size: "14px", color: "#ffd700", glow: 8,  dur: 2.4, delay: 0   },
+  { char: "✧", left: "88%", top: "12%", size: "11px", color: "#ff3399", glow: 7,  dur: 2.8, delay: 0.6 },
+  { char: "✦", left: "94%", top: "44%", size: "13px", color: "#00d4ff", glow: 8,  dur: 2.2, delay: 1.1 },
+  { char: "·", left: "4%",  top: "40%", size: "20px", color: "#39ff14", glow: 6,  dur: 3.0, delay: 0.3 },
+  { char: "✧", left: "16%", top: "72%", size: "12px", color: "#ffd700", glow: 7,  dur: 2.6, delay: 0.9 },
+  { char: "✦", left: "82%", top: "78%", size: "14px", color: "#7b61ff", glow: 8,  dur: 2.5, delay: 1.4 },
+  { char: "·", left: "50%", top: "2%",  size: "18px", color: "#ff7a3d", glow: 6,  dur: 2.9, delay: 0.5 },
+  { char: "✧", left: "70%", top: "30%", size: "10px", color: "#ffffff", glow: 6,  dur: 2.1, delay: 1.7 },
+  { char: "✦", left: "24%", top: "26%", size: "11px", color: "#ffffff", glow: 6,  dur: 2.7, delay: 0.2 },
+] as const;
+
 const INFO_CARDS = [
   { value: "08",       label: "Fevereiro" },
   { value: "2027",     label: "Ano" },
@@ -69,10 +82,10 @@ export default function Hero() {
         {/* SAVARIS */}
         <div className="fade-up" style={{ opacity: 0, animationDelay: "0.2s" }}>
           <h1
-            className="savaris-text font-cinzel font-black leading-none select-none"
+            className="savaris-text leading-none select-none"
             style={{
-              fontSize: "clamp(60px, 16vw, 120px)",
-              letterSpacing: "0.08em",
+              fontSize: "clamp(64px, 16vw, 128px)",
+              letterSpacing: "0.04em",
             }}
           >
             SAVARIS
@@ -87,32 +100,47 @@ export default function Hero() {
           />
         </div>
 
-        {/* 40 TONS DE GLITTER — glitter sequin lockup (abadá identity) */}
-        <div className="fade-up flex flex-col items-center mb-1" style={{ opacity: 0, animationDelay: "0.3s" }}>
-          {/* 40 */}
-          <span className="glitter-sparkle">
+        {/* 40 TONS DE GLITTER — glitter lockup (abadá identity) */}
+        <div className="fade-up relative flex flex-col items-center mb-1" style={{ opacity: 0, animationDelay: "0.3s" }}>
+
+          {/* Scattered sparkle stars — organic, like sequins on the abadá */}
+          {SPARKLES.map((s, i) => (
             <span
-              className="glitter-pink font-cinzel font-black block"
-              style={{ fontSize: "clamp(72px, 17vw, 144px)", lineHeight: 0.82 }}
+              key={i}
+              className="absolute select-none pointer-events-none"
+              style={{
+                left: s.left, top: s.top, fontSize: s.size,
+                color: s.color,
+                textShadow: `0 0 ${s.glow}px ${s.color}`,
+                animation: `starTwinkle ${s.dur}s ease-in-out infinite`,
+                animationDelay: `${s.delay}s`,
+                zIndex: 1,
+              }}
             >
-              40
+              {s.char}
             </span>
+          ))}
+
+          {/* 40 */}
+          <span
+            className="glitter-pink font-fredoka block relative z-[2]"
+            style={{ fontSize: "clamp(78px, 18vw, 152px)", fontWeight: 700, lineHeight: 0.8 }}
+          >
+            40
           </span>
           {/* tons de */}
           <span
-            className="glitter-white font-dancing font-bold -mt-3 mb-0.5"
-            style={{ fontSize: "clamp(22px, 5vw, 40px)", transform: "rotate(-4deg)" }}
+            className="glitter-white font-caveat block relative z-[2] -mt-4 mb-0"
+            style={{ fontSize: "clamp(28px, 6vw, 50px)", fontWeight: 700, transform: "rotate(-4deg)" }}
           >
             tons de
           </span>
           {/* GLITTER */}
-          <span className="glitter-sparkle">
-            <span
-              className="glitter-rainbow font-cinzel font-black block"
-              style={{ fontSize: "clamp(40px, 10.5vw, 88px)", letterSpacing: "0.03em", lineHeight: 0.95 }}
-            >
-              GLITTER
-            </span>
+          <span
+            className="glitter-rainbow font-fredoka block relative z-[2]"
+            style={{ fontSize: "clamp(44px, 11vw, 96px)", fontWeight: 700, letterSpacing: "0.01em", lineHeight: 0.92 }}
+          >
+            GLITTER
           </span>
         </div>
 

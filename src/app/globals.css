@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&family=Dancing+Script:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&family=Caveat:wght@500;700&family=Fredoka:wght@500;600;700&family=Dancing+Script:wght@400;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -30,9 +30,12 @@ body {
 }
 
 /* ── Fonts ──────────────────────────────────────────────────── */
+.font-bodoni    { font-family: 'Bodoni Moda', serif; }
 .font-cormorant { font-family: 'Cormorant Garamond', serif; }
 .font-cinzel    { font-family: 'Cinzel', serif; }
 .font-outfit    { font-family: 'Outfit', sans-serif; }
+.font-caveat    { font-family: 'Caveat', cursive; }
+.font-fredoka   { font-family: 'Fredoka', sans-serif; }
 .font-dancing   { font-family: 'Dancing Script', cursive; }
 
 /* ── Gold ───────────────────────────────────────────────────── */
@@ -49,17 +52,25 @@ body {
   background-clip: text;
 }
 
-/* ── Savaris metallic title ─────────────────────────────────── */
+/* ── Savaris metallic title — real polished gold ────────────── */
 .savaris-text {
-  font-family: 'Cinzel', serif;
-  font-weight: 900;
-  background: linear-gradient(135deg,
-    #4a3208 0%, #836D30 12%, #C9A84C 26%, #FFE699 42%,
-    #fffae0 50%, #FFE699 58%, #C9A84C 74%, #836D30 88%, #4a3208 100%);
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  /* Horizontal specular bands → polished metal */
+  background: linear-gradient(180deg,
+    #fff7d6 0%, #f4dd92 14%, #e3c25e 26%, #c79a30 40%,
+    #8a6a1b 50%, #b88f2a 57%, #ecd078 70%, #fff2c4 80%,
+    #c9a23a 90%, #7c5d16 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.9)) drop-shadow(0 0 24px rgba(201,168,76,0.6));
+  /* Engraved edge + warm bloom (shadow follows glyph even with transparent fill) */
+  text-shadow:
+    0 1px 0  rgba(255,247,214,0.35),
+    0 2px 1px rgba(94,70,16,0.7),
+    0 3px 4px rgba(0,0,0,0.6),
+    0 0 34px rgba(201,162,39,0.4);
 }
 
 /* ── Rainbow animated text ──────────────────────────────────── */
@@ -76,45 +87,40 @@ body {
 /* Wrap text in a relative element with class .glitter-sparkle to
    layer a twinkling sequin overlay on top of the gradient text. */
 
-/* Sequin dots clipped INSIDE letters + base gradient */
+/* Clean vivid neon fill + bloom (sequin sparkle added via scattered stars) */
 .glitter-pink {
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.9) 0.4px, transparent 1px),
-    radial-gradient(circle, rgba(255,255,255,0.5) 0.4px, transparent 0.9px),
-    linear-gradient(160deg, #ff2d8e 0%, #ff5fa8 22%, #ff1493 48%, #ff7a3d 76%, #ff5fa8 100%);
-  background-size: 6px 6px, 10px 10px, 100% 100%;
-  background-position: 0 0, 3px 4px, 0 0;
+  background: linear-gradient(180deg, #ff7ac0 0%, #ff2d8e 42%, #ff1466 68%, #ff7a3d 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 20px rgba(255,45,142,0.6)) drop-shadow(0 0 46px rgba(255,45,142,0.25));
-  animation: glitterPink 3s ease-in-out infinite;
+  filter:
+    drop-shadow(0 0 4px rgba(255,255,255,0.5))
+    drop-shadow(0 0 24px rgba(255,45,142,0.7))
+    drop-shadow(0 0 52px rgba(255,45,142,0.32));
 }
 
 .glitter-rainbow {
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.9) 0.4px, transparent 1px),
-    radial-gradient(circle, rgba(255,255,255,0.5) 0.4px, transparent 0.9px),
-    linear-gradient(95deg,
-      #ff2d8e 0%, #ff5fa8 13%, #ff7a3d 26%, #ffd700 40%,
-      #39ff14 56%, #00d4ff 71%, #7b61ff 86%, #ff2d8e 100%);
-  background-size: 6px 6px, 10px 10px, 240% 100%;
-  background-position: 0 0, 3px 4px, 0% 50%;
+  background: linear-gradient(95deg,
+    #ff2d8e 0%, #ff6ec7 14%, #ff7a3d 28%, #ffd23d 42%,
+    #5dff7a 57%, #36d1ff 72%, #9b7bff 86%, #ff2d8e 100%);
+  background-size: 220% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 18px rgba(255,255,255,0.35)) drop-shadow(0 0 40px rgba(123,97,255,0.3));
-  animation: glitterRainbow 6s linear infinite;
+  filter:
+    drop-shadow(0 0 4px rgba(255,255,255,0.55))
+    drop-shadow(0 0 22px rgba(255,255,255,0.3))
+    drop-shadow(0 0 48px rgba(155,123,255,0.4));
+  animation: rainbowShift 6s ease infinite;
 }
 
 /* White marker / handwritten layer */
 .glitter-white {
   color: #fff;
-  -webkit-text-stroke: 1px rgba(0,0,0,0.25);
-  text-shadow: 0 0 12px rgba(255,255,255,0.5), 0 0 24px rgba(255,255,255,0.25);
+  text-shadow: 0 0 10px rgba(255,255,255,0.45), 0 2px 6px rgba(0,0,0,0.6);
 }
 
-/* Wrapper — sequin is now clipped INSIDE the letters, no block overlay */
+/* Wrapper for scattered sparkle stars */
 .glitter-sparkle { position: relative; display: inline-block; }
 
 /* ── Glass card ─────────────────────────────────────────────── */
