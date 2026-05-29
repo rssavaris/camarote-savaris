@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Sparkles, ChevronDown } from "lucide-react";
+import { Sparkles, ChevronDown, Heart, Calendar } from "lucide-react";
 import CrownSVG from "@/components/CrownSVG";
 import MaskSVG from "@/components/MaskSVG";
 
@@ -87,21 +87,33 @@ export default function Hero() {
           />
         </div>
 
-        {/* 40 Tons de Glitter */}
-        <div className="fade-up" style={{ opacity: 0, animationDelay: "0.3s" }}>
-          <h2
-            className="font-cinzel font-black text-3xl sm:text-5xl lg:text-6xl tracking-wider mb-2"
-            style={{
-              background: "linear-gradient(90deg, #ff3399, #ffd700, #00ffcc, #7b61ff, #ff3399)",
-              backgroundSize: "300% 300%",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              animation: "rainbowShift 5s ease infinite",
-            }}
+        {/* 40 TONS DE GLITTER — glitter sequin lockup (abadá identity) */}
+        <div className="fade-up flex flex-col items-center mb-1" style={{ opacity: 0, animationDelay: "0.3s" }}>
+          {/* 40 */}
+          <span className="glitter-sparkle">
+            <span
+              className="glitter-pink font-cinzel font-black block"
+              style={{ fontSize: "clamp(72px, 17vw, 144px)", lineHeight: 0.82 }}
+            >
+              40
+            </span>
+          </span>
+          {/* tons de */}
+          <span
+            className="glitter-white font-dancing font-bold -mt-3 mb-0.5"
+            style={{ fontSize: "clamp(22px, 5vw, 40px)", transform: "rotate(-4deg)" }}
           >
-            40 Tons de Glitter
-          </h2>
+            tons de
+          </span>
+          {/* GLITTER */}
+          <span className="glitter-sparkle">
+            <span
+              className="glitter-rainbow font-cinzel font-black block"
+              style={{ fontSize: "clamp(40px, 10.5vw, 88px)", letterSpacing: "0.03em", lineHeight: 0.95 }}
+            >
+              GLITTER
+            </span>
+          </span>
         </div>
 
         {/* Mask SVG – mobile + desktop */}
@@ -121,9 +133,9 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Slogan */}
+        {/* Slogan — uppercase tracked rainbow (abadá) */}
         <div className="fade-up" style={{ opacity: 0, animationDelay: "0.36s" }}>
-          <p className="font-dancing text-2xl sm:text-3xl lg:text-4xl font-semibold rainbow-text mb-3 leading-snug">
+          <p className="font-outfit font-semibold rainbow-text mb-3" style={{ fontSize: "clamp(13px, 2.6vw, 20px)", letterSpacing: "0.3em", textTransform: "uppercase" }}>
             Brilhe sem moderação.
           </p>
         </div>
@@ -136,6 +148,39 @@ export default function Hero() {
             {" "}é sem{" "}
             <span style={{ color: "#ff3399", fontStyle: "normal", fontWeight: 600 }}>graça</span>."
           </p>
+        </div>
+
+        {/* Neon date block — abadá back */}
+        <div
+          className="fade-up flex flex-col items-center gap-2 mb-10"
+          style={{ opacity: 0, animationDelay: "0.42s" }}
+        >
+          <Heart
+            className="w-5 h-5"
+            style={{ color: "#ff3399", fill: "#ff3399", filter: "drop-shadow(0 0 8px rgba(255,51,153,0.9))" }}
+          />
+          <div className="flex items-center gap-2.5">
+            <Calendar
+              className="w-4 h-4 sm:w-5 sm:h-5"
+              style={{ color: "#ff3399", filter: "drop-shadow(0 0 6px rgba(255,51,153,0.8))" }}
+            />
+            <span
+              className="date-neon font-cinzel font-black"
+              style={{ fontSize: "clamp(26px, 6vw, 42px)", letterSpacing: "0.06em" }}
+            >
+              08.02.2027
+            </span>
+          </div>
+          <div className="flex items-center gap-3 text-[#ff3399]">
+            <span style={{ fontSize: "9px", textShadow: "0 0 8px #ff3399", animation: "starTwinkle 2s ease-in-out infinite" }}>★</span>
+            <span
+              className="font-outfit text-[10px] tracking-[0.4em] uppercase"
+              style={{ color: "rgba(255,51,153,0.85)", textShadow: "0 0 10px rgba(255,51,153,0.6)" }}
+            >
+              Segunda-feira
+            </span>
+            <span style={{ fontSize: "9px", textShadow: "0 0 8px #ff3399", animation: "starTwinkle 2s ease-in-out infinite", animationDelay: "1s" }}>★</span>
+          </div>
         </div>
 
         {/* CTAs */}

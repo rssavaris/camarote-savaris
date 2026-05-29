@@ -72,6 +72,54 @@ body {
   animation: rainbowShift 4s ease infinite;
 }
 
+/* ── Glitter sequin text (abadá identity) ───────────────────── */
+/* Wrap text in a relative element with class .glitter-sparkle to
+   layer a twinkling sequin overlay on top of the gradient text. */
+
+.glitter-pink {
+  background: linear-gradient(160deg, #ff2d8e 0%, #ff5fa8 22%, #ff1493 48%, #ff7a3d 76%, #ff5fa8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 18px rgba(255,45,142,0.55)) drop-shadow(0 0 42px rgba(255,45,142,0.22));
+}
+
+.glitter-rainbow {
+  background: linear-gradient(95deg,
+    #ff2d8e 0%, #ff5fa8 13%, #ff7a3d 26%, #ffd700 40%,
+    #39ff14 56%, #00d4ff 71%, #7b61ff 86%, #ff2d8e 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 16px rgba(255,255,255,0.32)) drop-shadow(0 0 38px rgba(123,97,255,0.28));
+  animation: rainbowShift 6s ease infinite;
+}
+
+/* White marker / handwritten layer */
+.glitter-white {
+  color: #fff;
+  -webkit-text-stroke: 1px rgba(0,0,0,0.25);
+  text-shadow: 0 0 12px rgba(255,255,255,0.5), 0 0 24px rgba(255,255,255,0.25);
+}
+
+/* Sequin sparkle overlay — put on a wrapper around glitter text */
+.glitter-sparkle { position: relative; display: inline-block; }
+.glitter-sparkle::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.95) 0.9px, transparent 1.7px),
+    radial-gradient(circle, rgba(255,255,255,0.55) 0.7px, transparent 1.5px);
+  background-size: 13px 13px, 21px 21px;
+  background-position: 0 0, 7px 10px;
+  mix-blend-mode: screen;
+  opacity: 0.45;
+  pointer-events: none;
+  animation: sparkleTwinkle 2.6s ease-in-out infinite;
+}
+
 /* ── Glass card ─────────────────────────────────────────────── */
 .glass-card {
   background: rgba(8, 8, 8, 0.72);
@@ -265,6 +313,14 @@ body {
 @keyframes countUp {
   from { transform: translateY(12px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes sparkleTwinkle {
+  0%, 100% { opacity: 0.35; background-position: 0 0, 7px 10px; }
+  50%       { opacity: 0.6;  background-position: 2px 3px, 9px 7px; }
+}
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.4; transform: scale(0.85); }
+  50%       { opacity: 1;   transform: scale(1.15); }
 }
 
 /* ── Animation utilities ────────────────────────────────────── */
