@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
@@ -35,25 +36,20 @@ export default function NavBar() {
         <div className="flex items-center justify-between h-16 sm:h-[68px]">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group select-none">
-            <span
-              className="text-base"
+          <Link href="/" className="flex items-center group select-none">
+            <Image
+              src="/img/IMG_8379.png"
+              alt="Camarote Savaris"
+              width={320}
+              height={120}
               style={{
-                color: "#ffd700",
-                filter: "drop-shadow(0 0 8px rgba(255,215,0,0.9))",
-                animation: "pulse-gold 3s ease-in-out infinite",
+                height: "36px",
+                width: "auto",
+                filter: "drop-shadow(0 0 6px rgba(255,215,0,0.3))",
+                transition: "filter 0.3s",
               }}
-            >
-              ♛
-            </span>
-            <div className="flex flex-col leading-none">
-              <span className="font-cinzel font-bold text-[10px] sm:text-[11px] tracking-[0.28em] text-[#FFE699] group-hover:text-white transition-colors duration-300 uppercase">
-                Camarote Savaris
-              </span>
-              <span className="font-outfit font-light text-[8px] tracking-[0.4em] text-[rgba(201,168,76,0.5)] group-hover:text-[rgba(201,168,76,0.8)] transition-colors duration-300 uppercase mt-0.5">
-                40 Tons de Glitter
-              </span>
-            </div>
+              className="group-hover:drop-shadow-[0_0_10px_rgba(255,215,0,0.6)]"
+            />
           </Link>
 
           {/* Desktop links */}
