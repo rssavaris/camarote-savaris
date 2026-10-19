@@ -493,3 +493,49 @@ body {
 .section-label.gold::after   { background: linear-gradient(90deg, rgba(255,215,0,0.35), transparent); }
 .section-label.pink::before  { background: linear-gradient(90deg, transparent, rgba(255,51,153,0.35)); }
 .section-label.pink::after   { background: linear-gradient(90deg, rgba(255,51,153,0.35), transparent); }
+
+/* ── Efeitos: marquee neon ─────────────────────────────── */
+.marquee-track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
+.marquee-track.reverse { animation-direction: reverse; }
+.neon-marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-group { display: flex; align-items: center; gap: 2rem; padding-right: 2rem; flex-shrink: 0; }
+.marquee-word {
+  font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 0.3em;
+  font-size: clamp(13px, 3.4vw, 20px); white-space: nowrap;
+  background: linear-gradient(90deg, #00d4ff, #7b61ff, #ff3399, #ffd700, #39ff14, #00d4ff);
+  background-size: 300% 100%; -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; animation: rainbowShift 6s linear infinite;
+  filter: drop-shadow(0 0 8px rgba(255,51,153,0.45));
+}
+.marquee-star { color: #ffd700; text-shadow: 0 0 8px #ffd700; font-size: 14px; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ── Efeitos: reveal no scroll ─────────────────────────── */
+.reveal { opacity: 0; transform: translateY(28px) scale(0.98); filter: blur(6px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.8,.2,1), filter 0.8s ease; }
+.reveal.in { opacity: 1; transform: none; filter: none; }
+
+/* ── Efeitos: botão magnético ──────────────────────────── */
+.magnetic { display: inline-block; transition: transform 0.25s cubic-bezier(.2,.8,.2,1); }
+
+/* ── Efeitos: tilt 3D + brilho holográfico ─────────────── */
+.tilt-card { position: relative; transform-style: preserve-3d;
+  transform: perspective(800px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.25s ease-out; --mx: 50%; --my: 50%; }
+.tilt-card.tilting { transition: transform 0.08s linear; }
+.tilt-sheen { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0;
+  mix-blend-mode: color-dodge; transition: opacity 0.3s;
+  background:
+    radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.55), transparent 45%),
+    linear-gradient(115deg, transparent 20%, rgba(0,212,255,0.5) 35%, rgba(255,51,153,0.5) 50%, rgba(255,215,0,0.5) 65%, transparent 80%);
+  background-size: 100% 100%, 250% 250%; background-position: 0 0, var(--mx) var(--my); }
+.tilt-card.tilting .tilt-sheen { opacity: 0.55; }
+/* celular sem giroscópio: o brilho varre sozinho */
+.tilt-card.tilt-touch:not(.tilting) .tilt-sheen { opacity: 0.28; animation: sheenSweep 5s ease-in-out infinite; }
+@keyframes sheenSweep { 0%, 100% { background-position: 0 0, 0% 50%; } 50% { background-position: 0 0, 100% 50%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+  .tilt-sheen { display: none; }
+}

@@ -3,6 +3,8 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import GlitterBg from "@/components/GlitterBg";
+import SmoothScroll from "@/components/SmoothScroll";
+import SparkleFX from "@/components/SparkleFX";
 
 export const metadata: Metadata = {
   title: "Camarote Savaris — 40 Tons de Glitter",
@@ -18,6 +20,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col" style={{ background: "#000" }}>
         <GlitterBg />
+        <SmoothScroll />
+        <SparkleFX />
         <NavBar />
         <main className="flex-1 relative z-10">{children}</main>
         <Footer />

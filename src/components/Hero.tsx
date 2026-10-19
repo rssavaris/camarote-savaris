@@ -3,6 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Sparkles, ChevronDown } from "lucide-react";
+import Magnetic from "@/components/Magnetic";
+import TiltCard from "@/components/TiltCard";
+import GyroFloat from "@/components/GyroFloat";
 
 const INFO_CARDS = [
   { value: "08",       label: "Fevereiro" },
@@ -72,14 +75,16 @@ export default function Hero() {
               filter: "blur(20px)",
             }}
           />
-          <Image
-            src="/img/IMG_8380.png"
-            alt="40 Tons de Glitter"
-            width={1120}
-            height={700}
-            priority
-            style={{ width: "100%", height: "auto", position: "relative", zIndex: 1 }}
-          />
+          <GyroFloat depth={10} style={{ position: "relative", zIndex: 1 }}>
+            <Image
+              src="/img/IMG_8380.png"
+              alt="40 Tons de Glitter"
+              width={1120}
+              height={700}
+              priority
+              style={{ width: "100%", height: "auto", position: "relative", zIndex: 1 }}
+            />
+          </GyroFloat>
         </div>
 
         {/* Carnival mask */}
@@ -95,19 +100,21 @@ export default function Hero() {
               filter: "blur(18px)",
             }}
           />
-          <Image
-            src="/img/IMG_8383.png"
-            alt="Máscara Camarote Savaris"
-            width={600}
-            height={500}
-            className="mask-float"
-            style={{
-              width: "clamp(160px, 36vw, 280px)",
-              height: "auto",
-              position: "relative",
-              zIndex: 1,
-            }}
-          />
+          <GyroFloat depth={22} style={{ position: "relative", zIndex: 1 }}>
+            <Image
+              src="/img/IMG_8383.png"
+              alt="Máscara Camarote Savaris"
+              width={600}
+              height={500}
+              className="mask-float"
+              style={{
+                width: "clamp(160px, 36vw, 280px)",
+                height: "auto",
+                position: "relative",
+                zIndex: 1,
+              }}
+            />
+          </GyroFloat>
         </div>
 
         {/* Slogan */}
@@ -133,18 +140,20 @@ export default function Hero() {
               filter: "blur(14px)",
             }}
           />
-          <Image
-            src="/img/IMG_8384.png"
-            alt="08.02.2027 Segunda-Feira"
-            width={400}
-            height={400}
-            style={{
-              width: "clamp(120px, 28vw, 200px)",
-              height: "auto",
-              position: "relative",
-              zIndex: 1,
-            }}
-          />
+          <GyroFloat depth={-12} style={{ position: "relative", zIndex: 1 }}>
+            <Image
+              src="/img/IMG_8384.png"
+              alt="08.02.2027 Segunda-Feira"
+              width={400}
+              height={400}
+              style={{
+                width: "clamp(120px, 28vw, 200px)",
+                height: "auto",
+                position: "relative",
+                zIndex: 1,
+              }}
+            />
+          </GyroFloat>
         </div>
 
         {/* CTAs */}
@@ -152,19 +161,23 @@ export default function Hero() {
           className="fade-up flex flex-col sm:flex-row gap-4 mb-10 w-full max-w-sm sm:max-w-none sm:justify-center"
           style={{ opacity: 0, animationDelay: "0.48s" }}
         >
-          <Link
-            href="/inscricao"
-            className="cta-rainbow inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl w-full sm:w-auto"
-          >
-            <Sparkles className="w-4 h-4" />
-            Garantir presença
-          </Link>
-          <Link
-            href="/presentes"
-            className="btn-neon inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl w-full sm:w-auto"
-          >
-            Ver presentes
-          </Link>
+          <Magnetic className="w-full sm:w-auto">
+            <Link
+              href="/inscricao"
+              className="cta-rainbow inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl w-full sm:w-auto"
+            >
+              <Sparkles className="w-4 h-4" />
+              Garantir presença
+            </Link>
+          </Magnetic>
+          <Magnetic className="w-full sm:w-auto">
+            <Link
+              href="/presentes"
+              className="btn-neon inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl w-full sm:w-auto"
+            >
+              Ver presentes
+            </Link>
+          </Magnetic>
         </div>
 
         {/* Info cards grid */}
@@ -173,8 +186,8 @@ export default function Hero() {
           style={{ opacity: 0, animationDelay: "0.55s" }}
         >
           {INFO_CARDS.map(({ value, label }) => (
+            <TiltCard key={label} max={10} className="rounded-2xl">
             <div
-              key={label}
               className="glass-card gold-border-glow rounded-2xl p-5 text-center transition-all duration-300"
             >
               <p
@@ -193,6 +206,7 @@ export default function Hero() {
                 {label}
               </p>
             </div>
+            </TiltCard>
           ))}
         </div>
       </div>

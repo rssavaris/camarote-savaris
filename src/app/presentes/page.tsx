@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Gift, Sparkles, Star, Heart, ArrowRight } from "lucide-react";
+import TiltCard from "@/components/TiltCard";
 
 const presentes = [
   {
@@ -180,12 +181,15 @@ export default function PresentesPage() {
       <div className="max-w-5xl mx-auto px-5">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
           {filtrados.map((p, i) => (
-            <div
+            <TiltCard
               key={p.id}
               className={[
-                "glass-card rounded-2xl overflow-hidden group transition-all duration-400 fade-up",
+                "rounded-2xl h-full",
                 p.destaque ? "sm:col-span-2 lg:col-span-1" : "",
               ].join(" ")}
+            >
+            <div
+              className="glass-card rounded-2xl overflow-hidden group transition-all duration-400 fade-up h-full"
               style={{
                 border: `1px solid ${p.borderColor}`,
                 boxShadow: `0 0 30px ${p.glowColor}`,
@@ -261,6 +265,7 @@ export default function PresentesPage() {
                 </div>
               </div>
             </div>
+            </TiltCard>
           ))}
         </div>
       </div>

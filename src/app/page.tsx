@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Calendar, Sparkles, Star, Music, Heart, Zap, Users, Crown } from "lucide-react";
 import Hero from "@/components/Hero";
+import NeonMarquee from "@/components/NeonMarquee";
+import Reveal from "@/components/Reveal";
 
 const EVENT_DATE = new Date("2027-02-08T15:00:00");
 
@@ -276,10 +278,12 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Countdown />
-      <OQueTeEspera />
-      <PassaporteSection />
-      <AbadaSuspense />
+      <NeonMarquee />
+      <Reveal><Countdown /></Reveal>
+      <Reveal><OQueTeEspera /></Reveal>
+      <NeonMarquee reverse />
+      <Reveal><PassaporteSection /></Reveal>
+      <Reveal><AbadaSuspense /></Reveal>
     </>
   );
 }
