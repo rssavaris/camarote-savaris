@@ -6,6 +6,7 @@ import { Sparkles, ChevronDown } from "lucide-react";
 import Magnetic from "@/components/Magnetic";
 import TiltCard from "@/components/TiltCard";
 import GyroFloat from "@/components/GyroFloat";
+import HeroSponsors from "@/components/HeroSponsors";
 
 const INFO_CARDS = [
   { value: "08",       label: "Fevereiro" },
@@ -28,7 +29,10 @@ export default function Hero() {
       }} />
 
       {/* Main content */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 py-28 text-center">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 pt-24 pb-24 sm:py-28 text-center">
+
+        {/* Marcas já na primeira tela */}
+        <HeroSponsors />
 
         {/* Pre-label */}
         <div className="fade-up flex items-center gap-2 justify-center mb-6" style={{ opacity: 0, animationDelay: "0.05s" }}>
@@ -41,7 +45,7 @@ export default function Hero() {
 
         {/* CAMAROTE SAVARIS lockup */}
         <div
-          className="fade-up relative w-full max-w-[480px] mx-auto mb-2"
+          className="fade-up relative w-full max-w-[420px] mx-auto mb-2"
           style={{ opacity: 0, animationDelay: "0.12s" }}
         >
           <div
@@ -64,7 +68,7 @@ export default function Hero() {
 
         {/* 40 TONS DE GLITTER lockup */}
         <div
-          className="fade-up relative w-full max-w-[560px] mx-auto mb-2"
+          className="fade-up relative w-full max-w-[480px] mx-auto mb-2"
           style={{ opacity: 0, animationDelay: "0.22s" }}
         >
           <div
@@ -108,7 +112,7 @@ export default function Hero() {
               height={627}
               className="mask-float"
               style={{
-                width: "clamp(160px, 36vw, 280px)",
+                width: "clamp(130px, 30vw, 230px)",
                 height: "auto",
                 position: "relative",
                 zIndex: 1,
@@ -147,7 +151,7 @@ export default function Hero() {
               width={589}
               height={536}
               style={{
-                width: "clamp(120px, 28vw, 200px)",
+                width: "clamp(100px, 24vw, 170px)",
                 height: "auto",
                 position: "relative",
                 zIndex: 1,

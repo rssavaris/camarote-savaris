@@ -7,7 +7,7 @@ import Reveal from "@/components/Reveal";
 // Seção de destaque dos patrocinadores na home.
 export default function SponsorsSection() {
   return (
-    <section className="relative z-10 py-20 sm:py-28">
+    <section className="relative z-10 py-14 sm:py-20">
       <div className="max-w-5xl mx-auto px-5 text-center">
         <div className="section-label gold mb-4">
           <span className="font-outfit text-[9px] tracking-[0.45em] uppercase" style={{ color: "rgba(255,215,0,0.8)" }}>
@@ -36,7 +36,7 @@ export default function SponsorsSection() {
             >
               <TiltCard max={7} className="rounded-2xl h-full">
                 <div
-                  className="glass-card gold-border-glow rounded-2xl flex items-center justify-center h-32 sm:h-40 px-5"
+                  className="glass-card gold-border-glow rounded-2xl flex items-center justify-center h-24 sm:h-32 px-5"
                 >
                   <Image
                     src={s.src}
@@ -44,7 +44,7 @@ export default function SponsorsSection() {
                     width={s.w}
                     height={s.h}
                     sizes="(max-width: 768px) 45vw, 220px"
-                    style={{ height: "auto", width: "auto", maxHeight: s.show * 1.5, maxWidth: "88%" }}
+                    style={{ height: "auto", width: "auto", maxHeight: Math.round(s.show * 1.15), maxWidth: "88%" }}
                   />
                 </div>
               </TiltCard>

@@ -19,14 +19,14 @@ export default function SponsorsStrip() {
           {[0, 1].map((g) => (
             <div key={g} className="sponsor-group" aria-hidden={g === 1}>
               {row.map((s, i) => (
-                <div key={i} className="sponsor-item" style={{ height: 72 }}>
+                <div key={i} className="sponsor-item" style={{ height: 58 }}>
                   <Image
                     src={s.src}
                     alt={g === 0 ? s.name : ""}
                     width={s.w}
                     height={s.h}
                     sizes="200px"
-                    style={{ height: s.show, width: "auto" }}
+                    style={{ height: Math.round(s.show * 0.78), width: "auto" }}
                   />
                 </div>
               ))}
