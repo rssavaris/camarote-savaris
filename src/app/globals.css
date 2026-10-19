@@ -510,6 +510,32 @@ body {
 .marquee-star { color: #ffd700; text-shadow: 0 0 8px #ffd700; font-size: 14px; }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
+/* ── Abadá: flutua, brilha, aura ───────────────────────── */
+.abada-float { animation: abadaFloat 6.5s ease-in-out infinite; }
+@keyframes abadaFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-12px) rotate(0.5deg); } }
+/* brilho holográfico só sobre o tecido (máscara = silhueta do abadá), sem caixa em volta */
+.abada-tilt .tilt-sheen { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; mix-blend-mode: screen; }
+.abada-tilt-frente .tilt-sheen { -webkit-mask-image: url(/img/abada-frente.png); mask-image: url(/img/abada-frente.png); }
+.abada-tilt-costas .tilt-sheen { -webkit-mask-image: url(/img/abada-costas.png); mask-image: url(/img/abada-costas.png); }
+.abada-tilt.tilting .tilt-sheen { opacity: 0.4; }
+.abada-tilt.tilt-touch:not(.tilting) .tilt-sheen { opacity: 0.22; }
+.abada-aura { background: conic-gradient(from 0deg, rgba(255,51,153,.55), rgba(255,215,0,.5), rgba(0,212,255,.45), rgba(123,97,255,.5), rgba(255,51,153,.55));
+  filter: blur(70px); opacity: .32; border-radius: 50%; animation: spin-slow 22s linear infinite; }
+.abada-spark { background: currentColor; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  filter: drop-shadow(0 0 6px currentColor); animation: abadaSpark 2.6s ease-in-out infinite; }
+@keyframes abadaSpark { 0%, 100% { opacity: 0; transform: scale(.3) rotate(0deg); } 50% { opacity: 1; transform: scale(1) rotate(45deg); } }
+@media (prefers-reduced-motion: reduce) { .abada-float, .abada-aura, .abada-spark { animation: none; } .abada-spark { opacity: .8; } }
+
+/* ── Patrocinadores: faixa infinita ────────────────────── */
+.sponsor-mask { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.sponsor-track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+.sponsor-strip:hover .sponsor-track { animation-play-state: paused; }
+.sponsor-group { display: flex; align-items: center; flex-shrink: 0; }
+.sponsor-item { display: flex; align-items: center; justify-content: center; padding: 0 clamp(28px, 5vw, 56px); opacity: 0.92; transition: opacity .3s, transform .3s; }
+.sponsor-item:hover { opacity: 1; transform: scale(1.06); }
+@media (prefers-reduced-motion: reduce) { .sponsor-track { animation: none; } }
+
 /* ── Efeitos: reveal no scroll ─────────────────────────── */
 .reveal { opacity: 0; transform: translateY(28px) scale(0.98); filter: blur(6px);
   transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.8,.2,1), filter 0.8s ease; }

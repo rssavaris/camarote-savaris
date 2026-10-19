@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import GlitterBg from "@/components/GlitterBg";
 import SmoothScroll from "@/components/SmoothScroll";
 import SparkleFX from "@/components/SparkleFX";
+import SponsorsStrip from "@/components/SponsorsStrip";
 
 export const metadata: Metadata = {
   title: "Camarote Savaris — 40 Tons de Glitter",
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SparkleFX />
         <NavBar />
         <main className="flex-1 relative z-10">{children}</main>
+        <SponsorsStrip />
         <Footer />
       </body>
     </html>

@@ -7,6 +7,8 @@ import Hero from "@/components/Hero";
 import NeonMarquee from "@/components/NeonMarquee";
 import Reveal from "@/components/Reveal";
 import SplitReveal from "@/components/SplitReveal";
+import SponsorsSection from "@/components/SponsorsSection";
+import AbadaShowcase from "@/components/AbadaShowcase";
 
 const EVENT_DATE = new Date("2027-02-08T15:00:00");
 
@@ -219,50 +221,15 @@ function AbadaSuspense() {
       <div className="max-w-4xl mx-auto px-5">
         <div className="text-center mb-10">
           <div className="section-label gold">
-            <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.76)]">Arte em confecção</span>
+            <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.76)]">Prévia oficial</span>
           </div>
           <SplitReveal text="O ABADÁ DO ANO" className="font-cinzel font-black text-3xl sm:text-5xl tracking-wider text-[#FFE699] mb-2" style={{ textShadow: "0 0 25px rgba(255,215,0,0.12)" }} />
           <p className="font-cormorant italic text-lg text-[rgba(255,230,153,0.77)]">
-            Está quase pronto. Mas ainda não pode ver.
+            Frente e costas, com os patrocinadores que fazem a festa.
           </p>
           <div className="gold-divider w-12 mx-auto mt-4" />
         </div>
-        <div className="abadá-silhouette rounded-2xl sm:rounded-3xl relative overflow-hidden" style={{ minHeight: 340 }}>
-          <div className="absolute left-0 top-0 bottom-0 w-28 pointer-events-none" style={{ background: "linear-gradient(90deg, rgba(255,51,153,0.18) 0%, transparent 100%)" }} />
-          <div className="absolute right-0 top-0 bottom-0 w-28 pointer-events-none" style={{ background: "linear-gradient(-90deg, rgba(255,215,0,0.14) 0%, transparent 100%)" }} />
-          <div className="relative z-10 flex flex-col items-center justify-center text-center p-8 sm:p-14" style={{ minHeight: 340 }}>
-            <div className="relative mb-5">
-              <span className="font-cinzel font-black block leading-none select-none" style={{ fontSize: "clamp(80px, 16vw, 120px)", color: "#ffd700", textShadow: "0 0 30px rgba(255,215,0,0.55), 0 0 60px rgba(255,215,0,0.25)", animation: "pulse-gold 3s ease-in-out infinite", opacity: 0.85 }}>
-                ?
-              </span>
-              {[
-                { top: "-8px",   left: "10px",  color: "#ff3399", size: 4 },
-                { top: "4px",    right: "4px",  color: "#ffd700", size: 3 },
-                { bottom: "4px", left: "4px",   color: "#00d4ff", size: 3 },
-                { bottom: "-4px", right: "12px", color: "#7b61ff", size: 4 },
-              ].map((dot, i) => (
-                <span key={i} className="absolute rounded-full animate-pulse-gold" style={{ width: dot.size, height: dot.size, background: dot.color, boxShadow: `0 0 6px ${dot.color}`, ...dot, animationDelay: `${i * 0.4}s` }} />
-              ))}
-            </div>
-            <p className="font-cinzel text-sm sm:text-base font-bold tracking-[0.18em] uppercase text-[rgba(255,230,153,0.86)] mb-2">Arte em confecção</p>
-            <p className="font-outfit text-xs sm:text-sm text-[rgba(255,230,153,0.75)] leading-relaxed max-w-sm mx-auto mb-4">
-              A arte oficial do abadá será revelada somente no dia do evento.
-            </p>
-            <p className="font-dancing text-xl sm:text-2xl text-[rgba(255,215,0,0.78)]">
-              A expectativa faz parte da experiência.
-            </p>
-          </div>
-          <div className="absolute bottom-0 left-0 right-0 h-0.5 overflow-hidden">
-            <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, transparent, #ffd700, #ff3399, #00d4ff, #7b61ff, #ffd700, transparent)", animation: "shimmer 3s ease infinite", backgroundSize: "200% 100%" }} />
-          </div>
-        </div>
-        <div className="text-center mt-8">
-          <p className="font-outfit text-[9px] tracking-[0.4em] uppercase text-[rgba(255,230,153,0.74)] mb-4">Escolha seu tamanho agora</p>
-          <Link href="/inscricao" className="cta-rainbow inline-flex items-center gap-2 px-8 py-4 rounded-full">
-            <Sparkles className="w-4 h-4" />
-            Garantir abadá
-          </Link>
-        </div>
+        <AbadaShowcase />
       </div>
     </section>
   );
@@ -278,6 +245,7 @@ export default function HomePage() {
       <Reveal><OQueTeEspera /></Reveal>
       <NeonMarquee reverse />
       <Reveal><PassaporteSection /></Reveal>
+      <SponsorsSection />
       <Reveal><AbadaSuspense /></Reveal>
     </>
   );

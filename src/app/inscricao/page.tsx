@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Sparkles, CheckCircle, AlertCircle, Upload, ChevronRight, Star, Shield, Shirt } from "lucide-react";
+import Image from "next/image";
+import { Sparkles, CheckCircle, AlertCircle, Upload, ChevronRight, Star, Shield, Shirt, MapPin } from "lucide-react";
 
 const TAMANHOS = ["P", "M", "G", "GG"] as const;
 type Tamanho = typeof TAMANHOS[number];
@@ -14,7 +15,20 @@ interface FormData {
   email: string;
   tamanho: Tamanho | "";
   selfie: string;
+  cep: string;
+  rua: string;
+  numero: string;
+  complemento: string;
+  bairro: string;
+  cidade: string;
+  uf: string;
+  referencia: string;
 }
+
+const FORM_VAZIO: FormData = {
+  nome: "", cpf: "", whatsapp: "", email: "", tamanho: "", selfie: "",
+  cep: "", rua: "", numero: "", complemento: "", bairro: "", cidade: "", uf: "", referencia: "",
+};
 
 function InfoPanel() {
   return (
@@ -105,7 +119,9 @@ function InfoPanel() {
 }
 
 export default function InscricaoPage() {
-  const [form,       setForm]       = useState<FormData>({ nome: "", cpf: "", whatsapp: "", email: "", tamanho: "", selfie: "" });
+  const [form,       setForm]       = useState<FormData>(FORM_VAZIO);
+  const [cepStatus,  setCepStatus]  = useState<"idle" | "loading" | "ok" | "notfound" | "error">("idle");
+  const [semNumero,  setSemNumero]  = useState(false);
   const [status,     setStatus]     = useState<"idle" | "loading" | "success" | "error">("idle");
   const [tamanhoSel, setTamanhoSel] = useState<Tamanho | "">("");
   const [selfieFile, setSelfieFile] = useState<string>("");
@@ -130,9 +146,44 @@ export default function InscricaoPage() {
       : d;
   }
 
+  function formatCEP(v: string) {
+    const d = v.replace(/\D/g, "").slice(0, 8);
+    return d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d;
+  }
+
+  // digitou os 8 números: busca rua, bairro, cidade e UF no ViaCEP
+  async function onCepChange(v: string) {
+    const cep = formatCEP(v);
+    setForm((f) => ({ ...f, cep }));
+    const digits = cep.replace(/\D/g, "");
+    if (digits.length < 8) { setCepStatus("idle"); return; }
+    setCepStatus("loading");
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`);
+      const data = await res.json();
+      if (data.erro) { setCepStatus("notfound"); return; }
+      setForm((f) => ({
+        ...f,
+        rua: data.logradouro || f.rua,
+        bairro: data.bairro || f.bairro,
+        cidade: data.localidade || f.cidade,
+        uf: data.uf || f.uf,
+      }));
+      setCepStatus("ok");
+      // vai direto para o número (ou para a rua, se for um CEP genérico da cidade)
+      setTimeout(() => document.getElementById(data.logradouro ? "campo-numero" : "campo-rua")?.focus(), 50);
+    } catch {
+      setCepStatus("error");
+    }
+  }
+
+  const enderecoOk =
+    form.cep.length === 9 && !!form.rua.trim() && !!form.bairro.trim() &&
+    !!form.cidade.trim() && form.uf.length === 2 && (semNumero || !!form.numero.trim());
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.nome.trim() || !form.cpf || !form.whatsapp || !form.email || !tamanhoSel) return;
+    if (!form.nome.trim() || !form.cpf || !form.whatsapp || !form.email || !tamanhoSel || !enderecoOk) return;
     setStatus("loading");
     await new Promise((r) => setTimeout(r, 1200));
     setStatus("success");
@@ -214,6 +265,7 @@ export default function InscricaoPage() {
                   { label: "Nome",     value: form.nome },
                   { label: "Email",    value: form.email },
                   { label: "Tamanho",  value: tamanhoSel },
+                  { label: "Endereço", value: `${form.rua}, ${semNumero ? "s/n" : form.numero}${form.complemento ? ` · ${form.complemento}` : ""} — ${form.bairro}, ${form.cidade}/${form.uf}` },
                   { label: "Status",   value: "Confirmado ✓", accent: true },
                 ].map(({ label, value, accent }) => (
                   <div key={label} className="flex justify-between items-center">
@@ -232,7 +284,9 @@ export default function InscricaoPage() {
             <button
               onClick={() => {
                 setStatus("idle");
-                setForm({ nome: "", cpf: "", whatsapp: "", email: "", tamanho: "", selfie: "" });
+                setForm(FORM_VAZIO);
+                setCepStatus("idle");
+                setSemNumero(false);
                 setTamanhoSel("");
                 setSelfieFile("");
               }}
@@ -313,6 +367,175 @@ export default function InscricaoPage() {
                 />
               </div>
 
+              {/* Endereço */}
+              <div className="pt-2 space-y-4">
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-4 h-4 text-[#ffd700]" style={{ filter: "drop-shadow(0 0 5px rgba(255,215,0,0.6))" }} />
+                  <span className="font-cinzel font-bold text-xs tracking-[0.2em] uppercase text-[#FFE699]">Endereço</span>
+                  <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, rgba(255,215,0,0.3), transparent)" }} />
+                </div>
+
+                {/* CEP */}
+                <div>
+                  <label className={labelClass} htmlFor="campo-cep">
+                    CEP <span className="text-[#ff3399]">*</span>
+                  </label>
+                  <div className="relative sm:max-w-[220px]">
+                    <input
+                      id="campo-cep"
+                      type="text"
+                      inputMode="numeric"
+                      autoComplete="postal-code"
+                      value={form.cep}
+                      onChange={(e) => onCepChange(e.target.value)}
+                      placeholder="00000-000"
+                      maxLength={9}
+                      required
+                      className={inpClass}
+                    />
+                    {cepStatus === "loading" && (
+                      <span className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 border-2 border-[rgba(255,215,0,0.3)] border-t-[#ffd700] rounded-full animate-spin" />
+                    )}
+                    {cepStatus === "ok" && (
+                      <CheckCircle className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#39ff14]" />
+                    )}
+                  </div>
+                  {cepStatus === "notfound" && (
+                    <p className="font-outfit text-[11px] text-[#ff3399] mt-2">CEP não encontrado. Confira os números ou preencha o endereço abaixo.</p>
+                  )}
+                  {cepStatus === "error" && (
+                    <p className="font-outfit text-[11px] text-[#ff3399] mt-2">Não consegui buscar o CEP agora. Preencha o endereço abaixo.</p>
+                  )}
+                  {cepStatus === "idle" && (
+                    <p className="font-outfit text-[10px] text-[rgba(255,230,153,0.7)] mt-2">Digite o CEP e o endereço é preenchido sozinho.</p>
+                  )}
+                </div>
+
+                {/* Rua */}
+                <div>
+                  <label className={labelClass} htmlFor="campo-rua">
+                    Rua / Avenida <span className="text-[#ff3399]">*</span>
+                  </label>
+                  <input
+                    id="campo-rua"
+                    type="text"
+                    autoComplete="address-line1"
+                    value={form.rua}
+                    onChange={set("rua")}
+                    placeholder="Nome da rua"
+                    required
+                    className={inpClass}
+                  />
+                </div>
+
+                {/* Número + Complemento */}
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_2fr] gap-4">
+                  <div>
+                    <label className={labelClass} htmlFor="campo-numero">
+                      Número <span className="text-[#ff3399]">*</span>
+                    </label>
+                    <input
+                      id="campo-numero"
+                      type="text"
+                      inputMode="numeric"
+                      value={semNumero ? "S/N" : form.numero}
+                      onChange={set("numero")}
+                      disabled={semNumero}
+                      placeholder="123"
+                      required={!semNumero}
+                      className={`${inpClass} disabled:opacity-60`}
+                    />
+                    <label className="flex items-center gap-2 mt-2 cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={semNumero}
+                        onChange={(e) => { setSemNumero(e.target.checked); if (e.target.checked) setForm((f) => ({ ...f, numero: "" })); }}
+                        className="accent-[#ff3399] w-4 h-4"
+                      />
+                      <span className="font-outfit text-[11px] text-[rgba(255,230,153,0.8)]">Sem número</span>
+                    </label>
+                  </div>
+                  <div>
+                    <label className={labelClass} htmlFor="campo-complemento">
+                      Complemento <span className="normal-case tracking-normal text-[rgba(255,230,153,0.7)]">(opcional)</span>
+                    </label>
+                    <input
+                      id="campo-complemento"
+                      type="text"
+                      autoComplete="address-line2"
+                      value={form.complemento}
+                      onChange={set("complemento")}
+                      placeholder="Apto, bloco, casa, sala..."
+                      className={inpClass}
+                    />
+                  </div>
+                </div>
+
+                {/* Bairro + Cidade + UF */}
+                <div className="grid grid-cols-6 gap-4">
+                  <div className="col-span-6 sm:col-span-3">
+                    <label className={labelClass} htmlFor="campo-bairro">
+                      Bairro <span className="text-[#ff3399]">*</span>
+                    </label>
+                    <input
+                      id="campo-bairro"
+                      type="text"
+                      value={form.bairro}
+                      onChange={set("bairro")}
+                      placeholder="Bairro"
+                      required
+                      className={inpClass}
+                    />
+                  </div>
+                  <div className="col-span-4 sm:col-span-2">
+                    <label className={labelClass} htmlFor="campo-cidade">
+                      Cidade <span className="text-[#ff3399]">*</span>
+                    </label>
+                    <input
+                      id="campo-cidade"
+                      type="text"
+                      autoComplete="address-level2"
+                      value={form.cidade}
+                      onChange={set("cidade")}
+                      placeholder="Cidade"
+                      required
+                      className={inpClass}
+                    />
+                  </div>
+                  <div className="col-span-2 sm:col-span-1">
+                    <label className={labelClass} htmlFor="campo-uf">
+                      UF <span className="text-[#ff3399]">*</span>
+                    </label>
+                    <input
+                      id="campo-uf"
+                      type="text"
+                      autoComplete="address-level1"
+                      value={form.uf}
+                      onChange={(e) => setForm((f) => ({ ...f, uf: e.target.value.replace(/[^a-zA-Z]/g, "").toUpperCase().slice(0, 2) }))}
+                      placeholder="RO"
+                      maxLength={2}
+                      required
+                      className={`${inpClass} uppercase`}
+                    />
+                  </div>
+                </div>
+
+                {/* Ponto de referência */}
+                <div>
+                  <label className={labelClass} htmlFor="campo-referencia">
+                    Ponto de referência <span className="normal-case tracking-normal text-[rgba(255,230,153,0.7)]">(opcional)</span>
+                  </label>
+                  <input
+                    id="campo-referencia"
+                    type="text"
+                    value={form.referencia}
+                    onChange={set("referencia")}
+                    placeholder="Ex.: próximo ao mercado, portão azul"
+                    className={inpClass}
+                  />
+                </div>
+              </div>
+
               {/* Tamanho do abadá */}
               <div>
                 <label className={labelClass}>
@@ -329,30 +552,16 @@ export default function InscricaoPage() {
                       background: "linear-gradient(180deg, #ff3399, #ffd700, #00d4ff)",
                     }}
                   />
-                  <div
-                    className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ml-2"
-                    style={{
-                      background: "rgba(255,215,0,0.06)",
-                      border: "1px solid rgba(255,215,0,0.1)",
-                    }}
-                  >
-                    <span
-                      className="font-cinzel font-black text-xl"
-                      style={{
-                        color: "#ffd700",
-                        textShadow: "0 0 12px rgba(255,215,0,0.6)",
-                        animation: "pulse-gold 2.5s ease-in-out infinite",
-                      }}
-                    >
-                      ?
-                    </span>
+                  <div className="flex-shrink-0 ml-2 flex w-28 sm:w-32 gap-1.5" style={{ filter: "drop-shadow(0 6px 12px rgba(0,0,0,0.6))" }}>
+                    <Image src="/img/abada-frente.png" alt="Abadá Camarote Savaris, frente" width={631} height={823} sizes="64px" style={{ width: "50%", height: "auto" }} />
+                    <Image src="/img/abada-costas.png" alt="Abadá Camarote Savaris, costas" width={627} height={824} sizes="64px" style={{ width: "50%", height: "auto" }} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-cinzel text-[10px] tracking-[0.18em] uppercase text-[rgba(255,230,153,0.80)] mb-0.5">
                       Abadá Camarote Savaris
                     </p>
                     <p className="font-outfit text-[10px] text-[rgba(255,230,153,0.70)] leading-snug">
-                      A arte oficial será revelada somente no dia do evento.
+                      Frente e costas, com a arte oficial e os patrocinadores.
                     </p>
                   </div>
                 </div>
@@ -480,7 +689,8 @@ export default function InscricaoPage() {
                   form.cpf.length < 14 ||
                   form.whatsapp.length < 14 ||
                   !form.email ||
-                  !tamanhoSel
+                  !tamanhoSel ||
+                  !enderecoOk
                 }
                 className="cta-rainbow w-full py-4 rounded-full disabled:opacity-30 disabled:cursor-not-allowed"
                 style={{ fontSize: "0.78rem" }}
