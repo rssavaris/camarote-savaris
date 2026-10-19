@@ -28,7 +28,7 @@ export default function NavBar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-[rgba(0,0,0,0.88)] backdrop-blur-2xl border-b border-[rgba(201,168,76,0.1)] shadow-[0_8px_40px_rgba(0,0,0,0.6)]"
+          ? "bg-[rgba(0,0,0,0.88)] backdrop-blur-md border-b border-[rgba(201,168,76,0.1)] shadow-[0_8px_40px_rgba(0,0,0,0.6)]"
           : "bg-transparent"
       }`}
     >
@@ -39,6 +39,7 @@ export default function NavBar() {
           <Link href="/" className="flex items-center group select-none">
             <Image
               src="/img/IMG_8379.png"
+              priority
               alt="Camarote Savaris"
               width={320}
               height={120}
@@ -119,7 +120,7 @@ export default function NavBar() {
         style={{ transitionProperty: "max-height, opacity" }}
       >
         <div
-          className="backdrop-blur-2xl border-t border-[rgba(201,168,76,0.08)] px-5 pb-5 pt-3 space-y-0.5"
+          className="backdrop-blur-md border-t border-[rgba(201,168,76,0.08)] px-5 pb-5 pt-3 space-y-0.5"
           style={{ background: "rgba(0,0,0,0.94)" }}
         >
           {links.map((l) => (

@@ -122,7 +122,14 @@ export default function AuroraBg({ onFail, onReady }: { onFail: () => void; onRe
       if (t - last < frameGap) return;
       last = t;
       program.uniforms.uTime.value = t * 0.001;
-      renderer.render({ scene: mesh });
+      try {
+        renderer.render({ scene: mesh });
+      } catch {
+        // qualquer falha do WebGL: para o loop e devolve o fundo de ondas 2D
+        cancelAnimationFrame(raf);
+        running = false;
+        onFail();
+      }
     };
     raf = requestAnimationFrame(tick);
     onReady();
@@ -137,7 +144,6 @@ export default function AuroraBg({ onFail, onReady }: { onFail: () => void; onRe
       cancelAnimationFrame(raf);
       removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", onVis);
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

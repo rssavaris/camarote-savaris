@@ -52,9 +52,7 @@ export default function AbadaShowcase() {
     return () => { removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
   }, [open]);
 
-  const shadow = "drop-shadow(0 24px 40px rgba(0,0,0,0.65))";
-
-  return (
+    return (
     <>
       <div className="relative mx-auto max-w-4xl">
         {/* palco de luz atrás do abadá */}
@@ -72,8 +70,9 @@ export default function AbadaShowcase() {
                 <TiltCard max={7} className={`abada-tilt ${cls} rounded-3xl`}>
                   <div className="relative">
                     <Image src={f.src} alt={f.alt} width={f.w} height={f.h} sizes="380px"
-                      style={{ width: "100%", height: "auto", filter: shadow }} />
+                      style={{ width: "100%", height: "auto" }} />
                     <Sparks />
+                    <span className="abada-shadow" aria-hidden />
                   </div>
                 </TiltCard>
               </div>
@@ -102,14 +101,15 @@ export default function AbadaShowcase() {
             >
               <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
                 <Image src={FRENTE.src} alt={FRENTE.alt} width={FRENTE.w} height={FRENTE.h} sizes="78vw"
-                  style={{ width: "100%", height: "auto", filter: shadow }} />
+                  style={{ width: "100%", height: "auto" }} />
               </div>
               <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
                 <Image src={COSTAS.src} alt={COSTAS.alt} width={COSTAS.w} height={COSTAS.h} sizes="78vw"
-                  style={{ width: "100%", height: "auto", filter: shadow }} />
+                  style={{ width: "100%", height: "auto" }} />
               </div>
             </div>
             <Sparks />
+            <span className="abada-shadow" aria-hidden />
           </button>
 
           <div className="mt-6 flex items-center justify-center gap-2">

@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import AuroraBg from "@/components/AuroraBg";
+import dynamic from "next/dynamic";
+
+// aurora WebGL (ogl) carrega depois, fora do JavaScript inicial
+const AuroraBg = dynamic(() => import("@/components/AuroraBg"), { ssr: false });
 
 // ── Rainbow wave lines + 4-pointed sparkle stars ─────────────
 // Matches the aurora/glitter aesthetic from the abadá design
@@ -19,8 +22,17 @@ export default function GlitterBg() {
   const waveRef  = useRef<HTMLCanvasElement>(null);
   const starRef  = useRef<HTMLCanvasElement>(null);
   // aurora WebGL substitui as ondas 2D; se falhar, as ondas continuam
-  const auroraRef = useRef(false);
+  const auroraRef = useRef<"pending" | "on" | "off">("pending");
+  const [go, setGo] = useState(false); // libera o carregamento da aurora quando o navegador está ocioso
   const [aurora, setAurora] = useState<"pending" | "on" | "off">("pending");
+
+  useEffect(() => {
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (n: number) => void };
+    const idle = w.requestIdleCallback ? w.requestIdleCallback(() => setGo(true), { timeout: 1800 }) : (setTimeout(() => setGo(true), 900) as unknown as number);
+    // se a aurora não decidir em 7s (rede lenta), cai nas ondas 2D
+    const fail = setTimeout(() => { if (auroraRef.current === "pending") { auroraRef.current = "off"; setAurora("off"); } }, 7000);
+    return () => { if (w.cancelIdleCallback) w.cancelIdleCallback(idle); else clearTimeout(idle); clearTimeout(fail); };
+  }, []);
 
   useEffect(() => {
     const wc = waveRef.current;
@@ -88,7 +100,8 @@ export default function GlitterBg() {
     // Each wave: a sweeping bezier arc from left to right.
     // Amplitude cycles to create the flowing-aurora look.
     function drawWaves(ts: number) {
-      if (auroraRef.current) return; // aurora WebGL ativa: encerra o loop das ondas 2D
+      // aurora ativa ou ainda carregando: não desenha as ondas (o loop segue vivo, custo ~0, para poder voltar se a aurora falhar)
+      if (auroraRef.current !== "off") { wRaf = requestAnimationFrame(drawWaves); lastTs = ts; return; }
       const dt = ts - lastTs;
       lastTs   = ts;
       t       += dt * 0.00032; // slow drift
@@ -196,10 +209,10 @@ export default function GlitterBg() {
         ].join(","),
       }} />
       {/* Aurora WebGL (substitui as ondas quando disponível) */}
-      {aurora !== "off" && (
+      {go && aurora !== "off" && (
         <AuroraBg
-          onReady={() => { auroraRef.current = true; setAurora("on"); }}
-          onFail={() => { auroraRef.current = false; setAurora("off"); }}
+          onReady={() => { auroraRef.current = "on"; setAurora("on"); }}
+          onFail={() => { auroraRef.current = "off"; setAurora("off"); }}
         />
       )}
       {/* Escurece o centro (onde fica o texto) para manter a leitura; as bordas respiram */}

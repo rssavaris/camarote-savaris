@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { prefersReduced } from "@/lib/motion";
 
 // Título que entra letra por letra no scroll, com brilho dourado que assenta.
+// gsap é carregado só quando o título existe (fora do JS inicial); as letras começam invisíveis via CSS.
 // Texto acessível via aria-label; as letras são decorativas.
 export default function SplitReveal({
   text, as: Tag = "h2", className = "", style,
@@ -13,24 +12,34 @@ export default function SplitReveal({
   const ref = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    if (prefersReduced()) return;
-    gsap.registerPlugin(ScrollTrigger);
     const el = ref.current!;
     const letters = el.querySelectorAll<HTMLElement>(".sr-l");
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        letters,
-        { yPercent: 110, rotate: 8, opacity: 0, textShadow: "0 0 24px rgba(255,255,255,0.95), 0 0 48px rgba(255,51,153,0.9)" },
-        {
-          yPercent: 0, rotate: 0, opacity: 1,
-          textShadow: style?.textShadow ?? "0 0 0 rgba(0,0,0,0)",
-          duration: 0.9, ease: "back.out(1.6)",
-          stagger: { each: 0.035, from: "start" },
-          scrollTrigger: { trigger: el, start: "top 88%", once: true },
-        },
-      );
-    }, el);
-    return () => ctx.revert();
+    const showAll = () => letters.forEach((l) => { l.style.opacity = "1"; });
+    if (prefersReduced()) { showAll(); return; }
+
+    let dead = false;
+    let ctx: { revert: () => void } | undefined;
+    Promise.all([import("gsap"), import("gsap/ScrollTrigger")])
+      .then(([g, st]) => {
+        if (dead) return;
+        const gsap = g.default;
+        gsap.registerPlugin(st.ScrollTrigger);
+        ctx = gsap.context(() => {
+          gsap.fromTo(
+            letters,
+            { yPercent: 110, rotate: 8, opacity: 0, textShadow: "0 0 24px rgba(255,255,255,0.95), 0 0 48px rgba(255,51,153,0.9)" },
+            {
+              yPercent: 0, rotate: 0, opacity: 1,
+              textShadow: style?.textShadow ?? "0 0 0 rgba(0,0,0,0)",
+              duration: 0.9, ease: "back.out(1.6)",
+              stagger: { each: 0.035, from: "start" },
+              scrollTrigger: { trigger: el, start: "top 88%", once: true },
+            },
+          );
+        }, el);
+      })
+      .catch(showAll); // se o gsap não carregar, o título aparece normal
+    return () => { dead = true; ctx?.revert(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
