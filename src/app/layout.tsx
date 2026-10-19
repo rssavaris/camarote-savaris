@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cinzel, Cormorant_Garamond, Outfit, Dancing_Script } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
@@ -18,6 +18,13 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   display: "swap",
 });
+
+// minimumScale 1: o navegador não "encolhe a página para caber" se algo passar da largura (o zoom de pinça para ampliar continua livre)
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  minimumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Camarote Savaris — 40 Tons de Glitter",
@@ -41,9 +48,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <GlitterBg />
         <LazyEffects />
         <NavBar />
-        <main className="flex-1 relative z-10">{children}</main>
-        <SponsorsStrip />
-        <Footer />
+        <div className="page-clip flex flex-1 flex-col">
+          <main className="flex-1 relative z-10">{children}</main>
+          <SponsorsStrip />
+          <Footer />
+        </div>
       </body>
     </html>
   );

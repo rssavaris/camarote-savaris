@@ -19,14 +19,28 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+/* Largura travada: a página nunca balança para os lados no celular (nem 1px).
+   html corta o eixo X; body usa clip (não cria rolagem própria); touch-action bloqueia o arrastar horizontal
+   mas mantém o zoom de pinça. */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
+  touch-action: pan-y pinch-zoom;
+  overscroll-behavior-x: none;
+}
 
 body {
   background: var(--dark-bg);
   color: #f5f5f5;
   font-family: var(--font-outfit), sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
+  touch-action: pan-y pinch-zoom;
 }
+
+/* corta qualquer coisa 3D/animada que passe da borda dentro do conteúdo */
+.page-clip { width: 100%; max-width: 100%; overflow-x: clip; }
 
 /* ── Fonts ──────────────────────────────────────────────────── */
 .font-cormorant { font-family: var(--font-cormorant), serif; }
