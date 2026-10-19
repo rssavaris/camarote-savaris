@@ -1,14 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import { hasFinePointer, prefersReduced, subscribeGyro } from "@/lib/motion";
 
-// Card com inclinação 3D + brilho holográfico.
-// Desktop: segue o mouse. Celular: segue o giroscópio (sem giroscópio, o brilho varre sozinho).
+// Card com inclinação 3D + faíscas que piscam nas bordas.
+// Desktop: inclina com o mouse. Celular: inclina com o giroscópio. As faíscas aceleram enquanto o card se move.
+const SPARKS = [
+  { t: 9,  l: 7,  s: 16, c: "#ffd700", d: 0 },
+  { t: 18, l: 90, s: 13, c: "#ffffff", d: 0.9 },
+  { t: 52, l: 95, s: 17, c: "#ff3399", d: 1.7 },
+  { t: 76, l: 8,  s: 14, c: "#00d4ff", d: 2.3 },
+  { t: 91, l: 72, s: 16, c: "#ffd700", d: 0.5 },
+];
 export default function TiltCard({
   children, max = 8, className = "", style,
 }: { children: React.ReactNode; max?: number; className?: string; style?: React.CSSProperties }) {
   const ref = useRef<HTMLDivElement>(null);
+  // cada card gira as posições das faíscas (senão todos piscariam iguais)
+  const off = [...useId()].reduce((a, ch) => a + ch.charCodeAt(0), 0) % SPARKS.length;
 
   useEffect(() => {
     const el = ref.current!;
@@ -56,7 +65,14 @@ export default function TiltCard({
   return (
     <div ref={ref} className={`tilt-card ${className}`} style={style}>
       {children}
-      <span className="tilt-sheen" aria-hidden />
+      <span className="tilt-sparks" aria-hidden>
+        {SPARKS.map((_, i) => {
+          const p = SPARKS[(i + off) % SPARKS.length];
+          return (
+            <i key={i} className="tilt-spark" style={{ top: `${p.t}%`, left: `${p.l}%`, fontSize: p.s, color: p.c, animationDelay: `${(p.d + i * 0.37) % 2.8}s` }}>✦</i>
+          );
+        })}
+      </span>
     </div>
   );
 }
