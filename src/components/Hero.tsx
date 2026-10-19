@@ -16,7 +16,7 @@ const INFO_CARDS = [
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-black text-white">
+    <section className="relative min-h-screen overflow-hidden text-white">
 
       {/* Ambient glows */}
       <div className="absolute inset-0 pointer-events-none" style={{

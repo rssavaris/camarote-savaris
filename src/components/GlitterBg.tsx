@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import AuroraBg from "@/components/AuroraBg";
 
 // ── Rainbow wave lines + 4-pointed sparkle stars ─────────────
 // Matches the aurora/glitter aesthetic from the abadá design
@@ -17,6 +18,9 @@ interface Star {
 export default function GlitterBg() {
   const waveRef  = useRef<HTMLCanvasElement>(null);
   const starRef  = useRef<HTMLCanvasElement>(null);
+  // aurora WebGL substitui as ondas 2D; se falhar, as ondas continuam
+  const auroraRef = useRef(false);
+  const [aurora, setAurora] = useState<"pending" | "on" | "off">("pending");
 
   useEffect(() => {
     const wc = waveRef.current;
@@ -84,6 +88,7 @@ export default function GlitterBg() {
     // Each wave: a sweeping bezier arc from left to right.
     // Amplitude cycles to create the flowing-aurora look.
     function drawWaves(ts: number) {
+      if (auroraRef.current) return; // aurora WebGL ativa: encerra o loop das ondas 2D
       const dt = ts - lastTs;
       lastTs   = ts;
       t       += dt * 0.00032; // slow drift
@@ -190,8 +195,15 @@ export default function GlitterBg() {
           "radial-gradient(ellipse at 50% 95%, rgba(255,200,0,0.08) 0%, transparent 35%)",
         ].join(","),
       }} />
-      {/* Wave canvas */}
-      <canvas ref={waveRef} className="absolute inset-0" />
+      {/* Aurora WebGL (substitui as ondas quando disponível) */}
+      {aurora !== "off" && (
+        <AuroraBg
+          onReady={() => { auroraRef.current = true; setAurora("on"); }}
+          onFail={() => { auroraRef.current = false; setAurora("off"); }}
+        />
+      )}
+      {/* Wave canvas (fallback) */}
+      <canvas ref={waveRef} className="absolute inset-0" style={{ display: aurora === "on" ? "none" : undefined }} />
       {/* Sparkle star canvas */}
       <canvas ref={starRef} className="absolute inset-0" />
     </div>

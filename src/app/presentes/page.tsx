@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Gift, Sparkles, Star, Heart, ArrowRight } from "lucide-react";
 import TiltCard from "@/components/TiltCard";
+import SplitReveal from "@/components/SplitReveal";
 
 const presentes = [
   {
@@ -133,12 +134,12 @@ export default function PresentesPage() {
           </span>
         </div>
 
-        <h1
+        <SplitReveal
+          as="h1"
+          text="APOSTAR NO BRILHO"
           className="font-cinzel font-black text-4xl sm:text-6xl lg:text-7xl tracking-wider text-[#FFE699] mb-5"
           style={{ textShadow: "0 0 30px rgba(255,215,0,0.18)" }}
-        >
-          APOSTAR NO BRILHO
-        </h1>
+        />
 
         <p className="font-cormorant italic text-xl sm:text-2xl text-[rgba(255,230,153,0.5)] leading-relaxed max-w-xl mx-auto mb-2">
           "Presentes que brilham junto com a memória."

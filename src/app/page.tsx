@@ -6,6 +6,7 @@ import { Calendar, Sparkles, Star, Music, Heart, Zap, Users, Crown } from "lucid
 import Hero from "@/components/Hero";
 import NeonMarquee from "@/components/NeonMarquee";
 import Reveal from "@/components/Reveal";
+import SplitReveal from "@/components/SplitReveal";
 
 const EVENT_DATE = new Date("2027-02-08T15:00:00");
 
@@ -122,9 +123,7 @@ function OQueTeEspera() {
           <div className="section-label pink">
             <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,51,153,0.6)]">Preview</span>
           </div>
-          <h2 className="font-cinzel font-black text-3xl sm:text-5xl tracking-wider text-[#FFE699] mb-3" style={{ textShadow: "0 0 30px rgba(255,215,0,0.15)" }}>
-            O QUE TE ESPERA
-          </h2>
+          <SplitReveal text="O QUE TE ESPERA" className="font-cinzel font-black text-3xl sm:text-5xl tracking-wider text-[#FFE699] mb-3" style={{ textShadow: "0 0 30px rgba(255,215,0,0.15)" }} />
           <p className="font-cormorant italic text-lg text-[rgba(255,230,153,0.5)] max-w-xs mx-auto">
             Um camarote que não é só um lugar — é uma experiência inteira.
           </p>
@@ -188,9 +187,7 @@ function PassaporteSection() {
             </div>
           </div>
           <div className="relative z-10">
-            <h2 className="font-cinzel text-2xl sm:text-4xl font-black tracking-wider text-[#FFE699] mb-1" style={{ textShadow: "0 0 20px rgba(255,215,0,0.2)" }}>
-              PASSAPORTE DA ALEGRIA
-            </h2>
+            <SplitReveal text="PASSAPORTE DA ALEGRIA" className="font-cinzel text-2xl sm:text-4xl font-black tracking-wider text-[#FFE699] mb-1" style={{ textShadow: "0 0 20px rgba(255,215,0,0.2)" }} />
             <p className="font-cormorant italic text-base sm:text-lg text-[rgba(255,51,153,0.6)] mb-6">
               Seu ingresso para o abraço
             </p>
@@ -224,9 +221,7 @@ function AbadaSuspense() {
           <div className="section-label gold">
             <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.42)]">Arte em confecção</span>
           </div>
-          <h2 className="font-cinzel font-black text-3xl sm:text-5xl tracking-wider text-[#FFE699] mb-2" style={{ textShadow: "0 0 25px rgba(255,215,0,0.12)" }}>
-            O ABADÁ DO ANO
-          </h2>
+          <SplitReveal text="O ABADÁ DO ANO" className="font-cinzel font-black text-3xl sm:text-5xl tracking-wider text-[#FFE699] mb-2" style={{ textShadow: "0 0 25px rgba(255,215,0,0.12)" }} />
           <p className="font-cormorant italic text-lg text-[rgba(255,230,153,0.42)]">
             Está quase pronto. Mas ainda não pode ver.
           </p>
