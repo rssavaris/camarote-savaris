@@ -202,6 +202,12 @@ export default function GlitterBg() {
           onFail={() => { auroraRef.current = false; setAurora("off"); }}
         />
       )}
+      {/* Escurece o centro (onde fica o texto) para manter a leitura; as bordas respiram */}
+      {aurora === "on" && (
+        <div className="absolute inset-0" style={{
+          background: "radial-gradient(ellipse 75% 85% at 50% 50%, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.38) 55%, rgba(0,0,0,0.1) 100%)",
+        }} />
+      )}
       {/* Wave canvas (fallback) */}
       <canvas ref={waveRef} className="absolute inset-0" style={{ display: aurora === "on" ? "none" : undefined }} />
       {/* Sparkle star canvas */}

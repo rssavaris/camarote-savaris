@@ -88,7 +88,7 @@ export default function AdminPage() {
         {/* Header */}
         <div className="text-center mb-10">
           <div className="section-label gold mb-3">
-            <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.4)]">
+            <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.75)]">
               Dashboard
             </span>
           </div>
@@ -98,7 +98,7 @@ export default function AdminPage() {
           >
             PAINEL ADMIN
           </h1>
-          <p className="font-outfit text-[10px] tracking-[0.35em] uppercase text-[rgba(255,230,153,0.35)]">
+          <p className="font-outfit text-[10px] tracking-[0.35em] uppercase text-[rgba(255,230,153,0.74)]">
             Camarote Savaris · Gestão
           </p>
           <div className="gold-divider w-16 mx-auto mt-4" />
@@ -137,7 +137,7 @@ export default function AdminPage() {
                     style={{ color, filter: `drop-shadow(0 0 5px ${color}90)` }}
                   />
                 </div>
-                <p className="font-outfit text-[9px] tracking-[0.25em] uppercase text-[rgba(255,230,153,0.38)] mb-1">
+                <p className="font-outfit text-[9px] tracking-[0.25em] uppercase text-[rgba(255,230,153,0.75)] mb-1">
                   {label}
                 </p>
                 <p
@@ -146,7 +146,7 @@ export default function AdminPage() {
                 >
                   {value}
                 </p>
-                <p className="font-outfit text-[9px] text-[rgba(255,230,153,0.28)]">
+                <p className="font-outfit text-[9px] text-[rgba(255,230,153,0.71)]">
                   {sub}
                 </p>
               </div>
@@ -172,7 +172,7 @@ export default function AdminPage() {
                 >
                   {tamanho}
                 </p>
-                <p className="font-outfit text-[10px] text-[rgba(255,230,153,0.38)] mb-2.5">
+                <p className="font-outfit text-[10px] text-[rgba(255,230,153,0.75)] mb-2.5">
                   {qtde} unid.
                 </p>
                 <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
@@ -185,7 +185,7 @@ export default function AdminPage() {
                     }}
                   />
                 </div>
-                <p className="font-outfit text-[9px] text-[rgba(255,230,153,0.3)] mt-1.5">
+                <p className="font-outfit text-[9px] text-[rgba(255,230,153,0.72)] mt-1.5">
                   {pct}%
                 </p>
               </div>
@@ -201,7 +201,7 @@ export default function AdminPage() {
           >
             <Users className="w-4 h-4 text-[#ffd700]" style={{ filter: "drop-shadow(0 0 4px rgba(255,215,0,0.7))" }} />
             <div>
-              <p className="font-outfit text-[9px] tracking-[0.2em] uppercase text-[rgba(255,230,153,0.35)]">
+              <p className="font-outfit text-[9px] tracking-[0.2em] uppercase text-[rgba(255,230,153,0.74)]">
                 Total
               </p>
               <p className="font-cinzel font-black text-xl text-[#FFE699] leading-none">
@@ -233,24 +233,24 @@ export default function AdminPage() {
 
         {/* Search */}
         <div className="relative mb-5">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[rgba(255,230,153,0.28)]" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[rgba(255,230,153,0.71)]" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar por nome ou e-mail..."
-            className="w-full pl-10 pr-4 py-3 bg-[rgba(0,0,0,0.4)] border border-[rgba(201,168,76,0.1)] rounded-xl text-[#FFE699] font-outfit text-sm placeholder:text-[rgba(255,230,153,0.16)] focus:outline-none focus:border-[rgba(255,51,153,0.4)] transition-colors"
+            className="w-full pl-10 pr-4 py-3 bg-[rgba(0,0,0,0.4)] border border-[rgba(201,168,76,0.1)] rounded-xl text-[#FFE699] font-outfit text-sm placeholder:text-[rgba(255,230,153,0.66)] focus:outline-none focus:border-[rgba(255,51,153,0.4)] transition-colors"
           />
         </div>
 
         {/* Table */}
         {loading ? (
           <div className="text-center py-16">
-            <span className="font-outfit text-sm text-[rgba(255,230,153,0.35)]">Carregando...</span>
+            <span className="font-outfit text-sm text-[rgba(255,230,153,0.74)]">Carregando...</span>
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-16">
-            <span className="font-outfit text-sm text-[rgba(255,230,153,0.3)]">
+            <span className="font-outfit text-sm text-[rgba(255,230,153,0.72)]">
               {search ? "Nenhum resultado encontrado." : "Nenhuma confirmação ainda."}
             </span>
           </div>
@@ -271,7 +271,7 @@ export default function AdminPage() {
                     {["Nome", "CPF", "WhatsApp", "E-mail", "Tamanho", "Selfie", "Data"].map((h) => (
                       <th
                         key={h}
-                        className="px-4 py-3.5 text-left font-outfit text-[9px] tracking-[0.25em] uppercase text-[rgba(255,230,153,0.35)]"
+                        className="px-4 py-3.5 text-left font-outfit text-[9px] tracking-[0.25em] uppercase text-[rgba(255,230,153,0.74)]"
                       >
                         {h}
                       </th>
@@ -298,13 +298,13 @@ export default function AdminPage() {
                       <td className="px-4 py-3 font-outfit font-medium text-[#FFE699] whitespace-nowrap">
                         {c.nome}
                       </td>
-                      <td className="px-4 py-3 font-outfit text-[rgba(255,230,153,0.42)] text-xs whitespace-nowrap">
+                      <td className="px-4 py-3 font-outfit text-[rgba(255,230,153,0.77)] text-xs whitespace-nowrap">
                         {c.cpf}
                       </td>
-                      <td className="px-4 py-3 font-outfit text-[rgba(255,230,153,0.42)] text-xs whitespace-nowrap">
+                      <td className="px-4 py-3 font-outfit text-[rgba(255,230,153,0.77)] text-xs whitespace-nowrap">
                         {c.whatsapp}
                       </td>
-                      <td className="px-4 py-3 font-outfit text-[rgba(255,230,153,0.42)] text-xs">
+                      <td className="px-4 py-3 font-outfit text-[rgba(255,230,153,0.77)] text-xs">
                         {c.email}
                       </td>
                       <td className="px-4 py-3">
@@ -328,13 +328,13 @@ export default function AdminPage() {
                             Enviada
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 text-[10px] font-outfit text-[rgba(255,230,153,0.28)]">
+                          <span className="inline-flex items-center gap-1.5 text-[10px] font-outfit text-[rgba(255,230,153,0.71)]">
                             <Image className="w-3 h-3" />
                             Pendente
                           </span>
                         )}
                       </td>
-                      <td className="px-4 py-3 font-outfit text-[rgba(255,230,153,0.28)] text-xs whitespace-nowrap">
+                      <td className="px-4 py-3 font-outfit text-[rgba(255,230,153,0.71)] text-xs whitespace-nowrap">
                         {new Date(c.timestamp).toLocaleDateString("pt-BR")}
                       </td>
                     </tr>
@@ -349,7 +349,7 @@ export default function AdminPage() {
         <div className="text-center mt-10">
           <Link
             href="/"
-            className="font-outfit text-[10px] tracking-widest uppercase text-[rgba(255,230,153,0.25)] hover:text-[rgba(255,230,153,0.65)] transition-colors duration-300"
+            className="font-outfit text-[10px] tracking-widest uppercase text-[rgba(255,230,153,0.70)] hover:text-[rgba(255,230,153,0.86)] transition-colors duration-300"
           >
             ← Voltar
           </Link>

@@ -53,10 +53,10 @@ export default function Hero() {
             }}
           />
           <Image
-            src="/img/IMG_8381.png"
+            src="/img/logo-camarote-v2.png"
             alt="Camarote Savaris"
-            width={960}
-            height={480}
+            width={777}
+            height={627}
             priority
             style={{ width: "100%", height: "auto", position: "relative", zIndex: 1 }}
           />
@@ -77,10 +77,10 @@ export default function Hero() {
           />
           <GyroFloat depth={10} style={{ position: "relative", zIndex: 1 }}>
             <Image
-              src="/img/IMG_8380.png"
+              src="/img/logo-40tons.png"
               alt="40 Tons de Glitter"
-              width={1120}
-              height={700}
+              width={803}
+              height={737}
               priority
               style={{ width: "100%", height: "auto", position: "relative", zIndex: 1 }}
             />
@@ -102,10 +102,10 @@ export default function Hero() {
           />
           <GyroFloat depth={22} style={{ position: "relative", zIndex: 1 }}>
             <Image
-              src="/img/IMG_8383.png"
+              src="/img/mascara-rosa.png"
               alt="Máscara Camarote Savaris"
-              width={600}
-              height={500}
+              width={632}
+              height={627}
               className="mask-float"
               style={{
                 width: "clamp(160px, 36vw, 280px)",
@@ -142,10 +142,10 @@ export default function Hero() {
           />
           <GyroFloat depth={-12} style={{ position: "relative", zIndex: 1 }}>
             <Image
-              src="/img/IMG_8384.png"
+              src="/img/selo-data.png"
               alt="08.02.2027 Segunda-Feira"
-              width={400}
-              height={400}
+              width={589}
+              height={536}
               style={{
                 width: "clamp(120px, 28vw, 200px)",
                 height: "auto",
@@ -202,7 +202,7 @@ export default function Hero() {
               >
                 {value}
               </p>
-              <p className="font-outfit text-[9px] uppercase tracking-[0.28em] text-[rgba(255,230,153,0.4)] mt-1">
+              <p className="font-outfit text-[9px] uppercase tracking-[0.28em] text-[rgba(255,230,153,0.76)] mt-1">
                 {label}
               </p>
             </div>

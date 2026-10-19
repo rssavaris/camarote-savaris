@@ -45,7 +45,7 @@ function CountdownBlock({ value, label }: { value: number; label: string }) {
       >
         {pad(value)}
       </div>
-      <span className="font-outfit text-[9px] sm:text-[10px] tracking-[0.35em] uppercase text-[rgba(255,230,153,0.38)]">
+      <span className="font-outfit text-[9px] sm:text-[10px] tracking-[0.35em] uppercase text-[rgba(255,230,153,0.75)]">
         {label}
       </span>
     </div>
@@ -70,7 +70,7 @@ function Countdown() {
       <div className="max-w-3xl mx-auto px-5">
         <div className="text-center mb-8">
           <div className="section-label gold">
-            <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.45)]">
+            <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.78)]">
               Faltam para a folia
             </span>
           </div>
@@ -96,7 +96,7 @@ function Countdown() {
         <div className="text-center mt-5">
           <div className="inline-flex items-center gap-2 glass-card rounded-full px-5 py-2" style={{ border: "1px solid rgba(201,168,76,0.14)" }}>
             <Calendar className="w-3 h-3 text-[#ff3399]" />
-            <span className="font-outfit text-[10px] tracking-widest uppercase text-[rgba(255,230,153,0.55)]">
+            <span className="font-outfit text-[10px] tracking-widest uppercase text-[rgba(255,230,153,0.82)]">
               08 de Fevereiro de 2027 · 15h
             </span>
           </div>
@@ -124,7 +124,7 @@ function OQueTeEspera() {
             <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,51,153,0.6)]">Preview</span>
           </div>
           <SplitReveal text="O QUE TE ESPERA" className="font-cinzel font-black text-3xl sm:text-5xl tracking-wider text-[#FFE699] mb-3" style={{ textShadow: "0 0 30px rgba(255,215,0,0.15)" }} />
-          <p className="font-cormorant italic text-lg text-[rgba(255,230,153,0.5)] max-w-xs mx-auto">
+          <p className="font-cormorant italic text-lg text-[rgba(255,230,153,0.80)] max-w-xs mx-auto">
             Um camarote que não é só um lugar — é uma experiência inteira.
           </p>
           <div className="gold-divider w-12 mx-auto mt-5" />
@@ -163,7 +163,7 @@ function OQueTeEspera() {
               <h3 className="font-cinzel text-xs sm:text-sm font-bold tracking-wider text-[#FFE699] mb-1.5 group-hover:text-white transition-colors duration-300">
                 {label}
               </h3>
-              <p className="font-outfit text-[11px] sm:text-xs text-[rgba(255,230,153,0.38)] leading-relaxed">
+              <p className="font-outfit text-[11px] sm:text-xs text-[rgba(255,230,153,0.75)] leading-relaxed">
                 {desc}
               </p>
             </div>
@@ -219,10 +219,10 @@ function AbadaSuspense() {
       <div className="max-w-4xl mx-auto px-5">
         <div className="text-center mb-10">
           <div className="section-label gold">
-            <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.42)]">Arte em confecção</span>
+            <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.76)]">Arte em confecção</span>
           </div>
           <SplitReveal text="O ABADÁ DO ANO" className="font-cinzel font-black text-3xl sm:text-5xl tracking-wider text-[#FFE699] mb-2" style={{ textShadow: "0 0 25px rgba(255,215,0,0.12)" }} />
-          <p className="font-cormorant italic text-lg text-[rgba(255,230,153,0.42)]">
+          <p className="font-cormorant italic text-lg text-[rgba(255,230,153,0.77)]">
             Está quase pronto. Mas ainda não pode ver.
           </p>
           <div className="gold-divider w-12 mx-auto mt-4" />
@@ -244,11 +244,11 @@ function AbadaSuspense() {
                 <span key={i} className="absolute rounded-full animate-pulse-gold" style={{ width: dot.size, height: dot.size, background: dot.color, boxShadow: `0 0 6px ${dot.color}`, ...dot, animationDelay: `${i * 0.4}s` }} />
               ))}
             </div>
-            <p className="font-cinzel text-sm sm:text-base font-bold tracking-[0.18em] uppercase text-[rgba(255,230,153,0.65)] mb-2">Arte em confecção</p>
-            <p className="font-outfit text-xs sm:text-sm text-[rgba(255,230,153,0.38)] leading-relaxed max-w-sm mx-auto mb-4">
+            <p className="font-cinzel text-sm sm:text-base font-bold tracking-[0.18em] uppercase text-[rgba(255,230,153,0.86)] mb-2">Arte em confecção</p>
+            <p className="font-outfit text-xs sm:text-sm text-[rgba(255,230,153,0.75)] leading-relaxed max-w-sm mx-auto mb-4">
               A arte oficial do abadá será revelada somente no dia do evento.
             </p>
-            <p className="font-dancing text-xl sm:text-2xl text-[rgba(255,215,0,0.45)]">
+            <p className="font-dancing text-xl sm:text-2xl text-[rgba(255,215,0,0.78)]">
               A expectativa faz parte da experiência.
             </p>
           </div>
@@ -257,7 +257,7 @@ function AbadaSuspense() {
           </div>
         </div>
         <div className="text-center mt-8">
-          <p className="font-outfit text-[9px] tracking-[0.4em] uppercase text-[rgba(255,230,153,0.35)] mb-4">Escolha seu tamanho agora</p>
+          <p className="font-outfit text-[9px] tracking-[0.4em] uppercase text-[rgba(255,230,153,0.74)] mb-4">Escolha seu tamanho agora</p>
           <Link href="/inscricao" className="cta-rainbow inline-flex items-center gap-2 px-8 py-4 rounded-full">
             <Sparkles className="w-4 h-4" />
             Garantir abadá

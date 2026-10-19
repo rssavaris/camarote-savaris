@@ -52,7 +52,7 @@ function InfoPanel() {
                   className="w-3.5 h-3.5 mt-0.5 flex-shrink-0"
                   style={{ color, filter: `drop-shadow(0 0 4px ${color}90)` }}
                 />
-                <p className="font-outfit text-xs text-[rgba(255,230,153,0.55)] leading-snug">
+                <p className="font-outfit text-xs text-[rgba(255,230,153,0.82)] leading-snug">
                   {text}
                 </p>
               </div>
@@ -77,11 +77,11 @@ function InfoPanel() {
           >
             08.02.2027
           </p>
-          <p className="font-outfit text-[9px] tracking-[0.35em] uppercase text-[rgba(255,230,153,0.4)]">
+          <p className="font-outfit text-[9px] tracking-[0.35em] uppercase text-[rgba(255,230,153,0.76)]">
             Segunda-feira · 15h
           </p>
           <div className="gold-divider w-10 mx-auto my-2" />
-          <p className="font-cinzel font-semibold text-xs tracking-widest text-[rgba(255,230,153,0.5)]">
+          <p className="font-cinzel font-semibold text-xs tracking-widest text-[rgba(255,230,153,0.80)]">
             Local em breve
           </p>
         </div>
@@ -96,7 +96,7 @@ function InfoPanel() {
         }}
       >
         <Shield className="w-3.5 h-3.5 text-[#00d4ff] flex-shrink-0 mt-0.5" />
-        <p className="font-outfit text-[10px] text-[rgba(255,230,153,0.4)] leading-relaxed">
+        <p className="font-outfit text-[10px] text-[rgba(255,230,153,0.76)] leading-relaxed">
           Seus dados são usados exclusivamente para organização do evento e confecção do abadá.
         </p>
       </div>
@@ -140,12 +140,12 @@ export default function InscricaoPage() {
 
   const inpClass = [
     "w-full px-4 py-3.5 bg-[rgba(0,0,0,0.45)] border border-[rgba(201,168,76,0.12)]",
-    "rounded-xl text-[#FFE699] font-outfit text-sm placeholder:text-[rgba(255,230,153,0.16)]",
+    "rounded-xl text-[#FFE699] font-outfit text-sm placeholder:text-[rgba(255,230,153,0.66)]",
     "focus:outline-none transition-all duration-300",
     "focus:border-[rgba(255,51,153,0.5)] focus:shadow-[0_0_0_3px_rgba(255,51,153,0.07),0_0_16px_rgba(255,51,153,0.06)]",
   ].join(" ");
 
-  const labelClass = "font-outfit text-[10px] tracking-[0.22em] uppercase text-[rgba(255,230,153,0.45)] block mb-2";
+  const labelClass = "font-outfit text-[10px] tracking-[0.22em] uppercase text-[rgba(255,230,153,0.78)] block mb-2";
 
   return (
     <div className="relative z-10 pt-28 sm:pt-36 pb-24 min-h-screen">
@@ -164,7 +164,7 @@ export default function InscricaoPage() {
           >
             PASSAPORTE DA ALEGRIA
           </h1>
-          <p className="font-cormorant italic text-lg sm:text-xl text-[rgba(255,230,153,0.48)] max-w-sm mx-auto leading-relaxed">
+          <p className="font-cormorant italic text-lg sm:text-xl text-[rgba(255,230,153,0.79)] max-w-sm mx-auto leading-relaxed">
             Preencha seus dados para garantir presença, abadá e acesso ao evento.
           </p>
           <div className="gold-divider w-16 mx-auto mt-5" />
@@ -192,7 +192,7 @@ export default function InscricaoPage() {
               <h2 className="font-cinzel font-black text-2xl sm:text-3xl text-[#FFE699] mb-2">
                 Presença confirmada!
               </h2>
-              <p className="font-outfit text-sm text-[rgba(255,230,153,0.55)] leading-relaxed">
+              <p className="font-outfit text-sm text-[rgba(255,230,153,0.82)] leading-relaxed">
                 {form.nome}, seu Passaporte da Alegria está em produção.{" "}
                 <span className="text-[#ffd700] font-medium">Nos vemos em 08/02/2027</span>! ✨
               </p>
@@ -217,7 +217,7 @@ export default function InscricaoPage() {
                   { label: "Status",   value: "Confirmado ✓", accent: true },
                 ].map(({ label, value, accent }) => (
                   <div key={label} className="flex justify-between items-center">
-                    <span className="font-outfit text-xs text-[rgba(255,230,153,0.42)]">{label}</span>
+                    <span className="font-outfit text-xs text-[rgba(255,230,153,0.77)]">{label}</span>
                     <span
                       className="font-outfit text-xs font-medium"
                       style={{ color: accent ? "#39ff14" : "#FFE699" }}
@@ -348,10 +348,10 @@ export default function InscricaoPage() {
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-cinzel text-[10px] tracking-[0.18em] uppercase text-[rgba(255,230,153,0.5)] mb-0.5">
+                    <p className="font-cinzel text-[10px] tracking-[0.18em] uppercase text-[rgba(255,230,153,0.80)] mb-0.5">
                       Abadá Camarote Savaris
                     </p>
-                    <p className="font-outfit text-[10px] text-[rgba(255,230,153,0.25)] leading-snug">
+                    <p className="font-outfit text-[10px] text-[rgba(255,230,153,0.70)] leading-snug">
                       A arte oficial será revelada somente no dia do evento.
                     </p>
                   </div>
@@ -383,7 +383,7 @@ export default function InscricaoPage() {
                     </button>
                   ))}
                 </div>
-                <p className="font-outfit text-[9px] tracking-[0.2em] text-[rgba(255,230,153,0.25)] mt-2 text-center">
+                <p className="font-outfit text-[9px] tracking-[0.2em] text-[rgba(255,230,153,0.70)] mt-2 text-center">
                   A expectativa faz parte da experiência.
                 </p>
               </div>
@@ -392,7 +392,7 @@ export default function InscricaoPage() {
               <div>
                 <label className={labelClass}>
                   Selfie para abadá{" "}
-                  <span className="normal-case text-[rgba(255,230,153,0.28)] tracking-normal">
+                  <span className="normal-case text-[rgba(255,230,153,0.71)] tracking-normal">
                     (opcional)
                   </span>
                 </label>
@@ -432,11 +432,11 @@ export default function InscricaoPage() {
                     </div>
                   ) : (
                     <>
-                      <Upload className="w-5 h-5 mx-auto mb-2 text-[rgba(255,215,0,0.35)]" />
-                      <p className="font-outfit text-xs text-[rgba(255,230,153,0.38)]">
+                      <Upload className="w-5 h-5 mx-auto mb-2 text-[rgba(255,215,0,0.73)]" />
+                      <p className="font-outfit text-xs text-[rgba(255,230,153,0.75)]">
                         Arraste ou clique para enviar
                       </p>
-                      <p className="font-outfit text-[10px] text-[rgba(255,230,153,0.18)] mt-1">
+                      <p className="font-outfit text-[10px] text-[rgba(255,230,153,0.67)] mt-1">
                         PNG, JPG · máx. 5MB
                       </p>
                     </>
@@ -500,7 +500,7 @@ export default function InscricaoPage() {
               </button>
 
               {/* Mandatory note */}
-              <p className="font-outfit text-[9px] text-[rgba(255,230,153,0.25)] text-center tracking-wide leading-relaxed">
+              <p className="font-outfit text-[9px] text-[rgba(255,230,153,0.70)] text-center tracking-wide leading-relaxed">
                 Campos obrigatórios para confirmação de presença, confecção do abadá e emissão do Passaporte da Alegria.
               </p>
             </form>
@@ -511,7 +511,7 @@ export default function InscricaoPage() {
         <div className="text-center mt-12">
           <Link
             href="/"
-            className="font-outfit text-[10px] tracking-widest uppercase text-[rgba(255,230,153,0.28)] hover:text-[rgba(255,230,153,0.65)] transition-colors duration-300"
+            className="font-outfit text-[10px] tracking-widest uppercase text-[rgba(255,230,153,0.71)] hover:text-[rgba(255,230,153,0.86)] transition-colors duration-300"
           >
             ← Voltar ao início
           </Link>

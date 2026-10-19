@@ -45,7 +45,7 @@ export default function Footer() {
         <div className="gold-divider w-16 mx-auto mb-6" />
 
         {/* Event info */}
-        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-[rgba(255,230,153,0.35)] mb-6 font-outfit">
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[10px] tracking-[0.22em] uppercase text-[rgba(255,230,153,0.74)] mb-6 font-outfit">
           <span>08 Fev 2027</span>
           <span className="w-0.5 h-0.5 rounded-full" style={{ background: "rgba(201,168,76,0.3)" }} />
           <span>15h</span>
@@ -63,7 +63,7 @@ export default function Footer() {
             <Link
               key={l.href}
               href={l.href}
-              className="font-outfit text-[9px] tracking-[0.22em] uppercase text-[rgba(255,230,153,0.28)] hover:text-[rgba(255,230,153,0.7)] transition-colors duration-300"
+              className="font-outfit text-[9px] tracking-[0.22em] uppercase text-[rgba(255,230,153,0.71)] hover:text-[rgba(255,230,153,0.7)] transition-colors duration-300"
             >
               {l.label}
             </Link>

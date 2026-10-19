@@ -129,7 +129,7 @@ export default function PresentesPage() {
       <div className="max-w-5xl mx-auto px-5 text-center mb-14">
 
         <div className="section-label gold mb-4">
-          <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.45)]">
+          <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.78)]">
             Lista de presentes
           </span>
         </div>
@@ -141,10 +141,10 @@ export default function PresentesPage() {
           style={{ textShadow: "0 0 30px rgba(255,215,0,0.18)" }}
         />
 
-        <p className="font-cormorant italic text-xl sm:text-2xl text-[rgba(255,230,153,0.5)] leading-relaxed max-w-xl mx-auto mb-2">
+        <p className="font-cormorant italic text-xl sm:text-2xl text-[rgba(255,230,153,0.80)] leading-relaxed max-w-xl mx-auto mb-2">
           "Presentes que brilham junto com a memória."
         </p>
-        <p className="font-outfit text-sm text-[rgba(255,230,153,0.38)] max-w-sm mx-auto">
+        <p className="font-outfit text-sm text-[rgba(255,230,153,0.75)] max-w-sm mx-auto">
           Sua presença já é especial. Mas se quiser deixar esse momento ainda mais brilhante...
         </p>
 
@@ -169,7 +169,7 @@ export default function PresentesPage() {
                 "px-4 py-2 text-[10px] tracking-[0.18em] uppercase rounded-full border transition-all duration-300 font-outfit",
                 filtro === key
                   ? "bg-[rgba(255,215,0,0.07)] border-[rgba(255,215,0,0.4)] text-[#FFE699] shadow-[0_0_12px_rgba(255,215,0,0.06)]"
-                  : "bg-transparent border-[rgba(201,168,76,0.1)] text-[rgba(255,230,153,0.38)] hover:border-[rgba(201,168,76,0.28)] hover:text-[rgba(255,230,153,0.65)]",
+                  : "bg-transparent border-[rgba(201,168,76,0.1)] text-[rgba(255,230,153,0.75)] hover:border-[rgba(201,168,76,0.28)] hover:text-[rgba(255,230,153,0.86)]",
               ].join(" ")}
             >
               {label}
@@ -237,7 +237,7 @@ export default function PresentesPage() {
                 <h3 className="font-cinzel text-sm font-bold tracking-wide text-[#FFE699] mb-2 group-hover:text-white transition-colors duration-300">
                   {p.nome}
                 </h3>
-                <p className="font-outfit text-[11px] text-[rgba(255,230,153,0.38)] leading-relaxed mb-4">
+                <p className="font-outfit text-[11px] text-[rgba(255,230,153,0.75)] leading-relaxed mb-4">
                   {p.descricao}
                 </p>
 
@@ -296,10 +296,10 @@ export default function PresentesPage() {
             <h3 className="font-cinzel text-xl sm:text-2xl font-black tracking-wider text-[#FFE699] mb-2">
               O MELHOR PRESENTE
             </h3>
-            <p className="font-cormorant italic text-lg sm:text-xl text-[rgba(255,230,153,0.45)] mb-2">
+            <p className="font-cormorant italic text-lg sm:text-xl text-[rgba(255,230,153,0.78)] mb-2">
               "É a sua presença."
             </p>
-            <p className="font-outfit text-sm text-[rgba(255,230,153,0.45)] leading-relaxed mb-7 max-w-md mx-auto">
+            <p className="font-outfit text-sm text-[rgba(255,230,153,0.78)] leading-relaxed mb-7 max-w-md mx-auto">
               Mas se quiser fazer o momento durar mais, um PIX ou experiência deixa tudo ainda mais inesquecível.
             </p>
             <Link

@@ -142,5 +142,5 @@ export default function AuroraBg({ onFail, onReady }: { onFail: () => void; onRe
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <canvas ref={ref} className="absolute inset-0 w-full h-full" style={{ opacity: 0.65 }} />;
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full" style={{ opacity: 0.32 }} />;
 }

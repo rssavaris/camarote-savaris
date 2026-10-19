@@ -62,7 +62,7 @@ export default function NavBar() {
                   "relative px-4 py-2 text-[10px] tracking-[0.2em] uppercase font-outfit transition-all duration-300 rounded-full",
                   pathname === l.href
                     ? "text-[#FFE699] font-semibold"
-                    : "text-[rgba(255,230,153,0.5)] hover:text-[rgba(255,230,153,0.9)]",
+                    : "text-[rgba(255,230,153,0.80)] hover:text-[rgba(255,230,153,0.9)]",
                   l.admin
                     ? "border border-[rgba(201,168,76,0.18)] hover:border-[rgba(201,168,76,0.45)] ml-2"
                     : "",
@@ -131,7 +131,7 @@ export default function NavBar() {
                 "flex items-center justify-between px-4 py-3 text-[10px] tracking-[0.2em] uppercase rounded-xl transition-all duration-200 font-outfit",
                 pathname === l.href
                   ? "text-[#FFE699] bg-[rgba(255,215,0,0.07)]"
-                  : "text-[rgba(255,230,153,0.5)] hover:text-[#FFE699] hover:bg-[rgba(255,215,0,0.03)]",
+                  : "text-[rgba(255,230,153,0.80)] hover:text-[#FFE699] hover:bg-[rgba(255,215,0,0.03)]",
               ].join(" ")}
             >
               <span>{l.label}</span>
