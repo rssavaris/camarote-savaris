@@ -14,9 +14,11 @@ export default function TiltCard({
     const el = ref.current!;
     if (prefersReduced()) return;
     let visible = false;
+    // no celular (giroscópio) a inclinação é metade: cards altos giravam demais
+    const amp = hasFinePointer() ? max : max * 0.5;
     const set = (nx: number, ny: number) => {
-      el.style.setProperty("--ry", `${nx * max}deg`);
-      el.style.setProperty("--rx", `${-ny * max}deg`);
+      el.style.setProperty("--ry", `${nx * amp}deg`);
+      el.style.setProperty("--rx", `${-ny * amp}deg`);
       el.style.setProperty("--mx", `${(nx + 1) * 50}%`);
       el.style.setProperty("--my", `${(ny + 1) * 50}%`);
     };

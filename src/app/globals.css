@@ -521,8 +521,8 @@ body {
 .abada-tilt .tilt-sheen { -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; mix-blend-mode: screen; }
 .abada-tilt-frente .tilt-sheen { -webkit-mask-image: url(/img/abada-frente.png); mask-image: url(/img/abada-frente.png); }
 .abada-tilt-costas .tilt-sheen { -webkit-mask-image: url(/img/abada-costas.png); mask-image: url(/img/abada-costas.png); }
-.abada-tilt.tilting .tilt-sheen { opacity: 0.4; }
-.abada-tilt.tilt-touch:not(.tilting) .tilt-sheen { opacity: 0.22; }
+.abada-tilt.tilting .tilt-sheen { opacity: 1; }
+.abada-tilt.tilt-touch:not(.tilting) .tilt-sheen { opacity: 0.8; }
 .abada-aura { background: conic-gradient(from 0deg, rgba(255,51,153,.55), rgba(255,215,0,.5), rgba(0,212,255,.45), rgba(123,97,255,.5), rgba(255,51,153,.55));
   filter: blur(70px); opacity: .32; border-radius: 50%; animation: spin-slow 22s linear infinite; }
 .abada-spark { background: currentColor; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
@@ -557,16 +557,17 @@ body {
   transform: perspective(800px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform 0.25s ease-out; --mx: 50%; --my: 50%; }
 .tilt-card.tilting { transition: transform 0.08s linear; }
+/* brilho: um reflexo fino e um ponto de luz quente que seguem o dedo/giroscópio (sem faixas coloridas esticadas) */
+@property --mx { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
 .tilt-sheen { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0;
-  mix-blend-mode: color-dodge; transition: opacity 0.3s;
+  mix-blend-mode: screen; transition: opacity 0.4s;
   background:
-    radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.55), transparent 45%),
-    linear-gradient(115deg, transparent 20%, rgba(0,212,255,0.5) 35%, rgba(255,51,153,0.5) 50%, rgba(255,215,0,0.5) 65%, transparent 80%);
-  background-size: 100% 100%, 250% 250%; background-position: 0 0, var(--mx) var(--my); }
-.tilt-card.tilting .tilt-sheen { opacity: 0.55; }
-/* celular sem giroscópio: o brilho varre sozinho */
-.tilt-card.tilt-touch:not(.tilting) .tilt-sheen { opacity: 0.28; animation: sheenSweep 5s ease-in-out infinite; }
-@keyframes sheenSweep { 0%, 100% { background-position: 0 0, 0% 50%; } 50% { background-position: 0 0, 100% 50%; } }
+    radial-gradient(150px circle at var(--mx) var(--my), rgba(255,232,160,0.16), transparent 70%),
+    linear-gradient(112deg, transparent calc(var(--mx) - 9%), rgba(255,255,255,0.13) var(--mx), transparent calc(var(--mx) + 9%)); }
+.tilt-card.tilting .tilt-sheen { opacity: 1; }
+/* celular sem giroscópio: o reflexo passa devagar de tempos em tempos */
+.tilt-card.tilt-touch:not(.tilting) .tilt-sheen { opacity: 0.9; animation: sheenSweep 8s ease-in-out infinite; }
+@keyframes sheenSweep { 0%, 15% { --mx: -15%; } 60%, 100% { --mx: 115%; } }
 
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
