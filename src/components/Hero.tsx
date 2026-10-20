@@ -57,10 +57,10 @@ export default function Hero() {
             }}
           />
           <Image
-            src="/img/logo-camarote-v4.png"
+            src="/img/logo-camarote-v5.png"
             alt="Camarote Savaris"
-            width={779}
-            height={630}
+            width={1000}
+            height={805}
               sizes="(max-width: 480px) 90vw, 420px"
             priority
             style={{ width: "100%", height: "auto", position: "relative", zIndex: 1 }}
@@ -82,10 +82,10 @@ export default function Hero() {
           />
           <GyroFloat depth={10} style={{ position: "relative", zIndex: 1 }}>
             <Image
-              src="/img/logo-40tons-v4.png"
+              src="/img/logo-40tons-v5.png"
               alt="40 Tons de Glitter"
-              width={803}
-              height={739}
+              width={1000}
+              height={913}
               sizes="(max-width: 540px) 90vw, 480px"
               priority
               style={{ width: "100%", height: "auto", position: "relative", zIndex: 1 }}
