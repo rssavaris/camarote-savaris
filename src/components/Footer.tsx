@@ -50,7 +50,7 @@ export default function Footer() {
           <span className="w-0.5 h-0.5 rounded-full" style={{ background: "rgba(201,168,76,0.3)" }} />
           <span>15h</span>
           <span className="w-0.5 h-0.5 rounded-full" style={{ background: "rgba(201,168,76,0.3)" }} />
-          <span>Local em breve</span>
+          <span>Casa Holanda do Vale · Embratel</span>
         </div>
 
         {/* Links */}

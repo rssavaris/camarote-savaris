@@ -12,7 +12,7 @@ const INFO_CARDS = [
   { value: "08",       label: "Fevereiro" },
   { value: "2027",     label: "Ano" },
   { value: "15h",      label: "Horário" },
-  { value: "Em breve", label: "Local" },
+  { value: "Holanda do Vale", label: "Local · Embratel" },
 ];
 
 export default function Hero() {
@@ -195,7 +195,7 @@ export default function Hero() {
               className="glass-card gold-border-glow rounded-2xl p-5 text-center transition-all duration-300"
             >
               <p
-                className="font-cinzel font-black text-xl sm:text-2xl lg:text-3xl leading-none mb-1"
+                className={`font-cinzel font-black leading-none mb-1 ${value.length > 8 ? "text-sm sm:text-base lg:text-lg leading-tight" : "text-xl sm:text-2xl lg:text-3xl"}`}
                 style={{
                   background: "linear-gradient(180deg, #FFE699 0%, #C9A84C 100%)",
                   WebkitBackgroundClip: "text",

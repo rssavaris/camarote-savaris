@@ -29,7 +29,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Camarote Savaris — 40 Tons de Glitter",
   description:
-    "40 Tons de Glitter apresenta: Camarote Savaris. 08 de Fevereiro de 2027 — Club Fundo de Quintal, Porto Velho.",
+    "40 Tons de Glitter apresenta: Camarote Savaris. 08 de Fevereiro de 2027 — Casa Holanda do Vale, Rua Colômbia, 4219 A, Embratel, Porto Velho.",
   icons: {
     icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>",
   },

@@ -8,6 +8,7 @@ import NeonMarquee from "@/components/NeonMarquee";
 import Reveal from "@/components/Reveal";
 import SplitReveal from "@/components/SplitReveal";
 import SponsorsSection from "@/components/SponsorsSection";
+import Lineup from "@/components/Lineup";
 import AbadaShowcase from "@/components/AbadaShowcase";
 
 const EVENT_DATE = new Date("2027-02-08T15:00:00");
@@ -242,6 +243,7 @@ export default function HomePage() {
       <Hero />
       <NeonMarquee />
       <Reveal><Countdown /></Reveal>
+      <Lineup />
       <Reveal><OQueTeEspera /></Reveal>
       <NeonMarquee reverse />
       <Reveal><PassaporteSection /></Reveal>

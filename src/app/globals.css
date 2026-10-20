@@ -541,8 +541,9 @@ body {
 @media (prefers-reduced-motion: reduce) { .abada-float, .abada-aura, .abada-spark { animation: none; } .abada-spark { opacity: .8; } }
 
 /* ── Patrocinadores no hero (escala das logos: celular menor, desktop maior) ── */
-.hero-sponsors { --hs: 0.48; }
-@media (min-width: 640px) { .hero-sponsors { --hs: 0.62; } }
+.hero-sponsors { --hs: 0.82; }
+@media (min-width: 640px) { .hero-sponsors { --hs: 1.05; } }
+.sponsor-track.hero-track { animation-duration: 34s; }
 
 /* ── Patrocinadores: faixa infinita ────────────────────── */
 .sponsor-mask { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);

@@ -58,7 +58,7 @@ function InfoPanel() {
           <div className="space-y-3">
             {[
               { icon: CheckCircle, color: "#39ff14", text: "Confirmação de presença oficial" },
-              { icon: Shirt,       color: "#ffd700", text: "Confecção do seu abadá personalizado" },
+              { icon: Shirt,       color: "#ffd700", text: "Confecção do seu abadá e credencial" },
               { icon: Star,        color: "#ff3399", text: "Emissão do Passaporte da Alegria" },
             ].map(({ icon: Icon, color, text }) => (
               <div key={text} className="flex items-start gap-3">
@@ -95,8 +95,11 @@ function InfoPanel() {
             Segunda-feira · 15h
           </p>
           <div className="gold-divider w-10 mx-auto my-2" />
-          <p className="font-cinzel font-semibold text-xs tracking-widest text-[rgba(255,230,153,0.80)]">
-            Local em breve
+          <p className="font-cinzel font-semibold text-xs tracking-widest text-[rgba(255,230,153,0.86)]">
+            Casa Holanda do Vale
+          </p>
+          <p className="font-outfit text-[10px] leading-snug text-[rgba(255,230,153,0.7)]">
+            Rua Colômbia, 4219 A · Embratel
           </p>
         </div>
       </div>
@@ -314,7 +317,7 @@ export default function InscricaoPage() {
                   type="text"
                   value={form.nome}
                   onChange={set("nome")}
-                  placeholder="Como quer que apareça no abadá"
+                  placeholder="Seu nome completo (vai na credencial)"
                   required
                   className={inpClass}
                 />
@@ -600,7 +603,7 @@ export default function InscricaoPage() {
               {/* Selfie upload */}
               <div>
                 <label className={labelClass}>
-                  Selfie para abadá{" "}
+                  Selfie para a credencial{" "}
                   <span className="normal-case text-[rgba(255,230,153,0.71)] tracking-normal">
                     (opcional)
                   </span>
