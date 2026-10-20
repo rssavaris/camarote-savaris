@@ -38,18 +38,18 @@ export default function NavBar() {
           {/* Logo */}
           <Link href="/" className="flex items-center group select-none">
             <Image
-              src="/img/IMG_8379.png"
+              src="/img/logo-nav.png"
               priority
               alt="Camarote Savaris"
-              width={320}
-              height={120}
+              width={340}
+              height={248}
+              sizes="90px"
               style={{
-                height: "36px",
                 width: "auto",
                 filter: "drop-shadow(0 0 6px rgba(255,215,0,0.3))",
                 transition: "filter 0.3s",
               }}
-              className="group-hover:drop-shadow-[0_0_10px_rgba(255,215,0,0.6)]"
+              className="h-[52px] sm:h-[58px] group-hover:drop-shadow-[0_0_10px_rgba(255,215,0,0.6)]"
             />
           </Link>
 
