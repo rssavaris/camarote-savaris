@@ -20,7 +20,7 @@ export default function HeroSponsors() {
           {[0, 1].map((g) => (
             <div key={g} className="sponsor-group" aria-hidden={g === 1}>
               {row.map((s, i) => (
-                <div key={i} className="sponsor-item" style={{ height: "calc(78px * var(--hs))" }}>
+                <div key={i} className="sponsor-item" style={{ height: "calc(92px * var(--hs))" }}>
                   <Image
                     src={s.src}
                     alt={g === 0 ? s.name : ""}

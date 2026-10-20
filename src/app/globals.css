@@ -541,8 +541,8 @@ body {
 @media (prefers-reduced-motion: reduce) { .abada-float, .abada-aura, .abada-spark { animation: none; } .abada-spark { opacity: .8; } }
 
 /* ── Patrocinadores no hero (escala das logos: celular menor, desktop maior) ── */
-.hero-sponsors { --hs: 0.82; }
-@media (min-width: 640px) { .hero-sponsors { --hs: 1.05; } }
+.hero-sponsors { --hs: 0.9; }
+@media (min-width: 640px) { .hero-sponsors { --hs: 1.2; } }
 .sponsor-track.hero-track { animation-duration: 34s; }
 
 /* ── Line-up: feixes de luz de palco ──────────────────── */

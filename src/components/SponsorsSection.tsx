@@ -44,7 +44,7 @@ export default function SponsorsSection() {
                     width={s.w}
                     height={s.h}
                     sizes="(max-width: 768px) 45vw, 220px"
-                    style={{ height: "auto", width: "auto", maxHeight: Math.round(s.show * 1.15), maxWidth: "88%" }}
+                    style={{ height: "auto", width: "auto", maxHeight: Math.min(Math.round(s.show * 1.05), 84), maxWidth: "88%" }}
                   />
                 </div>
               </TiltCard>
