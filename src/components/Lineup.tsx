@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { MapPin, Navigation } from "lucide-react";
+import { MapPin, Music2, Navigation } from "lucide-react";
 import SplitReveal from "@/components/SplitReveal";
+import TiltCard from "@/components/TiltCard";
 import Reveal from "@/components/Reveal";
 
 const ATRACOES = [
@@ -13,7 +14,7 @@ const MAPS =
   "https://www.google.com/maps/search/?api=1&query=" +
   encodeURIComponent("Casa Holanda do Vale, Rua Colômbia, 4219 A, Embratel, Porto Velho");
 
-// Line-up do dia e local do evento. Faixas no estilo flyer: horário grande de um lado, atração do outro.
+// Line-up do dia e local do evento.
 export default function Lineup() {
   return (
     <section className="relative z-10 py-16 sm:py-24">
@@ -28,61 +29,50 @@ export default function Lineup() {
           className="font-cinzel font-black text-4xl sm:text-6xl tracking-wider text-[#FFE699] mb-3"
           style={{ textShadow: "0 0 30px rgba(255,215,0,0.18)" }}
         />
-        <p className="font-cormorant italic text-lg sm:text-xl mb-8" style={{ color: "rgba(255,230,153,0.82)" }}>
+        <p className="font-cormorant italic text-lg sm:text-xl mb-10" style={{ color: "rgba(255,230,153,0.82)" }}>
           Segunda-feira, 08 de fevereiro · 3 shows ao vivo
         </p>
 
-        <div className="max-w-3xl mx-auto flex flex-col gap-3">
+        <div className="grid md:grid-cols-3 gap-3 sm:gap-4">
           {ATRACOES.map((a, i) => (
             <Reveal key={a.nome} delay={i * 0.1}>
-              <div
-                className="glass-card rounded-2xl overflow-hidden flex items-stretch text-left"
-                style={{ border: `1px solid ${a.cor}45` }}
-              >
+              <TiltCard max={6} className="rounded-2xl h-full">
                 <div
-                  className="flex flex-col items-center justify-center shrink-0 w-[104px] sm:w-[160px] py-4"
-                  style={{
-                    background: `linear-gradient(135deg, ${a.cor}38, ${a.cor}0d)`,
-                    borderRight: `1px solid ${a.cor}45`,
-                  }}
+                  className="glass-card rounded-2xl px-6 py-8 sm:py-10 h-full flex flex-col items-center"
+                  style={{ border: `1px solid ${a.cor}33` }}
                 >
-                  <span className="font-cinzel font-black text-2xl sm:text-4xl leading-none" style={{ color: "#FFE699", textShadow: "0 0 20px rgba(255,215,0,0.3)" }}>
+                  <Music2 className="w-4 h-4 mb-4" style={{ color: a.cor, filter: `drop-shadow(0 0 6px ${a.cor})` }} />
+                  <p
+                    className="font-cinzel font-black text-3xl sm:text-4xl leading-none"
+                    style={{ color: "#FFE699", textShadow: "0 0 24px rgba(255,215,0,0.25)" }}
+                  >
                     {a.inicio}
-                  </span>
-                  <span className="font-outfit text-[9px] sm:text-[10px] tracking-[0.35em] uppercase my-1.5" style={{ color: a.cor }}>
-                    às
-                  </span>
-                  <span className="font-cinzel font-black text-2xl sm:text-4xl leading-none" style={{ color: "#FFE699", textShadow: "0 0 20px rgba(255,215,0,0.3)" }}>
+                    <span className="mx-2 text-xl align-middle" style={{ color: a.cor }}>—</span>
                     {a.fim}
-                  </span>
-                </div>
-
-                <div className="flex-1 min-w-0 flex flex-col justify-center px-4 sm:px-8 py-4">
+                  </p>
+                  <div className="h-px w-14 my-5" style={{ background: `linear-gradient(90deg, transparent, ${a.cor}, transparent)` }} />
                   {a.logo ? (
                     <>
                       <h3 className="sr-only">{a.nome}</h3>
-                      <Image
-                        src={a.logo.src}
-                        alt=""
-                        width={a.logo.w}
-                        height={a.logo.h}
-                        sizes="240px"
-                        style={{ height: Math.round(a.logo.altura * 0.78), width: "auto", maxWidth: "100%" }}
-                      />
+                      <div className="flex items-center justify-center" style={{ height: 80 }}>
+                        <Image src={a.logo.src} alt="" width={a.logo.w} height={a.logo.h} sizes="260px" style={{ height: a.logo.altura, width: "auto", maxWidth: "100%" }} />
+                      </div>
                     </>
                   ) : (
-                    <h3 className="font-cinzel font-black text-xl sm:text-3xl tracking-wider text-white leading-tight">{a.nome}</h3>
+                    <h3 className="font-cinzel font-bold text-xl sm:text-2xl tracking-wider text-white" style={{ minHeight: 80, display: "flex", alignItems: "center" }}>{a.nome}</h3>
                   )}
-                  <p className="font-dancing text-lg sm:text-xl mt-1" style={{ color: a.cor }}>e banda</p>
+                  <p className="font-dancing text-xl mt-1" style={{ color: a.cor }}>e banda</p>
                 </div>
-              </div>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
 
         {/* Local */}
         <Reveal delay={0.1}>
-          <div className="glass-card gold-border-glow rounded-2xl mt-4 sm:mt-6 max-w-3xl mx-auto px-6 py-7 flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8 text-center sm:text-left">
+          <div
+            className="glass-card gold-border-glow rounded-2xl mt-4 sm:mt-6 px-6 py-7 flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8 text-center sm:text-left"
+          >
             <MapPin className="w-7 h-7 flex-shrink-0" style={{ color: "#ffd700", filter: "drop-shadow(0 0 8px rgba(255,215,0,0.6))" }} />
             <div>
               <p className="font-outfit text-[9px] tracking-[0.4em] uppercase mb-1" style={{ color: "rgba(255,230,153,0.75)" }}>Local</p>
