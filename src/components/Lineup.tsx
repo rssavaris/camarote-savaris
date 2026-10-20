@@ -1,12 +1,13 @@
+import Image from "next/image";
 import { MapPin, Music2, Navigation } from "lucide-react";
 import SplitReveal from "@/components/SplitReveal";
 import TiltCard from "@/components/TiltCard";
 import Reveal from "@/components/Reveal";
 
 const ATRACOES = [
-  { inicio: "15h",   fim: "17h", nome: "Viviane Silva",  cor: "#ff3399" },
+  { inicio: "15h",   fim: "17h", nome: "Viviane Silva",  cor: "#ff3399", logo: { src: "/img/lineup/viviane-silva.png",  w: 700, h: 178, altura: 46 } },
   { inicio: "17h30", fim: "20h", nome: "Alexsa Matos",   cor: "#ffd700" },
-  { inicio: "20h30", fim: "23h", nome: "Edineide Sousa", cor: "#00d4ff" },
+  { inicio: "20h30", fim: "23h", nome: "Edineide Sousa", cor: "#00d4ff", logo: { src: "/img/lineup/edineide-souza.png", w: 520, h: 397, altura: 74 } },
 ];
 
 const MAPS =
@@ -50,7 +51,16 @@ export default function Lineup() {
                     {a.fim}
                   </p>
                   <div className="h-px w-14 my-5" style={{ background: `linear-gradient(90deg, transparent, ${a.cor}, transparent)` }} />
-                  <h3 className="font-cinzel font-bold text-xl sm:text-2xl tracking-wider text-white">{a.nome}</h3>
+                  {a.logo ? (
+                    <>
+                      <h3 className="sr-only">{a.nome}</h3>
+                      <div className="flex items-center justify-center" style={{ height: 80 }}>
+                        <Image src={a.logo.src} alt="" width={a.logo.w} height={a.logo.h} sizes="260px" style={{ height: a.logo.altura, width: "auto", maxWidth: "100%" }} />
+                      </div>
+                    </>
+                  ) : (
+                    <h3 className="font-cinzel font-bold text-xl sm:text-2xl tracking-wider text-white" style={{ minHeight: 80, display: "flex", alignItems: "center" }}>{a.nome}</h3>
+                  )}
                   <p className="font-dancing text-xl mt-1" style={{ color: a.cor }}>e banda</p>
                 </div>
               </TiltCard>

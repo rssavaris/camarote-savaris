@@ -23,14 +23,14 @@ export default function SponsorsSection() {
           Marcas que acreditam na folia e fazem o Camarote Savaris acontecer.
         </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-8 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-3 sm:gap-4">
           {SPONSORS.map((s, i) => (
             <Reveal
               key={s.name}
               delay={i * 0.07}
               className={[
                 "md:col-span-2",
-                i === 4 ? "md:col-start-2" : "",                       // 2ª linha (3 logos) centralizada no desktop
+                i === 3 ? "md:col-start-2" : "",                       // 2ª linha (2 logos) centralizada no desktop
                 i === SPONSORS.length - 1 ? "col-span-2 justify-self-center w-1/2 md:col-span-2 md:w-full md:justify-self-auto" : "", // último centralizado no celular
               ].join(" ")}
             >
