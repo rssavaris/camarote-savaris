@@ -71,13 +71,13 @@ function Countdown() {
   return (
     <section className="relative z-10 py-20 sm:py-28">
       <div className="max-w-3xl mx-auto px-5">
-        <div className="text-center mb-8">
-          <div className="section-label gold">
-            <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.78)]">
-              Faltam para a folia
-            </span>
-          </div>
-        </div>
+        {/* "FALTAM" em cima, o tempo no meio, "PARA A FOLIA" embaixo */}
+        <p
+          className="text-center font-cinzel font-black uppercase tracking-[0.3em] text-2xl sm:text-4xl mb-6 sm:mb-8"
+          style={{ color: "#FFE699", textShadow: "0 0 24px rgba(255,215,0,0.35)" }}
+        >
+          Faltam
+        </p>
         <div
           className="glass-card rounded-2xl sm:rounded-3xl relative overflow-hidden"
           style={{ border: "1px solid rgba(201,168,76,0.14)", boxShadow: "0 0 60px rgba(255,215,0,0.04)" }}
@@ -96,10 +96,16 @@ function Countdown() {
           </div>
           <div className="h-px w-full" style={{ background: "linear-gradient(90deg, transparent, rgba(255,51,153,0.2), rgba(255,215,0,0.25), rgba(255,51,153,0.2), transparent)" }} />
         </div>
-        <div className="text-center mt-5">
-          <div className="inline-flex items-center gap-2 glass-card rounded-full px-5 py-2" style={{ border: "1px solid rgba(201,168,76,0.14)" }}>
-            <Calendar className="w-3 h-3 text-[#ff3399]" />
-            <span className="font-outfit text-[10px] tracking-widest uppercase text-[rgba(255,230,153,0.82)]">
+        <p
+          className="text-center font-cinzel font-black uppercase tracking-[0.3em] text-2xl sm:text-4xl mt-6 sm:mt-8"
+          style={{ color: "#FFE699", textShadow: "0 0 24px rgba(255,215,0,0.35)" }}
+        >
+          Para a folia
+        </p>
+        <div className="text-center mt-6">
+          <div className="inline-flex items-center gap-2 glass-card rounded-full px-5 py-2.5" style={{ border: "1px solid rgba(201,168,76,0.18)" }}>
+            <Calendar className="w-4 h-4 text-[#ff3399]" />
+            <span className="font-outfit text-xs sm:text-sm tracking-widest uppercase text-[rgba(255,230,153,0.9)]">
               08 de Fevereiro de 2027 · 15h
             </span>
           </div>
