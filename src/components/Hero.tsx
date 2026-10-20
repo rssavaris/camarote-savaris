@@ -57,10 +57,10 @@ export default function Hero() {
             }}
           />
           <Image
-            src="/img/logo-camarote-v2.png"
+            src="/img/logo-camarote-v3.png"
             alt="Camarote Savaris"
-            width={777}
-            height={627}
+            width={775}
+            height={626}
             priority
             style={{ width: "100%", height: "auto", position: "relative", zIndex: 1 }}
           />
@@ -81,10 +81,10 @@ export default function Hero() {
           />
           <GyroFloat depth={10} style={{ position: "relative", zIndex: 1 }}>
             <Image
-              src="/img/logo-40tons.png"
+              src="/img/logo-40tons-v3.png"
               alt="40 Tons de Glitter"
-              width={803}
-              height={737}
+              width={800}
+              height={736}
               priority
               style={{ width: "100%", height: "auto", position: "relative", zIndex: 1 }}
             />
@@ -106,10 +106,10 @@ export default function Hero() {
           />
           <GyroFloat depth={22} style={{ position: "relative", zIndex: 1 }}>
             <Image
-              src="/img/mascara-rosa.png"
+              src="/img/mascara-rosa-v3.png"
               alt="Máscara Camarote Savaris"
-              width={632}
-              height={627}
+              width={620}
+              height={625}
               className="mask-float"
               style={{
                 width: "clamp(130px, 30vw, 230px)",
@@ -146,10 +146,10 @@ export default function Hero() {
           />
           <GyroFloat depth={-12} style={{ position: "relative", zIndex: 1 }}>
             <Image
-              src="/img/selo-data.png"
+              src="/img/selo-data-v3.png"
               alt="08.02.2027 Segunda-Feira"
-              width={589}
-              height={536}
+              width={588}
+              height={535}
               style={{
                 width: "clamp(100px, 24vw, 170px)",
                 height: "auto",
