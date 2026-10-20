@@ -57,10 +57,11 @@ export default function Hero() {
             }}
           />
           <Image
-            src="/img/logo-camarote-v3.png"
+            src="/img/logo-camarote-v4.png"
             alt="Camarote Savaris"
-            width={775}
-            height={626}
+            width={779}
+            height={630}
+              sizes="(max-width: 480px) 90vw, 420px"
             priority
             style={{ width: "100%", height: "auto", position: "relative", zIndex: 1 }}
           />
@@ -81,10 +82,11 @@ export default function Hero() {
           />
           <GyroFloat depth={10} style={{ position: "relative", zIndex: 1 }}>
             <Image
-              src="/img/logo-40tons-v3.png"
+              src="/img/logo-40tons-v4.png"
               alt="40 Tons de Glitter"
-              width={800}
-              height={736}
+              width={803}
+              height={739}
+              sizes="(max-width: 540px) 90vw, 480px"
               priority
               style={{ width: "100%", height: "auto", position: "relative", zIndex: 1 }}
             />
@@ -106,10 +108,11 @@ export default function Hero() {
           />
           <GyroFloat depth={22} style={{ position: "relative", zIndex: 1 }}>
             <Image
-              src="/img/mascara-rosa-v3.png"
+              src="/img/mascara-rosa-v4.png"
               alt="Máscara Camarote Savaris"
-              width={620}
-              height={625}
+              width={899}
+              height={900}
+              sizes="(max-width: 640px) 30vw, 230px"
               className="mask-float"
               style={{
                 width: "clamp(130px, 30vw, 230px)",
@@ -146,10 +149,11 @@ export default function Hero() {
           />
           <GyroFloat depth={-12} style={{ position: "relative", zIndex: 1 }}>
             <Image
-              src="/img/selo-data-v3.png"
+              src="/img/selo-data-v4.png"
               alt="08.02.2027 Segunda-Feira"
-              width={588}
-              height={535}
+              width={865}
+              height={900}
+              sizes="(max-width: 640px) 24vw, 170px"
               style={{
                 width: "clamp(100px, 24vw, 170px)",
                 height: "auto",
