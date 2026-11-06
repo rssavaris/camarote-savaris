@@ -30,8 +30,8 @@ export default function SponsorsSection() {
               delay={i * 0.07}
               className={[
                 "md:col-span-2",
-                i === 3 ? "md:col-start-2" : "",                       // 2ª linha (2 logos) centralizada no desktop
-                i === SPONSORS.length - 1 ? "col-span-2 justify-self-center w-1/2 md:col-span-2 md:w-full md:justify-self-auto" : "", // último centralizado no celular
+                // 7 logos: 3 + 3 + 1 no desktop, 2 + 2 + 2 + 1 no celular; o último fica centralizado
+                i === SPONSORS.length - 1 ? "col-span-2 justify-self-center w-1/2 md:col-start-3 md:col-span-2 md:w-full md:justify-self-auto" : "",
               ].join(" ")}
             >
               <TiltCard max={7} className="rounded-2xl h-full">

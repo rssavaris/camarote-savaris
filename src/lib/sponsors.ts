@@ -12,4 +12,6 @@ export const SPONSORS: Sponsor[] = [
   { name: "Maria Festeira", src: "/img/patrocinadores/maria-festeira-v2.png", w: 633, h: 403, show: 70 },
   { name: "Play Sonora",    src: "/img/patrocinadores/play-sonora-v2.png",    w: 809, h: 159, show: 46 },
   { name: "Avatim",         src: "/img/patrocinadores/avatim.png",         w: 479, h: 421, show: 74 },
+  { name: "Água Mineral Kaiary", src: "/img/patrocinadores/kaiary.png", w: 348, h: 157, show: 56 },
+  { name: "Cakes Savaris",  src: "/img/patrocinadores/cakes-savaris.png", w: 752, h: 331, show: 62 },
 ];

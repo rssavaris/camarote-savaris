@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Sparkles, CheckCircle, AlertCircle, Upload, ChevronRight, Star, Shield, Shirt, MapPin } from "lucide-react";
+import { Sparkles, CheckCircle, AlertCircle, Upload, ChevronRight, Star, Shield, Shirt, MapPin, Clock, Users } from "lucide-react";
+import HeroSponsors from "@/components/HeroSponsors";
 
 const TAMANHOS = ["P", "M", "G", "GG"] as const;
 type Tamanho = typeof TAMANHOS[number];
@@ -23,11 +24,16 @@ interface FormData {
   cidade: string;
   uf: string;
   referencia: string;
+  // acompanhante (só se "vai levar acompanhante" = sim)
+  acNome: string;
+  acCpf: string;
+  acWhatsapp: string;
 }
 
 const FORM_VAZIO: FormData = {
   nome: "", cpf: "", whatsapp: "", email: "", tamanho: "", selfie: "",
   cep: "", rua: "", numero: "", complemento: "", bairro: "", cidade: "", uf: "", referencia: "",
+  acNome: "", acCpf: "", acWhatsapp: "",
 };
 
 function InfoPanel() {
@@ -91,8 +97,17 @@ function InfoPanel() {
           >
             08.02.2027
           </p>
-          <p className="font-outfit text-[9px] tracking-[0.35em] uppercase text-[rgba(255,230,153,0.76)]">
-            Segunda-feira · 15h
+          <p className="font-outfit text-[10px] tracking-[0.35em] uppercase text-[rgba(255,230,153,0.76)]">
+            Segunda-feira
+          </p>
+          <p className="font-outfit text-[10px] tracking-[0.3em] uppercase text-[rgba(255,230,153,0.76)] pt-1">
+            Começa às
+          </p>
+          <p
+            className="font-cinzel font-black text-5xl leading-none"
+            style={{ color: "#FFE699", textShadow: "0 0 22px rgba(255,215,0,0.45)" }}
+          >
+            15H
           </p>
           <div className="gold-divider w-10 mx-auto my-2" />
           <p className="font-cinzel font-semibold text-xs tracking-widest text-[rgba(255,230,153,0.86)]">
@@ -128,6 +143,8 @@ export default function InscricaoPage() {
   const [status,     setStatus]     = useState<"idle" | "loading" | "success" | "error">("idle");
   const [tamanhoSel, setTamanhoSel] = useState<Tamanho | "">("");
   const [selfieFile, setSelfieFile] = useState<string>("");
+  const [acompanhante, setAcompanhante] = useState<"" | "sim" | "nao">("");
+  const [acTamanho,  setAcTamanho]  = useState<Tamanho | "">("");
 
   const set = (k: keyof FormData) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
@@ -184,26 +201,40 @@ export default function InscricaoPage() {
     form.cep.length === 9 && !!form.rua.trim() && !!form.bairro.trim() &&
     !!form.cidade.trim() && form.uf.length === 2 && (semNumero || !!form.numero.trim());
 
+  // não vai levar: passa direto; vai levar: precisa dos dados do acompanhante
+  const acompanhanteOk =
+    acompanhante === "nao" ||
+    (acompanhante === "sim" && !!form.acNome.trim() && form.acCpf.length === 14 && form.acWhatsapp.length >= 14 && !!acTamanho);
+
+  const podeEnviar =
+    !!form.nome.trim() && form.cpf.length === 14 && form.whatsapp.length >= 14 &&
+    !!form.email && !!tamanhoSel && enderecoOk && acompanhanteOk;
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.nome.trim() || !form.cpf || !form.whatsapp || !form.email || !tamanhoSel || !enderecoOk) return;
+    if (!podeEnviar) return;
     setStatus("loading");
     await new Promise((r) => setTimeout(r, 1200));
     setStatus("success");
   }
 
+  // campos grandes pra ler bem no celular (16px também evita o zoom automático do iPhone)
   const inpClass = [
-    "w-full px-4 py-3.5 bg-[rgba(0,0,0,0.45)] border border-[rgba(201,168,76,0.12)]",
-    "rounded-xl text-[#FFE699] font-outfit text-sm placeholder:text-[rgba(255,230,153,0.66)]",
+    "w-full px-4 py-4 bg-[rgba(0,0,0,0.55)] border border-[rgba(201,168,76,0.28)]",
+    "rounded-xl text-[#FFF3CC] font-outfit text-base placeholder:text-[rgba(255,230,153,0.45)]",
     "focus:outline-none transition-all duration-300",
-    "focus:border-[rgba(255,51,153,0.5)] focus:shadow-[0_0_0_3px_rgba(255,51,153,0.07),0_0_16px_rgba(255,51,153,0.06)]",
+    "focus:border-[rgba(255,51,153,0.6)] focus:shadow-[0_0_0_3px_rgba(255,51,153,0.1),0_0_16px_rgba(255,51,153,0.08)]",
   ].join(" ");
 
-  const labelClass = "font-outfit text-[10px] tracking-[0.22em] uppercase text-[rgba(255,230,153,0.78)] block mb-2";
+  const labelClass = "font-outfit font-semibold text-[13px] sm:text-sm tracking-[0.12em] uppercase text-[#FFE699] block mb-2";
 
   return (
-    <div className="relative z-10 pt-28 sm:pt-36 pb-24 min-h-screen">
+    <div className="relative z-10 pt-24 sm:pt-28 pb-24 min-h-screen">
       <div className="max-w-5xl mx-auto px-5">
+
+        <div className="text-center">
+          <HeroSponsors />
+        </div>
 
         {/* Page header */}
         <div className="text-center mb-12 sm:mb-14">
@@ -221,6 +252,33 @@ export default function InscricaoPage() {
           <p className="font-cormorant italic text-lg sm:text-xl text-[rgba(255,230,153,0.79)] max-w-sm mx-auto leading-relaxed">
             Preencha seus dados para garantir presença, abadá e acesso ao evento.
           </p>
+
+          {/* Horário em destaque: a festa começa no meio da tarde */}
+          <div
+            className="inline-flex items-center gap-3 sm:gap-4 mt-6 px-5 sm:px-7 py-3 rounded-2xl"
+            style={{
+              background: "linear-gradient(135deg, rgba(255,51,153,0.12), rgba(255,215,0,0.08))",
+              border: "1px solid rgba(255,215,0,0.35)",
+              boxShadow: "0 0 30px rgba(255,215,0,0.12)",
+            }}
+          >
+            <Clock className="w-7 h-7 sm:w-8 sm:h-8 text-[#ffd700] flex-shrink-0" style={{ filter: "drop-shadow(0 0 8px rgba(255,215,0,0.7))" }} />
+            <div className="text-left">
+              <p className="font-outfit text-[11px] sm:text-xs tracking-[0.25em] uppercase text-[rgba(255,230,153,0.85)]">
+                08/02 · Segunda · começa às
+              </p>
+              <p
+                className="font-cinzel font-black text-4xl sm:text-5xl leading-none"
+                style={{ color: "#FFE699", textShadow: "0 0 22px rgba(255,215,0,0.5)" }}
+              >
+                15H
+              </p>
+            </div>
+          </div>
+          <p className="font-outfit text-xs sm:text-sm text-[rgba(255,230,153,0.8)] mt-2">
+            A festa começa no meio da tarde. Chega cedo!
+          </p>
+
           <div className="gold-divider w-16 mx-auto mt-5" />
         </div>
 
@@ -269,6 +327,7 @@ export default function InscricaoPage() {
                   { label: "Email",    value: form.email },
                   { label: "Tamanho",  value: tamanhoSel },
                   { label: "Endereço", value: `${form.rua}, ${semNumero ? "s/n" : form.numero}${form.complemento ? ` · ${form.complemento}` : ""} — ${form.bairro}, ${form.cidade}/${form.uf}` },
+                  { label: "Acompanhante", value: acompanhante === "sim" ? `${form.acNome} (${acTamanho})` : "Não" },
                   { label: "Status",   value: "Confirmado ✓", accent: true },
                 ].map(({ label, value, accent }) => (
                   <div key={label} className="flex justify-between items-center">
@@ -292,6 +351,8 @@ export default function InscricaoPage() {
                 setSemNumero(false);
                 setTamanhoSel("");
                 setSelfieFile("");
+                setAcompanhante("");
+                setAcTamanho("");
               }}
               className="btn-neon px-7 py-3 text-[10px]"
             >
@@ -587,7 +648,7 @@ export default function InscricaoPage() {
                             }
                           : {
                               borderColor: "rgba(201,168,76,0.12)",
-                              color: "rgba(255,230,153,0.38)",
+                              color: "rgba(255,230,153,0.6)",
                             }
                       }
                     >
@@ -656,6 +717,127 @@ export default function InscricaoPage() {
                 </div>
               </div>
 
+              {/* Acompanhante */}
+              <div className="pt-2 space-y-4">
+                <div className="flex items-center gap-3">
+                  <Users className="w-4 h-4 text-[#ffd700]" style={{ filter: "drop-shadow(0 0 5px rgba(255,215,0,0.6))" }} />
+                  <span className="font-cinzel font-bold text-xs tracking-[0.2em] uppercase text-[#FFE699]">Acompanhante</span>
+                  <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, rgba(255,215,0,0.3), transparent)" }} />
+                </div>
+
+                <div>
+                  <p className={labelClass}>
+                    Vai levar acompanhante? <span className="text-[#ff3399]">*</span>
+                  </p>
+                  <div className="grid grid-cols-2 gap-2.5">
+                    {([
+                      { v: "sim", label: "Sim, vou levar" },
+                      { v: "nao", label: "Não, vou sozinho(a)" },
+                    ] as const).map(({ v, label }) => (
+                      <button
+                        key={v}
+                        type="button"
+                        aria-pressed={acompanhante === v}
+                        onClick={() => setAcompanhante(v)}
+                        className="py-4 px-3 rounded-xl border font-outfit font-semibold text-sm transition-all duration-300"
+                        style={
+                          acompanhante === v
+                            ? {
+                                borderColor: "rgba(255,51,153,0.6)",
+                                color: "#ff3399",
+                                background: "rgba(255,51,153,0.1)",
+                                boxShadow: "0 0 18px rgba(255,51,153,0.18)",
+                              }
+                            : { borderColor: "rgba(201,168,76,0.28)", color: "rgba(255,230,153,0.85)" }
+                        }
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {acompanhante === "sim" && (
+                  <div
+                    className="rounded-2xl p-4 sm:p-5 space-y-4 fade-up"
+                    style={{ background: "rgba(255,51,153,0.04)", border: "1px solid rgba(255,51,153,0.2)" }}
+                  >
+                    <p className="font-outfit text-xs text-[rgba(255,230,153,0.8)]">
+                      Dados do acompanhante (ele também ganha abadá e credencial).
+                    </p>
+                    <div>
+                      <label className={labelClass} htmlFor="campo-ac-nome">
+                        Nome do acompanhante <span className="text-[#ff3399]">*</span>
+                      </label>
+                      <input
+                        id="campo-ac-nome"
+                        type="text"
+                        value={form.acNome}
+                        onChange={set("acNome")}
+                        placeholder="Nome completo (vai na credencial)"
+                        required
+                        className={inpClass}
+                      />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className={labelClass} htmlFor="campo-ac-cpf">
+                          CPF <span className="text-[#ff3399]">*</span>
+                        </label>
+                        <input
+                          id="campo-ac-cpf"
+                          type="text"
+                          inputMode="numeric"
+                          value={form.acCpf}
+                          onChange={(e) => setForm((f) => ({ ...f, acCpf: formatCPF(e.target.value) }))}
+                          placeholder="000.000.000-00"
+                          maxLength={14}
+                          required
+                          className={inpClass}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass} htmlFor="campo-ac-zap">
+                          WhatsApp <span className="text-[#ff3399]">*</span>
+                        </label>
+                        <input
+                          id="campo-ac-zap"
+                          type="tel"
+                          value={form.acWhatsapp}
+                          onChange={(e) => setForm((f) => ({ ...f, acWhatsapp: formatZap(e.target.value) }))}
+                          placeholder="(00) 00000-0000"
+                          maxLength={15}
+                          required
+                          className={inpClass}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <p className={labelClass}>
+                        Tamanho do abadá dele(a) <span className="text-[#ff3399]">*</span>
+                      </p>
+                      <div className="grid grid-cols-4 gap-2.5">
+                        {TAMANHOS.map((t) => (
+                          <button
+                            key={t}
+                            type="button"
+                            onClick={() => setAcTamanho(t)}
+                            className="py-3.5 rounded-xl border font-cinzel font-black text-sm tracking-wider transition-all duration-300"
+                            style={
+                              acTamanho === t
+                                ? { borderColor: "rgba(255,51,153,0.55)", color: "#ff3399", background: "rgba(255,51,153,0.09)", boxShadow: "0 0 18px rgba(255,51,153,0.18)" }
+                                : { borderColor: "rgba(201,168,76,0.22)", color: "rgba(255,230,153,0.6)" }
+                            }
+                          >
+                            {t}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Convidado aviso */}
               <div
                 className="glass-card rounded-xl p-4 text-center relative overflow-hidden"
@@ -686,15 +868,7 @@ export default function InscricaoPage() {
               {/* Submit */}
               <button
                 type="submit"
-                disabled={
-                  status === "loading" ||
-                  !form.nome.trim() ||
-                  form.cpf.length < 14 ||
-                  form.whatsapp.length < 14 ||
-                  !form.email ||
-                  !tamanhoSel ||
-                  !enderecoOk
-                }
+                disabled={status === "loading" || !podeEnviar}
                 className="cta-rainbow w-full py-4 rounded-full disabled:opacity-30 disabled:cursor-not-allowed"
                 style={{ fontSize: "0.78rem" }}
               >

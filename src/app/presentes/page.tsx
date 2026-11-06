@@ -1,132 +1,45 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { Gift, Sparkles, Star, Heart, ArrowRight } from "lucide-react";
+import { Sparkles, Heart, ArrowRight } from "lucide-react";
 import TiltCard from "@/components/TiltCard";
 import SplitReveal from "@/components/SplitReveal";
+import HeroSponsors from "@/components/HeroSponsors";
 
-const presentes = [
-  {
-    id: "pix-100",
-    nome: "PIX Luxo",
-    preco: 100,
-    tipo: "pix",
-    badge: "PIX",
-    emoji: "💰",
-    accentColor: "rgba(201,168,76,0.9)",
-    borderColor: "rgba(201,168,76,0.18)",
-    glowColor: "rgba(201,168,76,0.08)",
-    badgeClass: "tag-gold",
-    descricao: "Contribua com o brilho do evento. Cada valor é bem-vindo e faz diferença.",
-  },
-  {
-    id: "pix-200",
-    nome: "PIX Premium",
-    preco: 200,
-    tipo: "pix",
-    badge: "PIX",
-    emoji: "💎",
-    accentColor: "rgba(201,168,76,0.9)",
-    borderColor: "rgba(201,168,76,0.18)",
-    glowColor: "rgba(201,168,76,0.08)",
-    badgeClass: "tag-gold",
-    descricao: "Apoio especial. Sua contribuição garante open bar melhor e mais glitter.",
-  },
-  {
-    id: "pix-500",
-    nome: "PIX VIP",
-    preco: 500,
-    tipo: "pix",
-    badge: "VIP",
-    emoji: "👑",
-    accentColor: "rgba(255,215,0,0.9)",
-    borderColor: "rgba(255,215,0,0.22)",
-    glowColor: "rgba(255,215,0,0.06)",
-    badgeClass: "tag-gold",
-    destaque: true,
-    descricao: "Super apoiador! Creditado no camarote com menção especial no telão.",
-  },
-  {
-    id: "msg-palco",
-    nome: "Mensagem no Palco",
-    preco: 200,
-    tipo: "experiencia",
-    badge: "Experiência",
-    emoji: "💬",
-    accentColor: "rgba(123,97,255,0.9)",
-    borderColor: "rgba(123,97,255,0.2)",
-    glowColor: "rgba(123,97,255,0.06)",
-    badgeClass: "tag-neon-pink",
-    descricao: "Sua mensagem aparece no telão durante o show. Surpreenda alguém especial.",
-  },
-  {
-    id: "chuva-glitter",
-    nome: "Chuva de Glitter",
-    preco: 150,
-    tipo: "experiencia",
-    badge: "Experiência",
-    emoji: "✦",
-    accentColor: "rgba(0,212,255,0.9)",
-    borderColor: "rgba(0,212,255,0.2)",
-    glowColor: "rgba(0,212,255,0.06)",
-    badgeClass: "tag-cyan",
-    descricao: "Glitter dourado sobre a plateia no momento que você escolher. Ícone do evento.",
-  },
-  {
-    id: "dedicatoria",
-    nome: "Dedicatória no Telão",
-    preco: 250,
-    tipo: "experiencia",
-    badge: "Experiência",
-    emoji: "🎯",
-    accentColor: "rgba(255,51,153,0.9)",
-    borderColor: "rgba(255,51,153,0.2)",
-    glowColor: "rgba(255,51,153,0.06)",
-    badgeClass: "tag-neon-pink",
-    descricao: "Uma dedicatória especial lida pela Edineide Souza ao vivo no show.",
-  },
-  {
-    id: "dj-requiem",
-    nome: "Pedido para o DJ",
-    preco: 100,
-    tipo: "experiencia",
-    badge: "Experiência",
-    emoji: "🎧",
-    accentColor: "rgba(255,51,153,0.9)",
-    borderColor: "rgba(255,51,153,0.18)",
-    glowColor: "rgba(255,51,153,0.05)",
-    badgeClass: "tag-neon-pink",
-    descricao: "Seu hit no set do DJ entre os shows. Pode pedir qualquer coisa.",
-  },
-  {
-    id: "kit-festa",
-    nome: "Kit Festa",
-    preco: 80,
-    tipo: "fisico",
-    badge: "Presente",
-    emoji: "🎁",
-    accentColor: "rgba(57,255,20,0.8)",
-    borderColor: "rgba(57,255,20,0.15)",
-    glowColor: "rgba(57,255,20,0.04)",
-    badgeClass: "tag-gold",
-    descricao: "Óculos de brilho, tinta spray dourada, pulseira VIP e mais surpresas.",
-  },
+// Paleta que os cards vão alternando
+const CORES = [
+  { accent: "#FFD700", border: "rgba(255,215,0,0.24)",  glow: "rgba(255,215,0,0.08)" },
+  { accent: "#FF3399", border: "rgba(255,51,153,0.24)", glow: "rgba(255,51,153,0.08)" },
+  { accent: "#00D4FF", border: "rgba(0,212,255,0.24)",  glow: "rgba(0,212,255,0.08)" },
+  { accent: "#B49CFF", border: "rgba(123,97,255,0.28)", glow: "rgba(123,97,255,0.08)" },
+  { accent: "#5CFF3A", border: "rgba(57,255,20,0.2)",   glow: "rgba(57,255,20,0.06)" },
 ];
 
-type Filtro = "todos" | "experiencia" | "pix" | "fisico";
+const presentes: { nome: string; preco: number; emoji: string; tipo: "PIX" | "Experiência"; descricao?: string }[] = [
+  { nome: "Não deixa o samba morrer, manda um Pix!", preco: 50, emoji: "🥁", tipo: "PIX" },
+  { nome: "Um vale pra eu acordar de bom humor nesse dia.", preco: 150, emoji: "☀️", tipo: "PIX" },
+  { nome: "Quer meu sorriso? Patrocina!", preco: 200, emoji: "😁", tipo: "PIX" },
+  { nome: "Patrocine o glúteo do aniversariante!", preco: 350, emoji: "🍑", tipo: "PIX" },
+  { nome: "Bota glitter nessa desgraça, mana!", preco: 100, emoji: "✨", tipo: "PIX" },
+  { nome: "Kit paciência, porque a minha acabou.", preco: 150, emoji: "🧘", tipo: "PIX" },
+  { nome: "Vale 1 mês de terapia pra suportar os meses de preparativos.", preco: 480, emoji: "🛋️", tipo: "PIX" },
+  { nome: "Vale 1 hora de simpatia do aniversariante.", preco: 50, emoji: "😇", tipo: "PIX" },
+  { nome: "Bora maninha, mais brilho, por favor!", preco: 100, emoji: "💎", tipo: "PIX" },
+  { nome: "Maninho, ajuda aí com o chopp!", preco: 400, emoji: "🍺", tipo: "PIX" },
+  { nome: "Pedido para o DJ", preco: 50, emoji: "🎧", tipo: "Experiência", descricao: "Seu hit no set do DJ entre os shows." },
+  { nome: "Dedicatória no telão", preco: 200, emoji: "📺", tipo: "Experiência", descricao: "Sua mensagem aparece no telão durante a festa." },
+  { nome: "Chuva de glitter", preco: 150, emoji: "🎉", tipo: "Experiência", descricao: "Glitter sobre a galera no momento que você escolher." },
+];
+
+const brl = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 export default function PresentesPage() {
-  const [filtro, setFiltro] = useState<Filtro>("todos");
-
-  const filtrados =
-    filtro === "todos" ? presentes : presentes.filter((p) => p.tipo === filtro);
-
   return (
-    <div className="relative z-10 pt-28 sm:pt-36 pb-20 min-h-screen">
+    <div className="relative z-10 pt-24 sm:pt-28 pb-20 min-h-screen">
 
       {/* Page header */}
-      <div className="max-w-5xl mx-auto px-5 text-center mb-14">
+      <div className="max-w-5xl mx-auto px-5 text-center mb-10">
+        <HeroSponsors />
 
         <div className="section-label gold mb-4">
           <span className="font-outfit text-[9px] tracking-[0.45em] uppercase text-[rgba(255,215,0,0.78)]">
@@ -142,165 +55,40 @@ export default function PresentesPage() {
         />
 
         <p className="font-cormorant italic text-xl sm:text-2xl text-[rgba(255,230,153,0.80)] leading-relaxed max-w-xl mx-auto mb-2">
-          "Presentes que brilham junto com a memória."
+          &quot;Presentes que brilham junto com a memória.&quot;
         </p>
         <p className="font-outfit text-sm text-[rgba(255,230,153,0.75)] max-w-sm mx-auto">
           Sua presença já é especial. Mas se quiser deixar esse momento ainda mais brilhante...
         </p>
-
-        <div className="gold-divider w-16 mx-auto mt-6" />
       </div>
 
-      {/* Filters */}
-      <div className="max-w-5xl mx-auto px-5 mb-8">
-        <div className="flex flex-wrap justify-center gap-2">
-          {(
-            [
-              { key: "todos",       label: "Todos" },
-              { key: "pix",         label: "PIX" },
-              { key: "experiencia", label: "Experiências" },
-              { key: "fisico",      label: "Presentes" },
-            ] as { key: Filtro; label: string }[]
-          ).map(({ key, label }) => (
-            <button
-              key={key}
-              onClick={() => setFiltro(key)}
-              className={[
-                "px-4 py-2 text-[10px] tracking-[0.18em] uppercase rounded-full border transition-all duration-300 font-outfit",
-                filtro === key
-                  ? "bg-[rgba(255,215,0,0.07)] border-[rgba(255,215,0,0.4)] text-[#FFE699] shadow-[0_0_12px_rgba(255,215,0,0.06)]"
-                  : "bg-transparent border-[rgba(201,168,76,0.1)] text-[rgba(255,230,153,0.75)] hover:border-[rgba(201,168,76,0.28)] hover:text-[rgba(255,230,153,0.86)]",
-              ].join(" ")}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Cards grid */}
-      <div className="max-w-5xl mx-auto px-5">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
-          {filtrados.map((p, i) => (
-            <TiltCard
-              key={p.id}
-              className={[
-                "rounded-2xl h-full",
-                p.destaque ? "sm:col-span-2 lg:col-span-1" : "",
-              ].join(" ")}
-            >
-            <div
-              className="glass-card rounded-2xl overflow-hidden group transition-all duration-400 fade-up h-full"
-              style={{
-                border: `1px solid ${p.borderColor}`,
-                boxShadow: `0 0 30px ${p.glowColor}`,
-                animationDelay: `${i * 0.05}s`,
-                transition: "transform 0.35s ease, box-shadow 0.35s ease",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)";
-                (e.currentTarget as HTMLDivElement).style.boxShadow = `0 16px 48px rgba(0,0,0,0.5), 0 0 32px ${p.glowColor.replace("0.08", "0.18").replace("0.06", "0.14").replace("0.04", "0.1").replace("0.05", "0.12")}`;
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
-                (e.currentTarget as HTMLDivElement).style.boxShadow = `0 0 30px ${p.glowColor}`;
-              }}
-            >
-              {/* Card header */}
-              <div
-                className="relative h-28 sm:h-32 flex items-center justify-center"
-                style={{
-                  background: `radial-gradient(ellipse at 50% 50%, ${p.glowColor.replace("0.08", "0.14").replace("0.06", "0.1").replace("0.04", "0.07").replace("0.05", "0.08")} 0%, rgba(0,0,0,0) 70%), rgba(0,0,0,0.2)`,
-                }}
-              >
-                <span className="text-5xl sm:text-6xl group-hover:scale-110 transition-transform duration-400 select-none">
-                  {p.emoji}
-                </span>
-                <span className={`${p.badgeClass} absolute top-3 right-3`}>
-                  {p.badge}
-                </span>
-                {p.destaque && (
-                  <span className="absolute top-3 left-3 tag-gold">
-                    <Star className="w-2.5 h-2.5" />
-                    Destaque
-                  </span>
-                )}
-                {/* Bottom border line */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 h-px"
-                  style={{ background: `linear-gradient(90deg, transparent, ${p.accentColor.replace("0.9", "0.3")}, transparent)` }}
-                />
-              </div>
-
-              {/* Card body */}
-              <div className="p-4 sm:p-5">
-                <h3 className="font-cinzel text-sm font-bold tracking-wide text-[#FFE699] mb-2 group-hover:text-white transition-colors duration-300">
-                  {p.nome}
-                </h3>
-                <p className="font-outfit text-[11px] text-[rgba(255,230,153,0.75)] leading-relaxed mb-4">
-                  {p.descricao}
-                </p>
-
-                <div className="flex items-center justify-between">
-                  <span
-                    className="font-cinzel text-2xl font-black"
-                    style={{ color: p.accentColor }}
-                  >
-                    R${p.preco}
-                  </span>
-                  <button
-                    className="font-outfit text-[9px] tracking-[0.15em] uppercase px-3 py-1.5 rounded-full border transition-all duration-300"
-                    style={{
-                      borderColor: p.borderColor,
-                      color: p.accentColor,
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.background = p.glowColor;
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.background = "transparent";
-                    }}
-                  >
-                    Presentear
-                  </button>
-                </div>
-              </div>
-            </div>
-            </TiltCard>
-          ))}
-        </div>
-      </div>
-
-      {/* CTA bottom card */}
-      <div className="max-w-3xl mx-auto px-5 mt-16 text-center">
+      {/* O melhor presente (no lugar das abas) */}
+      <div className="max-w-3xl mx-auto px-5 mb-10 text-center">
         <div
-          className="glass-card rounded-2xl sm:rounded-3xl p-8 sm:p-10 text-center relative overflow-hidden"
-          style={{ border: "1px solid rgba(255,215,0,0.1)" }}
+          className="glass-card rounded-2xl sm:rounded-3xl p-7 sm:p-9 text-center relative overflow-hidden"
+          style={{ border: "1px solid rgba(255,215,0,0.14)" }}
         >
           <div
             className="absolute inset-0 pointer-events-none"
-            style={{
-              background: "radial-gradient(ellipse at 50% 0%, rgba(255,215,0,0.04) 0%, transparent 60%)",
-            }}
+            style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(255,51,153,0.07) 0%, transparent 60%)" }}
           />
-
           <div className="relative z-10">
             <Heart
-              className="w-7 h-7 mx-auto mb-5"
+              className="w-7 h-7 mx-auto mb-4"
               style={{
                 color: "#ff3399",
                 filter: "drop-shadow(0 0 8px rgba(255,51,153,0.6))",
                 animation: "pulse-gold 2s ease-in-out infinite",
               }}
             />
-            <h3 className="font-cinzel text-xl sm:text-2xl font-black tracking-wider text-[#FFE699] mb-2">
+            <h2 className="font-cinzel text-xl sm:text-2xl font-black tracking-wider text-[#FFE699] mb-2">
               O MELHOR PRESENTE
-            </h3>
-            <p className="font-cormorant italic text-lg sm:text-xl text-[rgba(255,230,153,0.78)] mb-2">
-              "É a sua presença."
+            </h2>
+            <p className="font-cormorant italic text-lg sm:text-xl text-[rgba(255,230,153,0.82)] mb-2">
+              &quot;É a sua presença.&quot;
             </p>
-            <p className="font-outfit text-sm text-[rgba(255,230,153,0.78)] leading-relaxed mb-7 max-w-md mx-auto">
-              Mas se quiser fazer o momento durar mais, um PIX ou experiência deixa tudo ainda mais inesquecível.
+            <p className="font-outfit text-sm text-[rgba(255,230,153,0.8)] leading-relaxed mb-6 max-w-md mx-auto">
+              Mas se quiser fazer o momento durar mais, escolhe um PIX aí embaixo e deixa tudo ainda mais inesquecível.
             </p>
             <Link
               href="/inscricao"
@@ -311,6 +99,68 @@ export default function PresentesPage() {
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
+        </div>
+      </div>
+
+      {/* Todos os presentes juntos */}
+      <div className="max-w-5xl mx-auto px-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          {presentes.map((p, i) => {
+            const c = CORES[i % CORES.length];
+            return (
+              <TiltCard key={p.nome} max={6} className="rounded-2xl h-full">
+                <div
+                  className="glass-card rounded-2xl h-full p-4 sm:p-5 flex flex-col gap-3 fade-up"
+                  style={{
+                    border: `1px solid ${c.border}`,
+                    boxShadow: `0 0 28px ${c.glow}`,
+                    animationDelay: `${i * 0.04}s`,
+                  }}
+                >
+                  <div className="flex items-start gap-3.5">
+                    <span
+                      className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-2xl select-none"
+                      style={{ background: c.glow, border: `1px solid ${c.border}` }}
+                    >
+                      {p.emoji}
+                    </span>
+                    <div className="min-w-0">
+                      <span
+                        className="font-outfit text-[9px] tracking-[0.25em] uppercase"
+                        style={{ color: c.accent, opacity: 0.85 }}
+                      >
+                        {p.tipo}
+                      </span>
+                      <h3 className="font-outfit font-semibold text-[15px] leading-snug text-[#FFE699]">
+                        {p.nome}
+                      </h3>
+                      {p.descricao && (
+                        <p className="font-outfit text-xs text-[rgba(255,230,153,0.72)] leading-snug mt-1">
+                          {p.descricao}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mt-auto flex items-center justify-between pt-1">
+                    <span
+                      className="font-cinzel text-2xl font-black"
+                      style={{ color: c.accent, textShadow: `0 0 14px ${c.glow}` }}
+                    >
+                      {brl(p.preco)}
+                    </span>
+                    <button
+                      type="button"
+                      className="font-outfit text-[10px] tracking-[0.15em] uppercase px-4 py-2 rounded-full border transition-colors duration-300 hover:bg-[rgba(255,255,255,0.05)]"
+                      style={{ borderColor: c.border, color: c.accent }}
+                    >
+                      Presentear
+                    </button>
+                  </div>
+                </div>
+              </TiltCard>
+            );
+          })}
         </div>
       </div>
 
