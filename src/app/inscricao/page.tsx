@@ -838,25 +838,6 @@ export default function InscricaoPage() {
                 )}
               </div>
 
-              {/* Convidado aviso */}
-              <div
-                className="glass-card rounded-xl p-4 text-center relative overflow-hidden"
-                style={{ border: "1px solid rgba(255,51,153,0.14)" }}
-              >
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    background: "radial-gradient(ellipse at 50% 50%, rgba(255,51,153,0.04) 0%, transparent 70%)",
-                  }}
-                />
-                <p className="font-outfit text-xs sm:text-sm text-[rgba(255,255,255,0.62)] leading-relaxed italic relative z-10">
-                  Você já sabe né maninho, mas não custa lembrar:{" "}
-                  <span className="text-[#ff3399] font-semibold not-italic">
-                    convidado não convida.
-                  </span>
-                </p>
-              </div>
-
               {/* Error */}
               {status === "error" && (
                 <div className="flex items-center gap-2 text-[#ff3399] text-sm">
