@@ -102,56 +102,52 @@ export default function PresentesPage() {
         </div>
       </div>
 
-      {/* Todos os presentes juntos */}
-      <div className="max-w-5xl mx-auto px-5">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+      {/* Todos os presentes juntos: grade de ponta a ponta (2 colunas no celular, até 5 no PC) */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 sm:gap-4">
           {presentes.map((p, i) => {
             const c = CORES[i % CORES.length];
             return (
               <TiltCard key={p.nome} max={6} className="rounded-2xl h-full">
                 <div
-                  className="glass-card rounded-2xl h-full p-4 sm:p-5 flex flex-col gap-3 fade-up"
+                  className="glass-card rounded-2xl h-full px-3 py-4 sm:p-5 flex flex-col items-center text-center gap-2 fade-up"
                   style={{
                     border: `1px solid ${c.border}`,
                     boxShadow: `0 0 28px ${c.glow}`,
                     animationDelay: `${i * 0.04}s`,
                   }}
                 >
-                  <div className="flex items-start gap-3.5">
-                    <span
-                      className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-2xl select-none"
-                      style={{ background: c.glow, border: `1px solid ${c.border}` }}
-                    >
-                      {p.emoji}
-                    </span>
-                    <div className="min-w-0">
-                      <span
-                        className="font-outfit text-[9px] tracking-[0.25em] uppercase"
-                        style={{ color: c.accent, opacity: 0.85 }}
-                      >
-                        {p.tipo}
-                      </span>
-                      <h3 className="font-outfit font-semibold text-[15px] leading-snug text-[#FFE699]">
-                        {p.nome}
-                      </h3>
-                      {p.descricao && (
-                        <p className="font-outfit text-xs text-[rgba(255,230,153,0.72)] leading-snug mt-1">
-                          {p.descricao}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+                  <span
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center text-2xl sm:text-3xl select-none"
+                    style={{ background: c.glow, border: `1px solid ${c.border}` }}
+                  >
+                    {p.emoji}
+                  </span>
+                  <span
+                    className="font-outfit text-[9px] tracking-[0.25em] uppercase"
+                    style={{ color: c.accent, opacity: 0.85 }}
+                  >
+                    {p.tipo}
+                  </span>
+                  <h3 className="font-outfit font-semibold text-sm sm:text-[15px] leading-snug text-[#FFE699]">
+                    {p.nome}
+                  </h3>
+                  {p.descricao && (
+                    <p className="font-outfit text-[11px] sm:text-xs text-[rgba(255,230,153,0.72)] leading-snug">
+                      {p.descricao}
+                    </p>
+                  )}
 
-                  <div className="mt-auto flex items-center justify-between pt-1">
+                  <div className="mt-auto pt-2 w-full flex flex-col items-center gap-2.5">
                     <span
-                      className="font-cinzel text-2xl font-black"
+                      className="font-cinzel text-xl sm:text-2xl font-black whitespace-nowrap"
                       style={{ color: c.accent, textShadow: `0 0 14px ${c.glow}` }}
                     >
                       {brl(p.preco)}
                     </span>
                     <button
                       type="button"
-                      className="font-outfit text-[10px] tracking-[0.15em] uppercase px-4 py-2 rounded-full border transition-colors duration-300 hover:bg-[rgba(255,255,255,0.05)]"
+                      className="w-full font-outfit text-[10px] tracking-[0.15em] uppercase py-2.5 rounded-full border transition-colors duration-300 hover:bg-[rgba(255,255,255,0.05)]"
                       style={{ borderColor: c.border, color: c.accent }}
                     >
                       Presentear
