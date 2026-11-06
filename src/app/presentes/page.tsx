@@ -85,7 +85,7 @@ export default function PresentesPage() {
               O MELHOR PRESENTE
             </h2>
             <p className="font-cormorant italic text-lg sm:text-xl text-[rgba(255,230,153,0.82)] mb-2">
-              &quot;É a sua presença.&quot;
+              É a sua presença.
             </p>
             <p className="font-outfit text-sm text-[rgba(255,230,153,0.8)] leading-relaxed mb-6 max-w-md mx-auto">
               Mas se quiser fazer o momento durar mais, escolhe um PIX aí embaixo e deixa tudo ainda mais inesquecível.
